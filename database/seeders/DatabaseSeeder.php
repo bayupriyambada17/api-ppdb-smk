@@ -11,6 +11,7 @@ use App\Models\SumberPenghasilanModel;
 use Database\Seeders\TahunLulusSeeder;
 use Database\Seeders\DayaListrikSeeder;
 use Database\Seeders\GolonganDarahSeeder;
+use Database\Seeders\InformasiPpdbSeeder;
 use Database\Seeders\KualitasRumahSeeder;
 use Database\Seeders\MandiCuciKakusSeeder;
 use Database\Seeders\StatusKeluargaSeeder;
@@ -32,25 +33,26 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            UsersDataSeeder::class,
-            TahunLulusSeeder::class,
-            TahunPelajaranDataSeeder::class,
-            KeadaanOrangTuaSeeder::class,
-            PenerimaanBantuanSosialSeeder::class,
-            StatusKeluargaSeeder::class,
-            TinggalBersamaStatusSeeder::class,
-            SumberPenghasilanDataSeeder::class,
-            StatusKepemilikanRumahSeeder::class,
-            KualitasRumahSeeder::class,
-            LuasTanahSeeder::class,
-            MandiCuciKakusSeeder::class,
-            SumberAirSeeder::class,
-            DayaListrikSeeder::class,
-            KepemilikanKendaraanSeeder::class,
-            StatusKepemilikanKendaraanSeeder::class,
-            HartaTidakBergerakSeeder::class,
-            StatusKepemilikanHartaTidakBergerakSeeder::class,
-            GolonganDarahSeeder::class,
+            // UsersDataSeeder::class,
+            // TahunLulusSeeder::class,
+            // TahunPelajaranDataSeeder::class,
+            // KeadaanOrangTuaSeeder::class,
+            // PenerimaanBantuanSosialSeeder::class,
+            // StatusKeluargaSeeder::class,
+            // TinggalBersamaStatusSeeder::class,
+            // SumberPenghasilanDataSeeder::class,
+            // StatusKepemilikanRumahSeeder::class,
+            // KualitasRumahSeeder::class,
+            // LuasTanahSeeder::class,
+            // MandiCuciKakusSeeder::class,
+            // SumberAirSeeder::class,
+            // DayaListrikSeeder::class,
+            // KepemilikanKendaraanSeeder::class,
+            // StatusKepemilikanKendaraanSeeder::class,
+            // HartaTidakBergerakSeeder::class,
+            // StatusKepemilikanHartaTidakBergerakSeeder::class,
+            // GolonganDarahSeeder::class,
+            InformasiPpdbSeeder::class,
         ]);
     }
 }
