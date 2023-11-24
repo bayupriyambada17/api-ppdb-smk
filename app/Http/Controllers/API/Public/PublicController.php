@@ -9,6 +9,7 @@ use App\Models\{
     DayaListrikModel,
     GolonganDarahModel,
     HartaTidakBergerakModel,
+    InformasiPpdbModel,
     KeadaanOrangTuaModel,
     KepemilikanKendaraanModel,
     MandiCuciKakusModel,
@@ -158,6 +159,15 @@ class PublicController extends Controller
             true,
             ConstantaHelper::DataDiambil,
             GolonganDarahModel::get(),
+            200
+        );
+    }
+    public function getInformasiPpdb()
+    {
+        return NotificationStatus::notifSuccess(
+            true,
+            ConstantaHelper::DataDiambil,
+            InformasiPpdbModel::get(),
             200
         );
     }
