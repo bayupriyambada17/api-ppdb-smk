@@ -8,6 +8,7 @@ use App\Http\Controllers\API\{
     DayaListrikController,
     GolonganDarahController,
     HartaTidakBergerakController,
+    InformasiPpdbController,
     KeadanOrangTuaController,
     KepemilikanKendaraanController,
     PenerimaanBantuanSosialController,
@@ -43,6 +44,7 @@ Route::prefix('/v1')->group(function () {
         Route::get("/status-kepemilikan-kendaraan", [PublicController::class, 'getStatusKepemilikanKendaraan']);
         Route::get("/mandi-cuci-kakus", [PublicController::class, 'getMandiCuciKakus']);
         Route::get("/golongan-darah", [PublicController::class, 'getGolonganDarah']);
+        Route::get("/informasi-ppdb", [PublicController::class, 'getInformasiPpdb']);
     });
 });
 
@@ -141,6 +143,12 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('/tambah', [GolonganDarahController::class, 'store']);
             Route::post('/{id}/ubah', [GolonganDarahController::class, 'update']);
             Route::delete('/{id}/hapus', [GolonganDarahController::class, 'destroy']);
+        });
+        Route::prefix('informasi-ppdb')->group(function () {
+            Route::get('', [InformasiPpdbController::class, 'all']);
+            Route::post('/tambah', [InformasiPpdbController::class, 'store']);
+            Route::post('/{id}/ubah', [InformasiPpdbController::class, 'update']);
+            Route::delete('/{id}/hapus', [InformasiPpdbController::class, 'destroy']);
         });
     });
 });
