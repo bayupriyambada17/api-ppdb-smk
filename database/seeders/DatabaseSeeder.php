@@ -10,6 +10,7 @@ use Database\Seeders\SumberAirSeeder;
 use App\Models\SumberPenghasilanModel;
 use Database\Seeders\TahunLulusSeeder;
 use Database\Seeders\DayaListrikSeeder;
+use Database\Seeders\GolonganDarahSeeder;
 use Database\Seeders\KualitasRumahSeeder;
 use Database\Seeders\MandiCuciKakusSeeder;
 use Database\Seeders\StatusKeluargaSeeder;
@@ -49,7 +50,7 @@ class DatabaseSeeder extends Seeder
             StatusKepemilikanKendaraanSeeder::class,
             HartaTidakBergerakSeeder::class,
             StatusKepemilikanHartaTidakBergerakSeeder::class,
-
+            GolonganDarahSeeder::class,
         ]);
     }
 }

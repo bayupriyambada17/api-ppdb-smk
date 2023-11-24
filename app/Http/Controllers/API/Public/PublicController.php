@@ -7,6 +7,7 @@ use App\Http\Helpers\ConstantaHelper;
 use App\Http\Helpers\NotificationStatus;
 use App\Models\{
     DayaListrikModel,
+    GolonganDarahModel,
     HartaTidakBergerakModel,
     KeadaanOrangTuaModel,
     KepemilikanKendaraanModel,
@@ -148,6 +149,15 @@ class PublicController extends Controller
             true,
             ConstantaHelper::DataDiambil,
             MandiCuciKakusModel::get(),
+            200
+        );
+    }
+    public function getGolonganDarah()
+    {
+        return NotificationStatus::notifSuccess(
+            true,
+            ConstantaHelper::DataDiambil,
+            GolonganDarahModel::get(),
             200
         );
     }
