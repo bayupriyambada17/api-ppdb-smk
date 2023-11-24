@@ -4,10 +4,11 @@ namespace App\Http\Controllers\API;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use PhpParser\Node\Stmt\TryCatch;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Helpers\NotificationStatus;
 use Illuminate\Support\Facades\Validator;
-use PhpParser\Node\Stmt\TryCatch;
 
 class AuthController extends Controller
 {
@@ -41,7 +42,7 @@ class AuthController extends Controller
                     'email' => $user->email,
                     'status_login' => $user->status_login,
                 ],
-                'token' => $user->createToken("API TOKEN")->plainTextToken
+                'token' => $user->createToken("APITOKEN")->plainTextToken
             ], 200);
         } catch (\Exception $e) {
             return NotificationStatus::notifError(
