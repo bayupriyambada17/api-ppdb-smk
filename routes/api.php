@@ -5,16 +5,21 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\Public\PublicController;
 use App\Http\Controllers\API\{
     AuthController,
+    DayaListrikController,
+    HartaTidakBergerakController,
     KeadanOrangTuaController,
+    KepemilikanKendaraanController,
     PenerimaanBantuanSosialController,
     StatusDalamKeluargaController,
+    StatusHartaTidakBergerakController,
+    StatusKepemilikanKendaraanController,
     StatusKepemilikanRumahController,
     SumberAirController,
     SumberPenghasilanController,
     TahunLulusController,
     TahunPengajaranController
 };
-
+use App\Models\MandiCuciKakusModel;
 
 Route::prefix('/v1')->group(function () {
     Route::prefix('/auth')->group(function () {
@@ -31,6 +36,11 @@ Route::prefix('/v1')->group(function () {
         Route::get("/status-kepemilikan-rumah", [PublicController::class, 'getStatusKepemilikanRumah']);
         Route::get("/daya-listrik", [PublicController::class, 'getDayaListrik']);
         Route::get("/sumber-air", [PublicController::class, 'getSumberAir']);
+        Route::get("/harta-tidak-bergerak", [PublicController::class, 'getHartaTidakBergerak']);
+        Route::get("/status-harta-tidak-bergerak", [PublicController::class, 'getStatusHartaTidakBergerak']);
+        Route::get("/kepemilikan-kendaraan", [PublicController::class, 'getKepemilikanKendaraan']);
+        Route::get("/status-kepemilikan-kendaraan", [PublicController::class, 'getStatusKepemilikanKendaraan']);
+        Route::get("/mandi-cuci-kakus", [PublicController::class, 'getMandiCuciKakus']);
     });
 });
 
@@ -87,6 +97,42 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('/tambah', [SumberAirController::class, 'store']);
             Route::post('/{id}/ubah', [SumberAirController::class, 'update']);
             Route::delete('/{id}/hapus', [SumberAirController::class, 'destroy']);
+        });
+        Route::prefix('daya-listrik')->group(function () {
+            Route::get('', [DayaListrikController::class, 'all']);
+            Route::post('/tambah', [DayaListrikController::class, 'store']);
+            Route::post('/{id}/ubah', [DayaListrikController::class, 'update']);
+            Route::delete('/{id}/hapus', [DayaListrikController::class, 'destroy']);
+        });
+        Route::prefix('harta-tidak-bergerak')->group(function () {
+            Route::get('', [HartaTidakBergerakController::class, 'all']);
+            Route::post('/tambah', [HartaTidakBergerakController::class, 'store']);
+            Route::post('/{id}/ubah', [HartaTidakBergerakController::class, 'update']);
+            Route::delete('/{id}/hapus', [HartaTidakBergerakController::class, 'destroy']);
+        });
+        Route::prefix('status-harta-tidak-bergerak')->group(function () {
+            Route::get('', [StatusHartaTidakBergerakController::class, 'all']);
+            Route::post('/tambah', [StatusHartaTidakBergerakController::class, 'store']);
+            Route::post('/{id}/ubah', [StatusHartaTidakBergerakController::class, 'update']);
+            Route::delete('/{id}/hapus', [StatusHartaTidakBergerakController::class, 'destroy']);
+        });
+        Route::prefix('kepemilikan-kendaraan')->group(function () {
+            Route::get('', [KepemilikanKendaraanController::class, 'all']);
+            Route::post('/tambah', [KepemilikanKendaraanController::class, 'store']);
+            Route::post('/{id}/ubah', [KepemilikanKendaraanController::class, 'update']);
+            Route::delete('/{id}/hapus', [KepemilikanKendaraanController::class, 'destroy']);
+        });
+        Route::prefix('status-kepemilikan-kendaraan')->group(function () {
+            Route::get('', [StatusKepemilikanKendaraanController::class, 'all']);
+            Route::post('/tambah', [StatusKepemilikanKendaraanController::class, 'store']);
+            Route::post('/{id}/ubah', [StatusKepemilikanKendaraanController::class, 'update']);
+            Route::delete('/{id}/hapus', [StatusKepemilikanKendaraanController::class, 'destroy']);
+        });
+        Route::prefix('mandi-cuci-kakus')->group(function () {
+            Route::get('', [MandiCuciKakusModel::class, 'all']);
+            Route::post('/tambah', [MandiCuciKakusModel::class, 'store']);
+            Route::post('/{id}/ubah', [MandiCuciKakusModel::class, 'update']);
+            Route::delete('/{id}/hapus', [MandiCuciKakusModel::class, 'destroy']);
         });
     });
 });

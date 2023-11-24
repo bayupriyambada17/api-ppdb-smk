@@ -7,9 +7,14 @@ use App\Http\Helpers\ConstantaHelper;
 use App\Http\Helpers\NotificationStatus;
 use App\Models\{
     DayaListrikModel,
+    HartaTidakBergerakModel,
     KeadaanOrangTuaModel,
+    KepemilikanKendaraanModel,
+    MandiCuciKakusModel,
     PenerimaanBantuanSosialModel,
     StatusDalamKeluargaModel,
+    StatusKepemilikanHartaTidakBergerakModel,
+    StatusKepemilikanKendaraanModel,
     StatusKepemilikanRumahModel,
     SumberAirModel,
     SumberPenghasilanModel,
@@ -98,6 +103,51 @@ class PublicController extends Controller
             true,
             ConstantaHelper::DataDiambil,
             SumberAirModel::get(),
+            200
+        );
+    }
+    public function getHartaTidakBergerak()
+    {
+        return NotificationStatus::notifSuccess(
+            true,
+            ConstantaHelper::DataDiambil,
+            HartaTidakBergerakModel::get(),
+            200
+        );
+    }
+    public function getStatusHartaTidakBergerak()
+    {
+        return NotificationStatus::notifSuccess(
+            true,
+            ConstantaHelper::DataDiambil,
+            StatusKepemilikanHartaTidakBergerakModel::get(),
+            200
+        );
+    }
+    public function getKepemilikanKendaraan()
+    {
+        return NotificationStatus::notifSuccess(
+            true,
+            ConstantaHelper::DataDiambil,
+            KepemilikanKendaraanModel::get(),
+            200
+        );
+    }
+    public function getStatusKepemilikanKendaraan()
+    {
+        return NotificationStatus::notifSuccess(
+            true,
+            ConstantaHelper::DataDiambil,
+            StatusKepemilikanKendaraanModel::get(),
+            200
+        );
+    }
+    public function getMandiCuciKakus()
+    {
+        return NotificationStatus::notifSuccess(
+            true,
+            ConstantaHelper::DataDiambil,
+            MandiCuciKakusModel::get(),
             200
         );
     }
