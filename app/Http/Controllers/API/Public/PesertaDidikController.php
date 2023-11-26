@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Helpers\ConstantaHelper;
 use App\Http\Helpers\NotificationStatus;
+use App\Models\PesertaDidikFisilitasModel;
 use App\Models\PesertaDidikModel;
 use Illuminate\Support\Facades\Validator;
 
@@ -66,27 +67,54 @@ class PesertaDidikController extends Controller
                 'tinggal_bersama_status_id' => $request->tinggal_bersama_status_id,
                 'penerimaan_bantuan_sosial_id' => $request->penerimaan_bantuan_sosial_id,
             ]);
-
             if ($peserta) {
                 $validator = Validator::make($request->all(), [
-                    'peserta_didik_id' => 'required',
-                    'nama_fasilitator' => 'nullable',
-                    'hubungan_calon_siswa_fasilitator' => 'nullable',
-                    'no_whatsapp_fasilitator' => 'nullable',
-                    'email_fasilitator' => 'required',
-                    'informasi_ppdb_id' => 'required',
-                    'saudara_beasiswa_di_smk_fasilitator' => 'required|boolean',
+                    'nama_fasilitator' => 'required',
+                    // Add other validation rules
+                ]);
 
-                ]);
-                $peserta->fasilitator()->create([
-                    'peserta_didik_id' => $peserta->id,
-                    'nama_fasilitator' => $request->nama_fasilitator,
-                    'hubungan_calon_siswa_fasilitator' => $request->hubungan_calon_siswa_fasilitator,
-                    'no_whatsapp_fasilitator' => $request->no_whatsapp_fasilitator,
-                    'email_fasilitator' => $request->email_fasilitator,
-                    'informasi_ppdb_id' => $request->informasi_ppdb_id,
-                    'saudara_beasiswa_di_smk_fasilitator' => $request->saudara_beasiswa_di_smk_fasilitator,
-                ]);
+                if ($validator->fails()) {
+                    return response()->json([
+                        'status' => false,
+                        'message' => ConstantaHelper::ValidationError,
+                        'errors' => $validator->errors()
+                    ], 401);
+                }
+
+                try {
+                    $fasilitator = $peserta->fasilitator()->create([
+                        'peserta_didik_id' => $peserta->id,
+                        'nama_fasilitator' => $request->nama_fasilitator,
+                        // Add other fields
+                    ]);
+
+                    $rapor = $peserta->rapor()->create([
+                        'peserta_didik_id' => $peserta->id,
+                        'rapor_matematika_3' => $request->rapor_matematika_3,
+                        'rapor_matematika_4' => $request->rapor_matematika_4,
+                        'rapor_matematika_5' => $request->rapor_matematika_5,
+
+                    ]);
+
+                    if ($fasilitator && $rapor) {
+                        return response()->json([
+                            'status' => true,
+                            'message' => ConstantaHelper::DataTersimpan,
+                            'peserta' => $peserta,
+                        ], 200);
+                    } else {
+                        return response()->json([
+                            'status' => false,
+                            'message' => ConstantaHelper::DataTidakTersimpan,
+                        ], 400);
+                    }
+                } catch (\Exception $e) {
+                    return response()->json([
+                        'status' => false,
+                        'message' => ConstantaHelper::DataTidakTersimpan,
+                        'error' => $e->getMessage(),
+                    ], 500);
+                }
             }
         } catch (\Exception $e) {
             return NotificationStatus::notifError(false, $e->getMessage(), null, 500);

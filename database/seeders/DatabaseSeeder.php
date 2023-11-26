@@ -7,7 +7,6 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Database\Seeders\LuasTanahSeeder;
 use Database\Seeders\SumberAirSeeder;
-use App\Models\SumberPenghasilanModel;
 use Database\Seeders\TahunLulusSeeder;
 use Database\Seeders\DayaListrikSeeder;
 use Database\Seeders\GolonganDarahSeeder;

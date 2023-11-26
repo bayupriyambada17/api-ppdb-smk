@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('peserta_didik_rapor', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("peserta_didik_id")->nullable()->constrained("peserta_didik")->cascadeOnDelete();
+            $table->foreignId("peserta_didik_id")->constrained("peserta_didik")->cascadeOnDelete();
             $table->integer('rapor_matematika_3')->nullable();
             $table->integer('rapor_matematika_4')->nullable();
             $table->integer('rapor_matematika_5')->nullable();

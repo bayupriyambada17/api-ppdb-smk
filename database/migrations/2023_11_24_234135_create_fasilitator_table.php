@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('peserta_didik_fasilitator', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("peserta_didik_id")->nullable()->constrained("peserta_didik")->cascadeOnDelete();
+            $table->foreignId("peserta_didik_id")->constrained("peserta_didik")->cascadeOnDelete();
             $table->string('nama_fasilitator')->nullable();
             $table->string('hubungan_calon_siswa_fasilitator')->nullable();
             $table->string('no_whatsapp_fasilitator')->nullable();

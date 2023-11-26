@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\Public\PublicController;
+use App\Http\Controllers\API\Public\{PublicController, PesertaDidikController as PublicPesertaController};
 use App\Http\Controllers\API\{
     AuthController,
     DayaListrikController,
@@ -21,9 +21,8 @@ use App\Http\Controllers\API\{
     SumberAirController,
     SumberPenghasilanController,
     TahunLulusController,
-    TahunPengajaranController
+    TahunPengajaranController,
 };
-use App\Http\Controllers\API\Public\PesertaDidikController as PublicPesertaDidikController;
 
 Route::prefix('/v1')->group(function () {
     Route::prefix('/auth')->group(function () {
@@ -31,7 +30,7 @@ Route::prefix('/v1')->group(function () {
     });
 
     Route::prefix('public')->group(function () {
-        Route::get("/tahun-pengajaran", [PublicController::class, 'getActiveTahunPelajaran']);
+        Route::get("/tahun-pelajaran", [PublicController::class, 'getActiveTahunPelajaran']);
         Route::get("/keadaan-orang-tua", [PublicController::class, 'getKeadaanOrangTua']);
         Route::get("/penerima-bantuan-sosial", [PublicController::class, 'getPenerimaBantuanSosial']);
         Route::get("/status-dalam-keluarga", [PublicController::class, 'getStatusDalamKeluarga']);
@@ -48,7 +47,7 @@ Route::prefix('/v1')->group(function () {
         Route::get("/golongan-darah", [PublicController::class, 'getGolonganDarah']);
         Route::get("/informasi-ppdb", [PublicController::class, 'getInformasiPpdb']);
 
-        Route::post("/peserta-didik-kirim", [PublicPesertaDidikController::class, 'postPesertaDidik']);
+        Route::post("/daftar-peserta", [PublicPesertaController::class, 'postPesertaDidik']);
     });
 });
 
@@ -58,7 +57,7 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post("/logout", [AuthController::class, 'logout']);
         });
 
-        Route::prefix('tahun-pengajaran')->group(function () {
+        Route::prefix('tahun-pelajaran')->group(function () {
             Route::get('', [TahunPengajaranController::class, 'all']);
             Route::post('/tambah', [TahunPengajaranController::class, 'store']);
             Route::post('/{id}/ubah', [TahunPengajaranController::class, 'update']);
