@@ -11,7 +11,9 @@ use App\Http\Controllers\API\{
     InformasiPpdbController,
     KeadanOrangTuaController,
     KepemilikanKendaraanController,
+    MandiCuciKakusController,
     PenerimaanBantuanSosialController,
+    PesertaDidikController,
     StatusDalamKeluargaController,
     StatusHartaTidakBergerakController,
     StatusKepemilikanKendaraanController,
@@ -21,7 +23,7 @@ use App\Http\Controllers\API\{
     TahunLulusController,
     TahunPengajaranController
 };
-use App\Models\MandiCuciKakusModel;
+use App\Http\Controllers\API\Public\PesertaDidikController as PublicPesertaDidikController;
 
 Route::prefix('/v1')->group(function () {
     Route::prefix('/auth')->group(function () {
@@ -45,6 +47,8 @@ Route::prefix('/v1')->group(function () {
         Route::get("/mandi-cuci-kakus", [PublicController::class, 'getMandiCuciKakus']);
         Route::get("/golongan-darah", [PublicController::class, 'getGolonganDarah']);
         Route::get("/informasi-ppdb", [PublicController::class, 'getInformasiPpdb']);
+
+        Route::post("/peserta-didik-kirim", [PublicPesertaDidikController::class, 'postPesertaDidik']);
     });
 });
 
@@ -133,10 +137,10 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::delete('/{id}/hapus', [StatusKepemilikanKendaraanController::class, 'destroy']);
         });
         Route::prefix('mandi-cuci-kakus')->group(function () {
-            Route::get('', [MandiCuciKakusModel::class, 'all']);
-            Route::post('/tambah', [MandiCuciKakusModel::class, 'store']);
-            Route::post('/{id}/ubah', [MandiCuciKakusModel::class, 'update']);
-            Route::delete('/{id}/hapus', [MandiCuciKakusModel::class, 'destroy']);
+            Route::get('', [MandiCuciKakusController::class, 'all']);
+            Route::post('/tambah', [MandiCuciKakusController::class, 'store']);
+            Route::post('/{id}/ubah', [MandiCuciKakusController::class, 'update']);
+            Route::delete('/{id}/hapus', [MandiCuciKakusController::class, 'destroy']);
         });
         Route::prefix('golongan-darah')->group(function () {
             Route::get('', [GolonganDarahController::class, 'all']);
@@ -150,5 +154,13 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('/{id}/ubah', [InformasiPpdbController::class, 'update']);
             Route::delete('/{id}/hapus', [InformasiPpdbController::class, 'destroy']);
         });
+        Route::prefix('peserta-didik')->group(function () {
+            Route::get('/perhari', [PesertaDidikController::class, 'getPendaftarPerhari']);
+            Route::get('', [PesertaDidikController::class, 'all']);
+            // Route::post('/tambah', [PesertaDidikController::class, 'store']);
+            // Route::post('/{id}/ubah', [PesertaDidikController::class, 'update']);
+            // Route::delete('/{id}/hapus', [PesertaDidikController::class, 'destroy']);
+        });
+
     });
 });
