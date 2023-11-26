@@ -15,11 +15,6 @@ class PesertaDidikController extends Controller
     {
         return NotificationStatus::notifSuccess(true, ConstantaHelper::DataDiambil, $this->getRegistrationsData(), 200);
     }
-    // belum diubah menjadi wilayah
-    // public function getPendaftarWilayah()
-    // {
-    //     return NotificationStatus::notifSuccess(true, ConstantaHelper::DataDiambil, $this->getRegistrationsData(), 200);
-    // }
     public function all()
     {
         $pesertaDidik = PesertaDidikModel::with([
