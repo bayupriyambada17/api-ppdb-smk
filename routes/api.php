@@ -56,7 +56,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::prefix('/auth')->group(function () {
             Route::post("/logout", [AuthController::class, 'logout']);
         });
-
         Route::prefix('tahun-pelajaran')->group(function () {
             Route::get('', [TahunPengajaranController::class, 'all']);
             Route::post('/tambah', [TahunPengajaranController::class, 'store']);
