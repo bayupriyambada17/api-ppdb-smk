@@ -8,7 +8,8 @@ use App\Models\{
     PesertaDidikUploadDokumenModel,
     PesertaDidikFasilitatorModel,
     PesertaDidikRiwayatModel,
-    PesertaDidikFisilitasModel
+    PesertaDidikFisilitasModel,
+    ProvinsiModel
 };
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -21,6 +22,10 @@ class PesertaDidikModel extends Model
     public function tahunPelajaran()
     {
         return $this->belongsTo(TahunPelajaranModel::class, 'tahun_pelajaran_id');
+    }
+    public function provinsi()
+    {
+        return $this->belongsTo(ProvinsiModel::class, 'provinsi_id');
     }
 
     public function rapor()

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('tempat_lahir')->nullable();
             $table->string('tanggal_lahir')->nullable();
             $table->string('alamat')->nullable();
-            $table->string('provinsi')->nullable();
+            $table->foreignId("provinsi_id")->nullable()->constrained("provinsi")->cascadeOnDelete();
             $table->string('kota_kabupaten')->nullable();
             $table->string('no_whatsapp_telp')->nullable();
             $table->string('sosial_media')->nullable();

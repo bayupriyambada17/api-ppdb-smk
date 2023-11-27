@@ -17,20 +17,31 @@ class PesertaDidikController extends Controller
     }
     public function all()
     {
-        $pesertaDidik = PesertaDidikModel::with([
+        $results = collect();
+
+        PesertaDidikModel::with([
+            'provinsi',
             'rapor',
             'fasilitator',
             'fasilitas',
             'riwayatPenyakit',
             'uploadDokumen'
-        ])->orderBy('tanggal_terdaftar', 'desc')->get();
-        return NotificationStatus::notifSuccess(true, ConstantaHelper::DataDiambil, $pesertaDidik, 200);
+        ])->orderBy('tanggal_terdaftar', 'desc')->chunk(200, function ($pesertaDidik) use ($results) {
+            $results->push($pesertaDidik);
+        });
+        // $pesertaDidik = PesertaDidikModel::with(['provinsi',
+        //     'rapor',
+        //     'fasilitator',
+        //     'fasilitas',
+        //     'riwayatPenyakit',
+        //     'uploadDokumen'
+        // ])->orderBy('tanggal_terdaftar', 'desc')->get();
+        return NotificationStatus::notifSuccess(true, ConstantaHelper::DataDiambil, $results, 200);
     }
     private function getRegistrationsData(): array
     {
         $today = now();
 
-        // Fungsi untuk membuat query dengan kriteria tertentu
         $createQuery = function (Builder $query, $daysAgo) use ($today) {
             return $query
                 ->whereDate("tanggal_terdaftar", '>=', $today->subDays($daysAgo))
