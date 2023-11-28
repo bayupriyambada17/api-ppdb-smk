@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use Illuminate\Database\Seeder;
+use Database\Seeders\ProvinsiSeeder;
 use Database\Seeders\LuasTanahSeeder;
 use Database\Seeders\SumberAirSeeder;
 use Database\Seeders\TahunLulusSeeder;
@@ -51,6 +52,7 @@ class DatabaseSeeder extends Seeder
             StatusKepemilikanHartaTidakBergerakSeeder::class,
             GolonganDarahSeeder::class,
             InformasiPpdbSeeder::class,
+            ProvinsiSeeder::class,
         ]);
     }
 }

@@ -21,4 +21,14 @@ class NotificationStatus
             'data' => $data
         ], $codeStatus);
     }
+    public static function notifValidator($status, $message, $errors)
+    {
+        return response()->json([
+            'status' => $status,  // 404, 400, 500
+            'message' => $message,
+            'errors' => $errors
+        ], 422);
+    }
+
+
 }

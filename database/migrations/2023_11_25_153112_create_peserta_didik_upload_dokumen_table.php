@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('sktm')->nullable();
             $table->string('upload_surat_rekomendasi')->nullable();
             $table->string('upload_pdf_foto_rumah')->nullable();
+            $table->string('essay_karangan')->nullable();
             $table->boolean('rangkaian_tes')->nullable(); //0 = tidak, 1 = ya
             $table->boolean('dokumen_jika_palsu')->nullable(); // 0 = tidak, 1 = ya
             $table->boolean('pelanggaran_keputusan')->nullable(); // 0 = tidak, 1 = ya

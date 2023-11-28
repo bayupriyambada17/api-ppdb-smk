@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class PesertaDidikRiwayatModel extends Model
 {
@@ -13,11 +14,25 @@ class PesertaDidikRiwayatModel extends Model
 
     public function golonganDarah()
     {
-        return $this->belongsTo(GolonganDarahModel::class, 'golongan_darah_id');
+        return $this->belongsTo(GolonganDarahModel::class, 'golongan_darah_id')->select("id", "status");
     }
 
-    public function setPerokok()
+    protected function perokok(): Attribute
     {
-        return $this->perokok == 0 ? "Tidak" : "Ya";
+        return Attribute::make(
+            get: fn ($value) => $value ? "Ya" : "Tidak"
+        );
+    }
+    protected function butaWarna(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $value ? "Ya" : "Tidak"
+        );
+    }
+    protected function asuransiBpjsKis(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $value ? "Ya" : "Tidak"
+        );
     }
 }

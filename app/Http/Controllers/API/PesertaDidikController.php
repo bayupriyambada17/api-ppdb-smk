@@ -25,7 +25,7 @@ class PesertaDidikController extends Controller
             'rapor',
             'fasilitator',
             'fasilitas',
-            'riwayatPenyakit',
+            'riwayatPenyakit.golonganDarah',
             'keadaanOrangTua:id,status',
             'statusDalamKeluarga:id,status',
             'tinggalBersamaOrangTua:id,status',
@@ -35,19 +35,11 @@ class PesertaDidikController extends Controller
         ])->orderBy('tanggal_terdaftar', 'desc')->chunk(200, function ($pesertaDidik) use ($results) {
             $results->push($pesertaDidik);
         });
-        // $pesertaDidik = PesertaDidikModel::with(['provinsi',
-        //     'rapor',
-        //     'fasilitator',
-        //     'fasilitas',
-        //     'riwayatPenyakit',
-        //     'uploadDokumen'
-        // ])->orderBy('tanggal_terdaftar', 'desc')->get();
         return NotificationStatus::notifSuccess(true, ConstantaHelper::DataDiambil, $results, 200);
     }
     private function getRegistrationsData(): array
     {
         $today = now();
-
         $createQuery = function (Builder $query, $daysAgo) use ($today) {
             return $query
                 ->whereDate("tanggal_terdaftar", '>=', $today->subDays($daysAgo))
