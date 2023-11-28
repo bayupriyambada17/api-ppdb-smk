@@ -7,6 +7,7 @@ use App\Http\Helpers\ConstantaHelper;
 use App\Http\Helpers\NotificationStatus;
 use App\Models\TahunPelajaranModel;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Validator;
 
 class TahunPengajaranController extends Controller
@@ -53,6 +54,42 @@ class TahunPengajaranController extends Controller
                 null,
                 500
             );
+        }
+    }
+
+    public function viewTahunAjaran(string $id)
+    {
+        try {
+            $viewTahunAjaranId = TahunPelajaranModel::with([
+                'pesertaDidik.statusDalamKeluarga',
+                'pesertaDidik.keadaanOrangTua',
+                'pesertaDidik.provinsi',
+                'pesertaDidik.rapor',
+                'pesertaDidik.fasilitator',
+                'pesertaDidik.fasilitator.informasiPpdb',
+                'pesertaDidik.fasilitas.statusKepemilikanRumah',
+                'pesertaDidik.fasilitas.kualitasRumah',
+                'pesertaDidik.fasilitas.luasTanah',
+                'pesertaDidik.fasilitas.mandiCuciKakus',
+                'pesertaDidik.fasilitas.sumberAir',
+                'pesertaDidik.fasilitas.dayaListrik',
+                'pesertaDidik.fasilitas.hartaTidakBergerak',
+                'pesertaDidik.fasilitas.statusKepemilikanHtb',
+                'pesertaDidik.fasilitas.kepemilikanKendaraan',
+                'pesertaDidik.fasilitas.statusKepemilikanKendaraan',
+                'pesertaDidik.riwayatPenyakit',
+                'pesertaDidik.riwayatPenyakit.golonganDarah',
+                'pesertaDidik.tahunLulus',
+                'pesertaDidik.penerimaanBantuanSosial',
+                'pesertaDidik.sumberPenghasilan',
+            ])->where("id", $id)->first();
+            if (!$viewTahunAjaranId) {
+                return NotificationStatus::notifError(false, ConstantaHelper::IdTidakDitemukan, null, 404);
+            } else {
+                return NotificationStatus::notifSuccess(true, ConstantaHelper::DataDiambil, $viewTahunAjaranId, 200);
+            }
+        } catch (\Exception $e) {
+            return NotificationStatus::notifError(false, $e->getMessage(), null, 500);
         }
     }
     public function store(Request $request)

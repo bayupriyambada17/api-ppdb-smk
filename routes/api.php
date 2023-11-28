@@ -64,6 +64,7 @@ Route::middleware('auth:sanctum')->group(function () {
         });
         Route::prefix('tahun-pelajaran')->group(function () {
             Route::get('', [TahunPengajaranController::class, 'all']);
+            Route::get("/{id}/lihat", [TahunPengajaranController::class, 'viewTahunAjaran']);
             Route::post('/tambah', [TahunPengajaranController::class, 'store']);
             Route::post('/{id}/ubah', [TahunPengajaranController::class, 'update']);
             Route::delete('/{id}/hapus', [TahunPengajaranController::class, 'destroy']);

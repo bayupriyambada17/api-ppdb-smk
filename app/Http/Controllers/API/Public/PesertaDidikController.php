@@ -10,6 +10,7 @@ use App\Http\Helpers\ValidatorMessageHelper;
 use App\Models\PesertaDidikFasilitatorModel;
 use App\Models\PesertaDidikModel;
 use App\Models\PesertaDidikRaporModel;
+use App\Models\PesertaDidikUploadDokumenModel;
 use Illuminate\Support\Facades\Validator;
 class PesertaDidikController extends Controller
 {
@@ -41,20 +42,15 @@ class PesertaDidikController extends Controller
                     ], 401);
                 }
 
-                $fasilitator = new PesertaDidikFasilitatorModel();
-                $fasilitator->peserta_didik_id = $peserta->id;
-                $fasilitator->nama_fasilitator = $request->nama_fasilitator;
-                $fasilitator->hubungan_calon_siswa_fasilitator = $request->hubungan_calon_siswa_fasilitator;
-                $fasilitator->no_whatsapp_fasilitator = $request->no_whatsapp_fasilitator;
-                $fasilitator->email_fasilitator = $request->email_fasilitator;
-                $fasilitator->saudara_beasiswa_di_smk_fasilitator = $request->saudara_beasiswa_di_smk_fasilitator; // boolean
+                $fasilitatorData = $this->createPesertaDidikFasilitator($request, $peserta);
+                $fasilitator = $fasilitatorData[0];
 
                 try {
                     $fasilitator->save();
                     $validator = $this->validatorPesertaDidikRapor($request);
 
                     if ($validator->fails()) {
-                        $peserta->delete(); // Rollback the peserta creation
+                        $peserta->delete();
                         return response()->json([
                             'status' => false,
                             'message' => ConstantaHelper::ValidationError,
@@ -63,23 +59,6 @@ class PesertaDidikController extends Controller
                     }
                     $raporData = $this->createPesertaDidikRapor($request, $peserta);
                     $rapor = $raporData[0];
-                    // $rapor = new PesertaDidikRaporModel();
-                    // $rapor->peserta_didik_id = $peserta->id;
-                    // $rapor->rapor_matematika_3 = $request->rapor_matematika_3;
-                    // $rapor->rapor_matematika_4 = $request->rapor_matematika_4;
-                    // $rapor->rapor_matematika_5 = $request->rapor_matematika_5;
-                    // $rapor->rapor_ipa_3 = $request->rapor_ipa_3;
-                    // $rapor->rapor_ipa_4 = $request->rapor_ipa_4;
-                    // $rapor->rapor_ipa_5 = $request->rapor_ipa_5;
-                    // $rapor->rapor_indo_3 = $request->rapor_indo_3;
-                    // $rapor->rapor_indo_4 = $request->rapor_indo_4;
-                    // $rapor->rapor_indo_5 = $request->rapor_indo_5;
-                    // $rapor->rapor_inggris_3 = $request->rapor_inggris_3;
-                    // $rapor->rapor_inggris_4 = $request->rapor_inggris_4;
-                    // $rapor->rapor_inggris_5 = $request->rapor_inggris_5;
-                    // $rapor->rapor_islam_3 = $request->rapor_islam_3;
-                    // $rapor->rapor_islam_4 = $request->rapor_islam_4;
-                    // $rapor->rapor_islam_5 = $request->rapor_islam_5;
 
                     try {
                         $rapor->save();
@@ -200,6 +179,19 @@ class PesertaDidikController extends Controller
         ], ValidatorMessageHelper::validator());
     }
 
+    protected function createPesertaDidikFasilitator(Request $request, $peserta)
+    {
+        $fasilitator = new PesertaDidikFasilitatorModel();
+        $fasilitator->peserta_didik_id = $peserta->id;
+        $fasilitator->nama_fasilitator = $request->nama_fasilitator;
+        $fasilitator->hubungan_calon_siswa_fasilitator = $request->hubungan_calon_siswa_fasilitator;
+        $fasilitator->no_whatsapp_fasilitator = $request->no_whatsapp_fasilitator;
+        $fasilitator->email_fasilitator = $request->email_fasilitator;
+        $fasilitator->saudara_beasiswa_di_smk_fasilitator = $request->saudara_beasiswa_di_smk_fasilitator; // boolean
+
+        return  [$fasilitator, $peserta];
+    }
+
     protected function createPesertaDidikRapor(Request $request, $peserta)
     {
         $rapor = new PesertaDidikRaporModel();
@@ -225,6 +217,17 @@ class PesertaDidikController extends Controller
 
     protected function pesertaDidikDokumen(Request $request, $peserta)
     {
+        $dokumen = new PesertaDidikUploadDokumenModel();
+        $dokumen->peserta_didik_id = $peserta->id;
+        $dokumen->kartu_keluarga = $request->kartu_keluarga;
+        $dokumen->pas_foto = $request->pas_foto;
+        $dokumen->sktm = $request->sktm;
+        $dokumen->upload_rekomendasi = $request->upload_rekomendasi;
+        $dokumen->upload_pdf_foto_rumah = $request->upload_pdf_foto_rumah;
+        $dokumen->rangkaian_tes = $request->rangkaian_tes;
+        $dokumen->dokumen_jika_palsu = $request->dokumen_jika_palsu;
+        $dokumen->pelanggaran_keputusan = $request->pelanggaran_keputusan;
+        return [$dokumen, $peserta];
     }
 
 }
