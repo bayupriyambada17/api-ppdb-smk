@@ -14,6 +14,6 @@ class ProvinsiModel extends Model
 
     public function pesertaDidik()
     {
-        return $this->hasMany(PesertaDidikModel::class);
+        return $this->hasMany(PesertaDidikModel::class, 'provinsi_id');
     }
 }

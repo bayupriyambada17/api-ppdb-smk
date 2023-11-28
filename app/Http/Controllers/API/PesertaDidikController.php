@@ -19,13 +19,19 @@ class PesertaDidikController extends Controller
     {
         $results = collect();
 
-        PesertaDidikModel::with([
-            'provinsi',
+        PesertaDidikModel::with(['tahunPelajaran:id,tahun_pelajaran',
+            'tahunLulus:id,tahun',
+            'provinsi:id,name',
             'rapor',
             'fasilitator',
             'fasilitas',
             'riwayatPenyakit',
-            'uploadDokumen'
+            'keadaanOrangTua:id,status',
+            'statusDalamKeluarga:id,status',
+            'tinggalBersamaOrangTua:id,status',
+            'uploadDokumen',
+            'penerimaanBantuanSosial:id,status',
+            'sumberPenghasilan:id,status'
         ])->orderBy('tanggal_terdaftar', 'desc')->chunk(200, function ($pesertaDidik) use ($results) {
             $results->push($pesertaDidik);
         });

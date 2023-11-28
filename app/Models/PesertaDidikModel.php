@@ -19,6 +19,32 @@ class PesertaDidikModel extends Model
     protected $table = 'peserta_didik';
     protected $guarded = ['id'];
 
+    public function sumberPenghasilan()
+    {
+        return $this->belongsTo(SumberPenghasilanModel::class, 'sumber_penghasilan_id');
+    }
+    public function penerimaanBantuanSosial()
+    {
+        return $this->belongsTo(PenerimaanBantuanSosialModel::class, 'penerimaan_bantuan_sosial_id');
+    }
+    public function tinggalBersamaOrangTua()
+    {
+        return $this->belongsTo(TinggalBersamaStatusModel::class, 'tinggal_bersama_status_id');
+    }
+    public function statusDalamKeluarga()
+    {
+        return $this->belongsTo(StatusDalamKeluargaModel::class, 'status_dalam_keluarga_id');
+    }
+
+    public function keadaanOrangTua()
+    {
+        return $this->belongsTo(KeadaanOrangTuaModel::class, 'keadaan_orang_tua_id');
+    }
+    public function tahunLulus()
+    {
+        return $this->belongsTo(TahunLulusModel::class, 'tahun_lulus_id');
+    }
+
     public function tahunPelajaran()
     {
         return $this->belongsTo(TahunPelajaranModel::class, 'tahun_pelajaran_id');

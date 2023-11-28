@@ -23,6 +23,7 @@ use App\Http\Controllers\API\{
     TahunLulusController,
     TahunPengajaranController,
 };
+use App\Http\Controllers\API\Dashboard\DataDashboardController;
 
 Route::prefix('/v1')->group(function () {
     Route::prefix('/auth')->group(function () {
@@ -55,6 +56,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('/v1')->group(function () {
         Route::prefix('/auth')->group(function () {
             Route::post("/logout", [AuthController::class, 'logout']);
+        });
+
+        Route::prefix('dashboard')->group(function () {
+            Route::get("provinsi", [DataDashboardController::class, 'getProvinsi']);
+            Route::get("total-peserta-didik", [DataDashboardController::class, 'getTotalPesertaDidik']);
         });
         Route::prefix('tahun-pelajaran')->group(function () {
             Route::get('', [TahunPengajaranController::class, 'all']);

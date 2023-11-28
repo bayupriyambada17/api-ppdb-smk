@@ -11,4 +11,9 @@ class TahunPelajaranModel extends Model
 
     protected $table = 'tahun_pelajaran';
     protected $guarded = ['id'];
+
+    public function pesertaDidik()
+    {
+        return $this->hasMany(PesertaDidikModel::class, 'tahun_pelajaran_id');
+    }
 }

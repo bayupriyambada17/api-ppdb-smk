@@ -223,4 +223,8 @@ class PesertaDidikController extends Controller
         return [$rapor, $peserta];
     }
 
+    protected function pesertaDidikDokumen(Request $request, $peserta)
+    {
+    }
+
 }
