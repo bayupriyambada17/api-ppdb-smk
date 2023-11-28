@@ -47,7 +47,7 @@ Route::prefix('/v1')->group(function () {
         Route::get("/mandi-cuci-kakus", [PublicController::class, 'getMandiCuciKakus']);
         Route::get("/golongan-darah", [PublicController::class, 'getGolonganDarah']);
         Route::get("/informasi-ppdb", [PublicController::class, 'getInformasiPpdb']);
-
+        Route::get("/provinsi", [PublicController::class, 'getProvinsi']);
         Route::post("/daftar-peserta", [PublicPesertaController::class, 'postPesertaDidik']);
     });
 });

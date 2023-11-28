@@ -14,6 +14,7 @@ use App\Models\{
     KepemilikanKendaraanModel,
     MandiCuciKakusModel,
     PenerimaanBantuanSosialModel,
+    ProvinsiModel,
     StatusDalamKeluargaModel,
     StatusKepemilikanHartaTidakBergerakModel,
     StatusKepemilikanKendaraanModel,
@@ -26,6 +27,15 @@ use App\Models\{
 
 class PublicController extends Controller
 {
+    public function getProvinsi()
+    {
+        return NotificationStatus::notifSuccess(
+            true,
+            ConstantaHelper::DataDiambil,
+            ProvinsiModel::select("id", "name")->get(),
+            200
+        );
+    }
     public function getActiveTahunPelajaran()
     {
 
