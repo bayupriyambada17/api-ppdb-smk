@@ -55,7 +55,8 @@ Route::prefix('/v1')->group(function () {
 Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('/v1')->group(function () {
         Route::prefix('/auth')->group(function () {
-            Route::post("/logout", [AuthController::class, 'logout']);
+            Route::get("/saya", [AuthController::class, 'getMe']);
+            Route::post("/keluar", [AuthController::class, 'logout']);
         });
 
         Route::prefix('dashboard')->group(function () {

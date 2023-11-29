@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use PhpParser\Node\Stmt\TryCatch;
 use App\Http\Controllers\Controller;
+use App\Http\Helpers\ConstantaHelper;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Helpers\NotificationStatus;
 use Illuminate\Support\Facades\Validator;
@@ -53,9 +54,16 @@ class AuthController extends Controller
             );
         }
     }
-    public function logout()
+
+    public function getMe(Request $request)
+    {
+        return NotificationStatus::notifSuccess(true, ConstantaHelper::DataDiambil, $request->user(), 200);
+    }
+    public function logout(Request $request)
     {
         Auth::guard('web')->logout();
+        $request->user()->currentAccessToken()->delete();
+
         return response()->json(['message' => 'Successfully logged out']);
     }
 }
