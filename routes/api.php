@@ -55,11 +55,12 @@ Route::prefix('/v1')->group(function () {
 Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('/v1')->group(function () {
         Route::prefix('/auth')->group(function () {
-            Route::get("/saya", [AuthController::class, 'getMe']);
-            Route::post("/keluar", [AuthController::class, 'logout']);
+            Route::get("/user", [AuthController::class, 'getMe']);
+            Route::post("/logout", [AuthController::class, 'logout']);
         });
 
         Route::prefix('dashboard')->group(function () {
+            Route::get("/peserta/harian", [DataDashboardController::class, 'getPesertaDaftarHarian']);
             Route::get("provinsi", [DataDashboardController::class, 'getProvinsi']);
             Route::get("total-peserta-didik", [DataDashboardController::class, 'getTotalPesertaDidik']);
         });

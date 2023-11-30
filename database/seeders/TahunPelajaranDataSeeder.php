@@ -17,7 +17,7 @@ class TahunPelajaranDataSeeder extends Seeder
         foreach ($tahun as $value) {
             TahunPelajaranModel::create([
                 'tahun_pelajaran' => $value,
-                'isActive' => 1
+                'is_active' => 1
             ]);
         }
     }

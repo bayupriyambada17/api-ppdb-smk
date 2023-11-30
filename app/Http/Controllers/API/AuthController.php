@@ -57,7 +57,12 @@ class AuthController extends Controller
 
     public function getMe(Request $request)
     {
-        return NotificationStatus::notifSuccess(true, ConstantaHelper::DataDiambil, $request->user(), 200);
+        return response()->json([
+            'status' => true,
+            'user' => auth()->user()
+        ], 200);
+
+        // return NotificationStatus::notifSuccess(true, ConstantaHelper::DataDiambil, $request->user(), 200);
     }
     public function logout(Request $request)
     {

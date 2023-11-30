@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tahun_pelajaran', function (Blueprint $table) {
             $table->id();
             $table->string("tahun_pelajaran");
-            $table->boolean('isActive')->default(1); // 1= aktif, 0 = tidak aktif
+            $table->boolean('is_active')->default(1); // 1= aktif, 0 = tidak aktif
             $table->timestamps();
         });
     }
