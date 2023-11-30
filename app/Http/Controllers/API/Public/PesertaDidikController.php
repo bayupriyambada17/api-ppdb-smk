@@ -134,6 +134,34 @@ class PesertaDidikController extends Controller
         $peserta->status_dalam_keluarga_id = $request->status_dalam_keluarga_id;
         $peserta->tinggal_bersama_status_id = $request->tinggal_bersama_status_id;
         $peserta->penerimaan_bantuan_sosial_id = $request->penerimaan_bantuan_sosial_id;
+        $peserta->bahasa_asing = $request->bahasa_asing;
+        $peserta->jumlah_hafalan_juz = $request->jumlah_hafalan_juz;
+        $peserta->hafalan_juz = $request->hafalan_juz;
+        $peserta->riwayat_prestasi_calon_peserta_didik = $request->riwayat_prestasi_calon_peserta_didik;
+        $peserta->riwayat_organisasi_sekolah_dan_non_sekolah = $request->riwayat_organisasi_sekolah_dan_non_sekolah;
+        $peserta->hal_hal_khusus = $request->hal_hal_khusus;
+        $peserta->cita_cita = $request->cita_cita;
+        $peserta->hobi_kegemaran = $request->hobi_kegemaran;
+        $peserta->nama_ayah_kandung = $request->nama_ayah_kandung;
+        $peserta->pendidikan_terakhir = $request->pendidikan_terakhir;
+        $peserta->pekerjaan_ayah_kandung = $request->pekerjaan_ayah_kandung;
+        $peserta->penghasilan_pokok_pensiunan_ayah = $request->penghasilan_pokok_pensiunan_ayah;
+        $peserta->pendapatan_diluar_penghasilan_perbulan_ayah = $request->pendapatan_diluar_penghasilan_perbulan_ayah;
+        $peserta->domisili_ayah_kandung = $request->domisili_ayah_kandung;
+        $peserta->no_whatsapp_ayah_kandung = $request->no_whatsapp_ayah_kandung;
+        $peserta->nama_ibu_kandung = $request->nama_ibu_kandung;
+        $peserta->pekerjaan_ibu_kandung = $request->pekerjaan_ibu_kandung;
+        $peserta->penghasilan_pokok_pensiunan_ibu = $request->penghasilan_pokok_pensiunan_ibu;
+        $peserta->pendapatan_diluar_penghasilan_perbulan_ibu = $request->pendapatan_diluar_penghasilan_perbulan_ibu;
+        $peserta->domisili_ibu_kandung = $request->domisili_ibu_kandung;
+        $peserta->no_whatsapp_ibu_kandung = $request->no_whatsapp_ibu_kandung;
+        $peserta->harapan_orang_tua = $request->harapan_orang_tua;
+        $peserta->nama_wali = $request->nama_wali;
+        $peserta->pekerjaan_wali = $request->pekerjaan_wali;
+        $peserta->alamat_domisili_wali = $request->alamat_domisili_wali;
+        $peserta->hubungan_wali = $request->hubungan_wali;
+        $peserta->email_wali = $request->email_wali;
+        $peserta->jumlah_tanggungan_dalam_keluarga = $request->jumlah_tanggungan_dalam_keluarga;
 
         return $peserta;
     }
@@ -175,19 +203,19 @@ class PesertaDidikController extends Controller
             'penghasilan_pokok_pensiunan_ayah' => 'required',
             'pendapatan_diluar_penghasilan_perbulan_ayah' => 'required',
             'domisili_ayah_kandung' => 'required',
-            'no_whatsapp_ayah_kandung' => 'required',
+            'no_whatsapp_ayah_kandung' => 'required|min:10|max:15',
             'nama_ibu_kandung' => 'required',
             'pekerjaan_ibu_kandung' => 'required',
             'penghasilan_pokok_pensiunan_ibu' => 'required',
             'pendapatan_diluar_penghasilan_perbulan_ibu' => 'required',
             'domisili_ibu_kandung' => 'required',
-            'no_whatsapp_ibu_kandung' => 'required',
+            'no_whatsapp_ibu_kandung' => 'required|min:10|max:15',
             'harapan_orang_tua' => 'required',
             'nama_wali' => 'required',
             'pekerjaan_wali' => 'required',
             'alamat_domisili_wali' => 'required',
             'hubungan_wali' => 'required',
-            'email_wali' => 'required',
+            'email_wali' => 'required|email',
             'jumlah_tanggungan_dalam_keluarga' => 'required',
             'sumber_penghasilan_id' => 'required',
             ], ValidatorMessageHelper::validator());
@@ -289,12 +317,12 @@ class PesertaDidikController extends Controller
     protected function validatorPesertaDidikDokumen(Request $request)
     {
         return Validator::make($request->all(), [
-            'kartu_keluarga' => 'required|file|mimes:pdf,jpeg,png|max:2048',
-            'pas_foto' => 'required|file|mimes:jpeg,png|max:2048',
-            'sktm' => 'required|file|mimes:pdf|max:2048',
-            'upload_surat_rekomendasi' => 'required|file|mimes:pdf|max:2048',
-            'upload_pdf_foto_rumah' => 'required|file|mimes:pdf|max:2048',
-            'essay_karangan' => 'required|file|mimes:pdf|max:2048',
+            'kartu_keluarga' => 'required|file|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
+            'pas_foto' => 'required|file|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
+            'sktm' => 'required|file|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
+            'upload_surat_rekomendasi' => 'required|file|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
+            'upload_pdf_foto_rumah' => 'required|file|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
+            'essay_karangan' => 'required|file|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
             'rangkaian_tes' => 'required|boolean',
             'dokumen_jika_palsu' => 'required|boolean',
             'pelanggaran_keputusan' => 'required|boolean',
@@ -304,43 +332,40 @@ class PesertaDidikController extends Controller
 
     protected function createPesertaDidikDokumen(Request $request, $peserta)
     {
-        $maxSize = 2048; // in kilobytes
         $dokumen = new PesertaDidikUploadDokumenModel();
         $dokumen->peserta_didik_id = $peserta->id;
 
-        $dokumen->kartu_keluarga = $this->storeFile($request, 'kartu_keluarga', 'kk', 'pdf,jpeg,png', $maxSize);
-        $dokumen->pas_foto = $this->storeFile($request, 'pas_foto', 'pas_foto', 'jpeg,png', $maxSize);
-        $dokumen->sktm = $this->storeFile($request, 'sktm', 'sktm', 'pdf', $maxSize);
-        $dokumen->upload_surat_rekomendasi = $this->storeFile($request, 'upload_surat_rekomendasi', 'upload_surat_rekomendasi', 'pdf', $maxSize);
-        $dokumen->upload_pdf_foto_rumah = $this->storeFile($request, 'upload_pdf_foto_rumah', 'upload_pdf_foto_rumah', 'pdf', $maxSize);
-        $dokumen->essay_karangan = $this->storeFile($request, 'essay_karangan', 'essay_karangan', 'pdf', $maxSize);
+
+
+        $kartu_keluarga = $request->file('kartu_keluarga');
+        $kartu_keluarga->storeAs('public/kartu_keluarga', $kartu_keluarga->getClientOriginalName());
+
+        $pas_foto = $request->file('pas_foto');
+        $pas_foto->storeAs('public/pas_foto', $pas_foto->getClientOriginalName());
+
+        $sktm = $request->file('sktm');
+        $sktm->storeAs('public/sktm', $sktm->getClientOriginalName());
+
+        $upload_surat_rekomendasi = $request->file('upload_surat_rekomendasi');
+        $upload_surat_rekomendasi->storeAs('public/upload_surat_rekomendasi', $upload_surat_rekomendasi->getClientOriginalName());
+
+        $upload_pdf_foto_rumah = $request->file('upload_pdf_foto_rumah');
+        $upload_pdf_foto_rumah->storeAs('public/upload_pdf_foto_rumah', $upload_pdf_foto_rumah->getClientOriginalName());
+
+        $essay_karangan = $request->file('essay_karangan');
+        $essay_karangan->storeAs('public/essay_karangan', $essay_karangan->getClientOriginalName());
+
+        $dokumen->kartu_keluarga = $kartu_keluarga->getClientOriginalName();
+        $dokumen->pas_foto = $pas_foto->getClientOriginalName();
+        $dokumen->sktm = $sktm->getClientOriginalName();
+        $dokumen->upload_surat_rekomendasi = $upload_surat_rekomendasi->getClientOriginalName();
+        $dokumen->upload_pdf_foto_rumah = $upload_pdf_foto_rumah->getClientOriginalName();
+        $dokumen->essay_karangan = $essay_karangan->getClientOriginalName();
         $dokumen->rangkaian_tes = $request->rangkaian_tes;
         $dokumen->dokumen_jika_palsu = $request->dokumen_jika_palsu;
         $dokumen->pelanggaran_keputusan = $request->pelanggaran_keputusan;
         return [$dokumen, $peserta];
     }
-
-    protected function storeFile(Request $request, $fieldName, $folderName, $allowedMimes, $maxSize)
-    {
-        $validator = Validator::make($request->all(), [
-            $fieldName => "required|file|mimes:$allowedMimes|max:$maxSize",
-        ]);
-
-        if ($validator->fails()) {
-            return NotificationStatus::notifValidator(false, ConstantaHelper::ValidationError, $validator->errors());
-        }
-
-        // Menentukan folder penyimpanan
-        $storageFolder = public_path("storage/$folderName");
-
-        // Menyimpan file ke folder yang ditentukan
-        $file = $request->file($fieldName);
-        $hashedName = $file->hashName();
-        $file->move($storageFolder, $hashedName);
-
-        return $hashedName;
-    }
-
 
     protected function validatorPesertaDidikFasilitas(Request $request)
     {

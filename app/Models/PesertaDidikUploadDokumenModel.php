@@ -15,7 +15,7 @@ class PesertaDidikUploadDokumenModel extends Model
     protected function kartuKeluarga(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value ? asset('/storage/kk/' . $value) : null
+            get: fn ($value) => $value ? asset('/storage/kartu_keluarga/' . $value) : null
 
         );
     }
