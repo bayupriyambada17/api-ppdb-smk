@@ -52,7 +52,7 @@ class PublicController extends Controller
         return NotificationStatus::notifSuccess(
             true,
             ConstantaHelper::DataDiambil,
-            TahunPelajaranModel::where('is_active', "Ya")->get(),
+            TahunPelajaranModel::get(),
             200
         );
     }
