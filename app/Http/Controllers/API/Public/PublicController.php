@@ -36,7 +36,7 @@ class PublicController extends Controller
             200
         );
     }
-    public function getActiveTahunPelajaran()
+    public function getTahunPelajaran()
     {
 
         return NotificationStatus::notifSuccess(
