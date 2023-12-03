@@ -21,24 +21,24 @@ class PesertaDidikModel extends Model
 
     public function sumberPenghasilan()
     {
-        return $this->belongsTo(SumberPenghasilanModel::class, 'sumber_penghasilan_id');
+        return $this->hasOne(SumberPenghasilanModel::class, 'id', 'sumber_penghasilan_id');
     }
     public function penerimaanBantuanSosial()
     {
-        return $this->belongsTo(PenerimaanBantuanSosialModel::class, 'penerimaan_bantuan_sosial_id');
+        return $this->hasOne(PenerimaanBantuanSosialModel::class, 'id', 'penerimaan_bantuan_sosial_id');
     }
     public function tinggalBersamaOrangTua()
     {
-        return $this->belongsTo(TinggalBersamaStatusModel::class, 'tinggal_bersama_status_id');
+        return $this->hasOne(TinggalBersamaStatusModel::class, 'id', 'tinggal_bersama_status_id');
     }
     public function statusDalamKeluarga()
     {
-        return $this->belongsTo(StatusDalamKeluargaModel::class, 'status_dalam_keluarga_id');
+        return $this->hasOne(StatusDalamKeluargaModel::class, 'id', 'status_dalam_keluarga_id');
     }
 
     public function keadaanOrangTua()
     {
-        return $this->belongsTo(KeadaanOrangTuaModel::class, 'keadaan_orang_tua_id');
+        return $this->hasOne(KeadaanOrangTuaModel::class, 'id', 'id', 'keadaan_orang_tua_id');
     }
     public function tahunLulus()
     {

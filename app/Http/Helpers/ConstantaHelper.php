@@ -14,5 +14,6 @@ class ConstantaHelper
     const DataTerhapus = 'Berhasil menghapus data';
     const DataTelahTerhapus = 'Data yang dimiliki sudah dihapus, ditemukan';
 
+    const DataBerelasi = "Data ini telah berelasi, tidak dapat dihapus.";
     const ValidationError = 'Terjadi kesalahan validasi';
 }

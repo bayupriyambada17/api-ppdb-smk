@@ -14,7 +14,7 @@ class PesertaDidikRiwayatModel extends Model
 
     public function golonganDarah()
     {
-        return $this->belongsTo(GolonganDarahModel::class, 'golongan_darah_id')->select("id", "status");
+        return $this->hasOne(GolonganDarahModel::class, 'id', 'golongan_darah_id')->select("id", "status");
     }
 
     protected function perokok(): Attribute

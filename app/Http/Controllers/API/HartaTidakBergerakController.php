@@ -10,11 +10,17 @@ class HartaTidakBergerakController extends Controller
 {
     public function all(Request $request)
     {
-        return ModelHelper::getAll(HartaTidakBergerakModel::class, $request);
+        $withCountRelationships = $request->input('with_count', ['pesertaDidikFasilitas']);
+
+        return ModelHelper::getAll(HartaTidakBergerakModel::class, $withCountRelationships, $request);
     }
     public function store(Request $request)
     {
         return ModelHelper::store(HartaTidakBergerakModel::class, $request);
+    }
+    public function show(string $id)
+    {
+        return ModelHelper::show(GolonganDarahModel::class, $id);
     }
     public function update(Request $request, string $id)
     {
@@ -22,6 +28,11 @@ class HartaTidakBergerakController extends Controller
     }
     public function destroy(string $id)
     {
-        return ModelHelper::destroy(HartaTidakBergerakModel::class, $id);
+        return ModelHelper::destroy(
+            HartaTidakBergerakModel::class,
+            PesertaDidikFisilitasModel::class,
+            'harta_tidak_bergerak_id',
+            $id
+        );
     }
 }

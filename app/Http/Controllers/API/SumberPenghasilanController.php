@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
+use App\Http\Helpers\ModelHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Helpers\ConstantaHelper;
 use App\Models\SumberPenghasilanModel;
@@ -13,105 +14,29 @@ class SumberPenghasilanController extends Controller
 {
     public function all(Request $request)
     {
-        try {
-            $id = $request->input('id');
-            $status = $request->input('status');
-            if ($id) {
-                $sumberPenghasilanId = SumberPenghasilanModel::find($id);
-                if ($sumberPenghasilanId) {
-                    return NotificationStatus::notifSuccess(
-                        true,
-                        ConstantaHelper::DataId,
-                        $sumberPenghasilanId,
-                        200
-                    );
-                } else {
-                    return NotificationStatus::notifError(false, ConstantaHelper::IdTidakDitemukan, null, 404);
-                }
-            }
+        $withCountRelationships = $request->input('with_count', ['pesertaDidikFasilitas']);
 
-            $sumberPenghasilan = SumberPenghasilanModel::query();
-            if ($status) {
-                $sumberPenghasilan->where('status', 'LIKE', '%' . $status . '%');
-            }
-
-            return NotificationStatus::notifSuccess(
-                true,
-                ConstantaHelper::DataDiambil,
-                $sumberPenghasilan->latest()->get(),
-                200
-            );
-        } catch (\Exception $e) {
-            return NotificationStatus::notifError(
-                false,
-                $e->getMessage(),
-                null,
-                500
-            );
-        }
+        return ModelHelper::getAll(SumberPenghasilanModel::class, $withCountRelationships, $request);
     }
     public function store(Request $request)
     {
-        try {
-            $validator = Validator::make($request->all(), [
-                'status' => 'required',
-            ]);
-
-            if ($validator->fails()) {
-                return response()->json([
-                    'status' => false,
-                    'message' => ConstantaHelper::ValidationError,
-                    'errors' => $validator->errors()
-                ], 401);
-            }
-
-            $sumberPenghasilan = SumberPenghasilanModel::create([
-                'status' => $request->status,
-            ]);
-            return NotificationStatus::notifSuccess(true, ConstantaHelper::DataTersimpan, $sumberPenghasilan, 200);
-        } catch (\Exception $e) {
-            return NotificationStatus::notifError(
-                false,
-                $e->getMessage(),
-                null,
-                500
-            );
-        }
+        return ModelHelper::store(SumberPenghasilanModel::class, $request);
     }
-
+    public function show(string $id)
+    {
+        return ModelHelper::show(SumberPenghasilanModel::class, $id);
+    }
     public function update(Request $request, string $id)
     {
-        $sumberPenghasilanId = SumberPenghasilanModel::where("id", $id)->first();
-        if (!$sumberPenghasilanId) {
-            return NotificationStatus::notifError(false, ConstantaHelper::IdTidakDitemukan, null, 404);
-        }
-
-        $validator = Validator::make($request->all(), [
-            'status' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'message' => 'validation error',
-                'errors' => $validator->errors()
-            ], 401);
-        }
-
-        $sumberPenghasilanId->update([
-            'status' => $request->status,
-        ]);
-
-        return NotificationStatus::notifSuccess(true, ConstantaHelper::DataDiperbaharui, $sumberPenghasilanId, 200);
+        return ModelHelper::update(SumberPenghasilanModel::class, $request, $id);
     }
-
     public function destroy(string $id)
     {
-        $sumberPenghasilanId = SumberPenghasilanModel::where("id", $id)->first();
-        if (!$sumberPenghasilanId) {
-            return NotificationStatus::notifError(false, ConstantaHelper::IdTidakDitemukan, null, 404);
-        }
-        $sumberPenghasilanId->delete();
-        return NotificationStatus::notifSuccess(true, ConstantaHelper::DataTelahTerhapus, null, 200);
+        return ModelHelper::destroy(
+            SumberPenghasilanModel::class,
+            PesertaDidikFisilitasModel::class,
+            'mandi_cuci_kakus_id',
+            $id
+        );
     }
 }

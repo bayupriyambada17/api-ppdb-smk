@@ -6,16 +6,23 @@ use Illuminate\Http\Request;
 use App\Http\Helpers\ModelHelper;
 use App\Http\Controllers\Controller;
 use App\Models\KepemilikanKendaraanModel;
+use App\Models\PesertaDidikFisilitasModel;
 
 class KepemilikanKendaraanController extends Controller
 {
     public function all(Request $request)
     {
-        return ModelHelper::getAll(KepemilikanKendaraanModel::class, $request);
+        $withCountRelationships = $request->input('with_count', ['pesertaDidikFasilitas']);
+
+        return ModelHelper::getAll(KepemilikanKendaraanModel::class, $withCountRelationships, $request);
     }
     public function store(Request $request)
     {
         return ModelHelper::store(KepemilikanKendaraanModel::class, $request);
+    }
+    public function show(string $id)
+    {
+        return ModelHelper::show(KepemilikanKendaraanModel::class, $id);
     }
     public function update(Request $request, string $id)
     {
@@ -23,6 +30,11 @@ class KepemilikanKendaraanController extends Controller
     }
     public function destroy(string $id)
     {
-        return ModelHelper::destroy(KepemilikanKendaraanModel::class, $id);
+        return ModelHelper::destroy(
+            KepemilikanKendaraanModel::class,
+            PesertaDidikFisilitasModel::class,
+            'kepemilikan_kendaraan_id',
+            $id
+        );
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Helpers\ConstantaHelper;
 use App\Http\Helpers\NotificationStatus;
+use App\Models\PesertaDidikModel;
 use App\Models\TahunPelajaranModel;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notification;
@@ -57,6 +58,16 @@ class TahunPengajaranController extends Controller
         }
     }
 
+    public function show(string $id)
+    {
+        try {
+            $viewId = TahunPelajaranModel::where("id", $id)->first();
+            return NotificationStatus::notifSuccess(true, ConstantaHelper::DataId, $viewId, 200);
+        } catch (\Exception $e) {
+            return NotificationStatus::notifError(true, $e->getMessage(), null, 500);
+        }
+    }
+
     public function viewTahunAjaran(string $id)
     {
         try {
@@ -92,12 +103,14 @@ class TahunPengajaranController extends Controller
             return NotificationStatus::notifError(false, $e->getMessage(), null, 500);
         }
     }
+
+
     public function store(Request $request)
     {
         try {
             $validator = Validator::make($request->all(), [
                 'tahun_pelajaran' => 'required',
-                'isActive' => 'required|boolean'
+                'is_active' => 'required|boolean'
             ]);
 
             if ($validator->fails()) {
@@ -110,7 +123,7 @@ class TahunPengajaranController extends Controller
 
             $tahunPelajaran = TahunPelajaranModel::create([
                 'tahun_pelajaran' => $request->tahun_pelajaran,
-                'isActive' => $request->isActive
+                'is_active' => $request->is_active
             ]);
             return NotificationStatus::notifSuccess(true, ConstantaHelper::DataTersimpan, $tahunPelajaran, 200);
         } catch (\Exception $e) {
@@ -132,7 +145,7 @@ class TahunPengajaranController extends Controller
 
         $validator = Validator::make($request->all(), [
             'tahun_pelajaran' => 'required',
-            'isActive' => 'required|boolean'
+            'is_active' => 'required|boolean'
         ]);
 
         if ($validator->fails()) {
@@ -145,7 +158,7 @@ class TahunPengajaranController extends Controller
 
         $tahunPelajaranId->update([
             'tahun_pelajaran' => $request->tahun_pelajaran,
-            'isActive' => $request->isActive,
+            'is_active' => $request->is_active,
         ]);
 
         return NotificationStatus::notifSuccess(true, ConstantaHelper::DataDiperbaharui, $tahunPelajaranId, 200);

@@ -59,9 +59,9 @@ class PesertaDidikController extends Controller
 
             $validator = $this->validatorPesertaDidikFasilitas($request);
             if ($validator->fails()) {
-                $peserta->delete();
                 $fasilitator->delete();
                 $rapor->delete();
+                $peserta->delete();
                 return NotificationStatus::notifValidator(false, ConstantaHelper::ValidationError, $validator->errors());
             }
 
@@ -71,10 +71,10 @@ class PesertaDidikController extends Controller
 
             $validator = $this->validatorPesertaDidikRiwayat($request);
             if ($validator->fails()) {
-                $peserta->delete();
                 $fasilitator->delete();
                 $rapor->delete();
                 $fasilitas->delete();
+                $peserta->delete();
                 return NotificationStatus::notifValidator(false, ConstantaHelper::ValidationError, $validator->errors());
             }
 
@@ -84,17 +84,26 @@ class PesertaDidikController extends Controller
 
             $validator = $this->validatorPesertaDidikDokumen($request);
             if ($validator->fails()) {
-                $peserta->delete();
                 $fasilitator->delete();
                 $rapor->delete();
                 $fasilitas->delete();
                 $riwayat->delete();
+                $peserta->delete();
                 return NotificationStatus::notifValidator(false, ConstantaHelper::ValidationError, $validator->errors());
             }
 
             $dokumenData = $this->createPesertaDidikDokumen($request, $peserta);
             $dokumen = $dokumenData[0];
             $dokumen->save();
+            if ($validator->fails()) {
+                $fasilitator->delete();
+                $rapor->delete();
+                $fasilitas->delete();
+                $riwayat->delete();
+                $peserta->delete();
+                $dokumen->delete();
+                return NotificationStatus::notifValidator(false, ConstantaHelper::ValidationError, $validator->errors());
+            }
 
             return NotificationStatus::notifSuccess(true, ConstantaHelper::DataTersimpan, null, 200);
         } catch (\Exception $e) {
@@ -162,6 +171,7 @@ class PesertaDidikController extends Controller
         $peserta->hubungan_wali = $request->hubungan_wali;
         $peserta->email_wali = $request->email_wali;
         $peserta->jumlah_tanggungan_dalam_keluarga = $request->jumlah_tanggungan_dalam_keluarga;
+        $peserta->sumber_penghasilan_id = $request->sumber_penghasilan_id;
 
         return $peserta;
     }

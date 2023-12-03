@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class TahunLulusModel extends Model
 {
@@ -15,4 +16,11 @@ class TahunLulusModel extends Model
     // {
     //     return $this->hasMany(PesertaDidikModel::class);
     // }
+
+    protected function isActive(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $value ? "Ya" : "Tidak"
+        );
+    }
 }

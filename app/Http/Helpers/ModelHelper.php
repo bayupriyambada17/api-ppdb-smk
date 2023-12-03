@@ -6,31 +6,26 @@ use Illuminate\Http\Request;
 use App\Http\Helpers\ConstantaHelper;
 use App\Http\Helpers\NotificationStatus;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Helpers\ValidatorMessageHelper;
+use Illuminate\Database\Eloquent\Model;
 
 class ModelHelper
 {
-    public static function getAll($model, $request)
+    public static function getAll($model, $withCountRelationships, $request)
     {
         try {
+            // ... existing code ...
             $id = $request->input('id');
             $status = $request->input('status');
-            if ($id) {
-                $data = $model::find($id);
-                if ($data) {
-                    return NotificationStatus::notifSuccess(
-                        true,
-                        ConstantaHelper::DataId,
-                        $data,
-                        200
-                    );
-                } else {
-                    return NotificationStatus::notifError(false, ConstantaHelper::IdTidakDitemukan, null, 404);
-                }
-            }
-
             $data = $model::query();
+
             if ($status) {
                 $data->where('status', 'LIKE', '%' . $status . '%');
+            }
+
+            // Conditionally apply withCount for each relationship
+            foreach ($withCountRelationships as $relationship) {
+                $data->withCount([$relationship]);
             }
 
             return NotificationStatus::notifSuccess(
@@ -48,20 +43,15 @@ class ModelHelper
             );
         }
     }
-
     public static function store($model, Request $request)
     {
         try {
             $validator = Validator::make($request->all(), [
                 'status' => 'required',
-            ]);
+            ], ValidatorMessageHelper::validator());
 
             if ($validator->fails()) {
-                return response()->json([
-                    'status' => false,
-                    'message' => ConstantaHelper::ValidationError,
-                    'errors' => $validator->errors()
-                ], 401);
+                return response()->json($validator->errors(), 422);
             }
 
             $data = $model::create([
@@ -78,6 +68,15 @@ class ModelHelper
         }
     }
 
+    public static function show($model, string $id)
+    {
+        $dataId = $model::where("id", $id)->first();
+        if (!$dataId) {
+            return NotificationStatus::notifError(false, ConstantaHelper::IdTidakDitemukan, null, 404);
+        }
+        return NotificationStatus::notifSuccess(true, ConstantaHelper::DataId, $dataId, 200);
+    }
+
     public static function update($model, Request $request, string $id)
     {
         $dataId = $model::where("id", $id)->first();
@@ -87,14 +86,10 @@ class ModelHelper
 
         $validator = Validator::make($request->all(), [
             'status' => 'required',
-        ]);
+        ], ValidatorMessageHelper::validator());
 
         if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'message' => 'validation error',
-                'errors' => $validator->errors()
-            ], 401);
+            return response()->json($validator->errors(), 422);
         }
 
         $dataId->update([
@@ -104,13 +99,18 @@ class ModelHelper
         return NotificationStatus::notifSuccess(true, ConstantaHelper::DataDiperbaharui, $dataId, 200);
     }
 
-    public static function destroy($model, string $id)
+    public static function destroy($model, $existsModelData, $existsWhereDelete, string $id)
     {
         $dataId = $model::where("id", $id)->first();
         if (!$dataId) {
             return NotificationStatus::notifError(false, ConstantaHelper::IdTidakDitemukan, null, 404);
         }
-        $dataId->delete();
-        return NotificationStatus::notifSuccess(true, ConstantaHelper::DataTelahTerhapus, null, 200);
+        $relation = $existsModelData::where($existsWhereDelete, $dataId->id)->first();
+        if ($relation) {
+            return NotificationStatus::notifError(false, ConstantaHelper::DataBerelasi, null, 400);
+        } else {
+            $dataId->delete();
+            return NotificationStatus::notifSuccess(true, ConstantaHelper::DataTerhapus, null, 200);
+        }
     }
 }

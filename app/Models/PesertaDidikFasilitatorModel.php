@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class PesertaDidikFasilitatorModel extends Model
 {
@@ -13,6 +14,13 @@ class PesertaDidikFasilitatorModel extends Model
 
     public function informasiPpdb()
     {
-        return $this->belongsTo(InformasiPpdbModel::class, 'informasi_ppdb_id');
+        return $this->hasOne(InformasiPpdbModel::class, 'informasi_ppdb_id');
+    }
+
+    protected function saudaraBeasiswaDiSmkFasilitator(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $value ? "Ya" : "Tidak"
+        );
     }
 }

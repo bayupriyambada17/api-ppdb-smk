@@ -10,4 +10,9 @@ class PenerimaanBantuanSosialModel extends Model
     use HasFactory;
     protected $table = 'penerimaan_bantuan_sosial';
     protected $guarded = ['id'];
+
+    public function pesertaDidik()
+    {
+        return $this->hasOne(PesertaDidikModel::class, 'penerimaan_bantuan_sosial_id');
+    }
 }
