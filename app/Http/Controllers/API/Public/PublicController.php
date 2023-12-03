@@ -46,6 +46,16 @@ class PublicController extends Controller
             200
         );
     }
+    public function getTahunAktif()
+    {
+
+        return NotificationStatus::notifSuccess(
+            true,
+            ConstantaHelper::DataDiambil,
+            TahunPelajaranModel::where('is_active', "Ya")->get(),
+            200
+        );
+    }
     public function getKeadaanOrangTua()
     {
         return NotificationStatus::notifSuccess(

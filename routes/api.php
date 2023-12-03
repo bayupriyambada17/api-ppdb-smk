@@ -36,6 +36,7 @@ Route::prefix('/v1')->group(function () {
 
     Route::prefix('public')->group(function () {
         Route::get("/tahun-pelajaran", [PublicController::class, 'getTahunPelajaran']);
+        Route::get("/tahun", [PublicController::class, 'getTahunAktif']);
         Route::get("/keadaan-orang-tua", [PublicController::class, 'getKeadaanOrangTua']);
         Route::get("/penerima-bantuan-sosial", [PublicController::class, 'getPenerimaBantuanSosial']);
         Route::get("/status-dalam-keluarga", [PublicController::class, 'getStatusDalamKeluarga']);
