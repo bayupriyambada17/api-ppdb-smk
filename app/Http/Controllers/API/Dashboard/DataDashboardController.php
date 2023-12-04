@@ -29,16 +29,31 @@ class DataDashboardController extends Controller
     }
     public function getDataPesertaPerhari()
     {
-        $perhari = PesertaDidikModel::whereDate("tanggal_terdaftar", today())
+        // $perhari = PesertaDidikModel::whereDate("tanggal_terdaftar", today())
+        //     ->with('tahunPelajaran:id,tahun_pelajaran')
+        //     ->select("id", 'tahun_pelajaran_id', 'nomor_pendaftar', 'nama_lengkap', 'tanggal_terdaftar', 'is_pendaftar')
+        //     ->where("is_pendaftar", "proses")
+        //     ->orderBy('tanggal_terdaftar', 'desc')->limit(10)->get();
+        // $data = [
+        //     'total_jumlah' => $perhari->count(),
+        //     'perhari' => $perhari
+        // ];
+        // return NotificationStatus::notifSuccess(true, ConstantaHelper::DataDiambil, $data, 200);
+        $data = [];
+
+        PesertaDidikModel::whereDate("tanggal_terdaftar", today())
             ->with('tahunPelajaran:id,tahun_pelajaran')
-            ->select("id", 'tahun_pelajaran_id', 'nomor_pendaftar', 'nama_lengkap', 'tanggal_terdaftar', 'is_pendaftar')
-            ->where("is_pendaftar", "proses")
-            ->orderBy('tanggal_terdaftar', 'desc')->limit(10)->get();
-        $data = [
-            'total_jumlah' => $perhari->count(),
-            'perhari' => $perhari
-        ];
-        return NotificationStatus::notifSuccess(true, ConstantaHelper::DataDiambil, $data, 200);
+        ->select("id", 'tahun_pelajaran_id', 'nomor_pendaftar', 'nama_lengkap', 'tanggal_terdaftar')
+        ->orderByDesc('tanggal_terdaftar')
+        ->chunk(100, function ($perhari) use (&$data) {
+            $data[] = [
+                'total_jumlah' => count($perhari),
+                'perhari' => $perhari->toArray(),
+            ];
+        });
+        $result = array_merge(...$data);
+
+        return NotificationStatus::notifSuccess(true, ConstantaHelper::DataDiambil, $result, 200);
     }
     public function getPesertaDaftarHarian()
     {
@@ -51,24 +66,7 @@ class DataDashboardController extends Controller
     }
     public function getProvinsi()
     {
-        // $hasilQuery = PesertaDidikModel::select('tahun_pelajaran_id', 'provinsi_id', DB::raw('COUNT(*) as total'))
-        // ->with('tahunPelajaran')
-        //     ->groupBy('tahun_pelajaran_id', 'provinsi_id ')
-        // ->get();
 
-        // $dataPesertaDidik = [];
-
-        // foreach ($hasilQuery as $hasil) {
-        //     $tahunPelajaran = $hasil->tahunPelajaran->tahun_pelajaran;
-        //     $provinsiId = $hasil->provinsi->name;
-        //     $total = $hasil->total;
-
-        //     if (!isset($dataPesertaDidik[$tahunPelajaran])) {
-        //         $dataPesertaDidik[$tahunPelajaran] = [];
-        //     }
-
-        //     $dataPesertaDidik[$tahunPelajaran][$provinsiId] = $total;
-        // }
         $data = PesertaDidikModel::select('tahun_pelajaran_id', 'provinsi_id', DB::raw('SUM(id) as total'))
         ->groupBy('tahun_pelajaran_id', 'provinsi_id')
         ->get();
@@ -89,7 +87,6 @@ class DataDashboardController extends Controller
 
         $result = array_values($result);
         return NotificationStatus::notifSuccess(true, ConstantaHelper::DataDiambil, $result, 200);
-
     }
     private function getRegistrationsData(): array
     {
