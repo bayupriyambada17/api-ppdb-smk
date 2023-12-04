@@ -51,33 +51,45 @@ class DataDashboardController extends Controller
     }
     public function getProvinsi()
     {
-        $hasilQuery = PesertaDidikModel::select('tahun_pelajaran_id', 'provinsi_id', DB::raw('COUNT(*) as total'))
-        ->with('tahunPelajaran')
-            ->groupBy('tahun_pelajaran_id', 'provinsi_id ')
+        // $hasilQuery = PesertaDidikModel::select('tahun_pelajaran_id', 'provinsi_id', DB::raw('COUNT(*) as total'))
+        // ->with('tahunPelajaran')
+        //     ->groupBy('tahun_pelajaran_id', 'provinsi_id ')
+        // ->get();
+
+        // $dataPesertaDidik = [];
+
+        // foreach ($hasilQuery as $hasil) {
+        //     $tahunPelajaran = $hasil->tahunPelajaran->tahun_pelajaran;
+        //     $provinsiId = $hasil->provinsi->name;
+        //     $total = $hasil->total;
+
+        //     if (!isset($dataPesertaDidik[$tahunPelajaran])) {
+        //         $dataPesertaDidik[$tahunPelajaran] = [];
+        //     }
+
+        //     $dataPesertaDidik[$tahunPelajaran][$provinsiId] = $total;
+        // }
+        $data = PesertaDidikModel::select('tahun_pelajaran_id', 'provinsi_id', DB::raw('SUM(id) as total'))
+        ->groupBy('tahun_pelajaran_id', 'provinsi_id')
         ->get();
 
-        $dataPesertaDidik = [];
+        $result = [];
 
-        foreach ($hasilQuery as $hasil) {
-            $tahunPelajaran = $hasil->tahunPelajaran->tahun_pelajaran;
-            $provinsiId = $hasil->provinsi->name;
-            $total = $hasil->total;
+        foreach ($data as $item) {
+            $tahunPelajaran = $item->tahunPelajaran->tahun_pelajaran;
+            $provinsi = $item->provinsi->name;
+            $jumlah = $item->total;
 
-            if (!isset($dataPesertaDidik[$tahunPelajaran])) {
-                $dataPesertaDidik[$tahunPelajaran] = [];
+            if (!isset($result[$tahunPelajaran])) {
+                $result[$tahunPelajaran] = ['tahun_pelajaran' => $tahunPelajaran, 'provinsi' => []];
             }
 
-            $dataPesertaDidik[$tahunPelajaran][$provinsiId] = $total;
+            $result[$tahunPelajaran]['provinsi'][$provinsi] = $jumlah;
         }
-        return response()->json($dataPesertaDidik);
 
-        // Output $dataChart dalam format yang dapat digunakan dalam chart
+        $result = array_values($result);
+        return NotificationStatus::notifSuccess(true, ConstantaHelper::DataDiambil, $result, 200);
 
-        // $provinsi = ProvinsiModel::select('id', 'name')->withCount("pesertaDidik")->get();
-        // $data = [
-        //     'Title' => 'Data Per Provinsi'
-        // ];
-        // return response()->json($provinsi);
     }
     private function getRegistrationsData(): array
     {
