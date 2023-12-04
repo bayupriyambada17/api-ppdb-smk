@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\API\Dashboard;
 
-use App\Models\ProvinsiModel;
 use App\Models\PesertaDidikModel;
 use Illuminate\Support\Facades\DB;
 use App\Models\TahunPelajaranModel;
@@ -14,10 +13,27 @@ use Illuminate\Database\Eloquent\Builder;
 class DataDashboardController extends Controller
 {
 
+    public function getPesertaDidikCount()
+    {
+        $diproses = PesertaDidikModel::where("is_pendaftar", 'proses')->count();
+        $ditolak = PesertaDidikModel::where("is_pendaftar", 'ditolak')->count();
+        $diterima = PesertaDidikModel::where("is_pendaftar", 'diterima')->count();
+
+        $data = [
+            "proses" => $diproses,
+            "diterima" => $diterima,
+            "ditolak" => $ditolak,
+        ];
+
+        return NotificationStatus::notifSuccess(true, ConstantaHelper::DataDiambil, $data, 200);
+    }
     public function getDataPesertaPerhari()
     {
-        $perhari = PesertaDidikModel::whereDate("tanggal_terdaftar", today())->select("id", 'nomor_pendaftar', 'nama_lengkap', 'tanggal_terdaftar')
-        ->orderBy('tanggal_terdaftar', 'desc')->limit(10)->get();
+        $perhari = PesertaDidikModel::whereDate("tanggal_terdaftar", today())
+            ->with('tahunPelajaran:id,tahun_pelajaran')
+            ->select("id", 'tahun_pelajaran_id', 'nomor_pendaftar', 'nama_lengkap', 'tanggal_terdaftar', 'is_pendaftar')
+            ->where("is_pendaftar", "proses")
+            ->orderBy('tanggal_terdaftar', 'desc')->limit(10)->get();
         $data = [
             'total_jumlah' => $perhari->count(),
             'perhari' => $perhari
@@ -37,7 +53,7 @@ class DataDashboardController extends Controller
     {
         $hasilQuery = PesertaDidikModel::select('tahun_pelajaran_id', 'provinsi_id', DB::raw('COUNT(*) as total'))
         ->with('tahunPelajaran')
-        ->groupBy('tahun_pelajaran_id', 'provinsi_id')
+            ->groupBy('tahun_pelajaran_id', 'provinsi_id ')
         ->get();
 
         $dataPesertaDidik = [];
@@ -55,7 +71,7 @@ class DataDashboardController extends Controller
         }
         return response()->json($dataPesertaDidik);
 
-// Output $dataChart dalam format yang dapat digunakan dalam chart
+        // Output $dataChart dalam format yang dapat digunakan dalam chart
 
         // $provinsi = ProvinsiModel::select('id', 'name')->withCount("pesertaDidik")->get();
         // $data = [
