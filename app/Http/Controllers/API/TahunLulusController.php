@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Models\TahunLulusModel;
 use App\Http\Controllers\Controller;
+use App\Http\Helpers\ConstantaHelper;
 use App\Http\Helpers\NotificationStatus;
 use Illuminate\Support\Facades\Validator;
 
@@ -15,7 +16,7 @@ class TahunLulusController extends Controller
         try {
             $id = $request->input('id');
             $tahun = $request->query('tahun');
-            $isActive  = $request->input('isActive');
+            $is_active  = $request->input('is_active');
             if ($id) {
                 $tahunId = TahunLulusModel::find($id);
                 if ($tahunId) {
@@ -38,8 +39,8 @@ class TahunLulusController extends Controller
                 $tahunLulus->where('tahun', 'LIKE', '%' . $tahun . '%');
             }
 
-            if ($isActive) {
-                $tahunLulus->where('isActive', '=', $isActive);
+            if ($is_active) {
+                $tahunLulus->where('is_active', '=', $is_active);
             }
 
             return response()->json([
@@ -61,7 +62,7 @@ class TahunLulusController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'tahun' => 'required',
-                'isActive' => 'required|boolean'
+                'is_active' => 'required|boolean'
             ]);
 
             if ($validator->fails()) {
@@ -74,7 +75,7 @@ class TahunLulusController extends Controller
 
             $tahunLulus = TahunLulusModel::create([
                 'tahun' => $request->tahun,
-                'isActive' => $request->isActive
+                'is_active' => $request->is_active
             ]);
             return response()->json([
                 'status' => true,
@@ -90,6 +91,16 @@ class TahunLulusController extends Controller
         }
     }
 
+    public function show(string $id)
+    {
+        $dataId = TahunLulusModel::where('id', $id)->first();
+        if (!$dataId) {
+            return NotificationStatus::notifError(false, ConstantaHelper::IdTidakDitemukan, null, 404);
+        } else {
+            return NotificationStatus::notifSuccess(true, ConstantaHelper::DataId, $dataId, 200);
+        }
+    }
+
     public function update(Request $request, string $id)
     {
         $tahunLulusId = TahunLulusModel::where("id", $id)->first();
@@ -102,7 +113,7 @@ class TahunLulusController extends Controller
 
         $validator = Validator::make($request->all(), [
             'tahun' => 'required',
-            'isActive' => 'required|boolean'
+            'is_active' => 'required|boolean'
         ]);
 
         if ($validator->fails()) {
@@ -115,7 +126,7 @@ class TahunLulusController extends Controller
 
         $tahunLulusId->update([
             'tahun' => $request->tahun,
-            'isActive' => $request->isActive,
+            'is_active' => $request->is_active,
         ]);
 
         return response()->json([

@@ -397,18 +397,18 @@ class PesertaDidikController extends Controller
     protected function createPesertaDidikFasilitas(Request $request, $peserta)
     {
 
-        $dokumen = new PesertaDidikFisilitasModel();
-        $dokumen->peserta_didik_id = $peserta->id;
-        $dokumen->status_kepemilikan_rumah_id = $request->status_kepemilikan_rumah_id;
-        $dokumen->kualitas_rumah_id = $request->kualitas_rumah_id;
-        $dokumen->luas_tanah_id = $request->luas_tanah_id;
-        $dokumen->mandi_cuci_kakus_id = $request->mandi_cuci_kakus_id;
-        $dokumen->sumber_air_id = $request->sumber_air_id;
-        $dokumen->daya_listrik_id = $request->daya_listrik_id;
-        $dokumen->harta_tidak_bergerak_id = $request->harta_tidak_bergerak_id;
-        $dokumen->status_kepemelikan_htb_id = $request->status_kepemelikan_htb_id;
-        $dokumen->kepemilikan_kendaraan_id = $request->kepemilikan_kendaraan_id;
-        $dokumen->status_kepemilikan_kendaraan_id = $request->status_kepemilikan_kendaraan_id;
-        return [$dokumen, $peserta];
+        $fasilitas = new PesertaDidikFisilitasModel();
+        $fasilitas->peserta_didik_id = $peserta->id;
+        $fasilitas->status_kepemilikan_rumah_id = $request->status_kepemilikan_rumah_id;
+        $fasilitas->kualitas_rumah_id = $request->kualitas_rumah_id;
+        $fasilitas->luas_tanah_id = $request->luas_tanah_id;
+        $fasilitas->mandi_cuci_kakus_id = $request->mandi_cuci_kakus_id;
+        $fasilitas->sumber_air_id = $request->sumber_air_id;
+        $fasilitas->daya_listrik_id = $request->daya_listrik_id;
+        $fasilitas->harta_tidak_bergerak_id = $request->harta_tidak_bergerak_id;
+        $fasilitas->status_kepemelikan_htb_id = $request->status_kepemelikan_htb_id;
+        $fasilitas->kepemilikan_kendaraan_id = $request->kepemilikan_kendaraan_id;
+        $fasilitas->status_kepemilikan_kendaraan_id = $request->status_kepemilikan_kendaraan_id;
+        return [$fasilitas, $peserta];
     }
 }

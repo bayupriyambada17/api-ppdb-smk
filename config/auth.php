@@ -40,6 +40,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'ppdb' => [            // <-- atur menjadi "api_admin"
+            'driver' => 'jwt',        // <-- atur menjadi "jwt"
+            'provider' => 'users',
+            'hash' => false,
+        ],
     ],
 
     /*

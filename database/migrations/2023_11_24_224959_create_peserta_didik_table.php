@@ -63,17 +63,7 @@ return new class extends Migration
             $table->string('email_wali')->nullable();
             $table->string('jumlah_tanggungan_dalam_keluarga')->nullable();
             $table->foreignId("sumber_penghasilan_id")->nullable()->constrained("sumber_penghasilan")->cascadeOnDelete();
-
-            //
-            // fasilitator
-
-            // fasilitas Keluarga
-
-            // riwayat penyakit
-
-
-            // upload dokumen
-
+            $table->enum('is_pendaftar', ['proses', 'diterima', 'ditolak'])->default('proses');
             $table->timestamp('tanggal_terdaftar');
             $table->timestamps();
         });

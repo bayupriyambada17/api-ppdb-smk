@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Helpers\ConstantaHelper;
 use App\Http\Helpers\NotificationStatus;
 use App\Models\{
+    BannerPendaftaranModel,
     DayaListrikModel,
     GolonganDarahModel,
     HartaTidakBergerakModel,
@@ -27,6 +28,15 @@ use App\Models\{
 
 class PublicController extends Controller
 {
+    public function getBanner()
+    {
+        return NotificationStatus::notifSuccess(
+            true,
+            ConstantaHelper::DataDiambil,
+            BannerPendaftaranModel::get(),
+            200
+        );
+    }
     public function getProvinsi()
     {
         return NotificationStatus::notifSuccess(

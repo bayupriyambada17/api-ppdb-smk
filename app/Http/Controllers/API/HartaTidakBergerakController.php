@@ -20,7 +20,7 @@ class HartaTidakBergerakController extends Controller
     }
     public function show(string $id)
     {
-        return ModelHelper::show(GolonganDarahModel::class, $id);
+        return ModelHelper::show(HartaTidakBergerakModel::class, $id);
     }
     public function update(Request $request, string $id)
     {
