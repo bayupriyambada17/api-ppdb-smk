@@ -43,7 +43,8 @@ return new class extends Migration
             $table->string('cita_cita')->nullable();
             $table->string('hobi_kegemaran')->nullable();
             $table->string('nama_ayah_kandung')->nullable();
-            $table->string('pendidikan_terakhir')->nullable();
+            $table->unsignedBigInteger('pendidikan_terakhir_ayah_id')->nullable();
+            $table->foreign("pendidikan_terakhir_ayah_id")->nullable()->references('id')->on("pendidikan_terakhir")->onDelete('cascade');
             $table->string('pekerjaan_ayah_kandung')->nullable();
             $table->string('penghasilan_pokok_pensiunan_ayah')->nullable();
             $table->string('pendapatan_diluar_penghasilan_perbulan_ayah')->nullable();
@@ -55,6 +56,8 @@ return new class extends Migration
             $table->string('pendapatan_diluar_penghasilan_perbulan_ibu')->nullable();
             $table->string('domisili_ibu_kandung')->nullable();
             $table->string('no_whatsapp_ibu_kandung')->nullable();
+            $table->unsignedBigInteger('pendidikan_terakhir_ibu_id')->nullable();
+            $table->foreign("pendidikan_terakhir_ibu_id")->nullable()->references('id')->on("pendidikan_terakhir")->onDelete('cascade');
             $table->string('harapan_orang_tua')->nullable();
             $table->string('nama_wali')->nullable();
             $table->string('pekerjaan_wali')->nullable();

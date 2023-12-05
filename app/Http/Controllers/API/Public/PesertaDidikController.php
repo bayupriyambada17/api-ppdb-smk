@@ -152,7 +152,7 @@ class PesertaDidikController extends Controller
         $peserta->cita_cita = $request->cita_cita;
         $peserta->hobi_kegemaran = $request->hobi_kegemaran;
         $peserta->nama_ayah_kandung = $request->nama_ayah_kandung;
-        $peserta->pendidikan_terakhir = $request->pendidikan_terakhir;
+        $peserta->pendidikan_terakhir_ayah_id = $request->pendidikan_terakhir_ayah_id;
         $peserta->pekerjaan_ayah_kandung = $request->pekerjaan_ayah_kandung;
         $peserta->penghasilan_pokok_pensiunan_ayah = $request->penghasilan_pokok_pensiunan_ayah;
         $peserta->pendapatan_diluar_penghasilan_perbulan_ayah = $request->pendapatan_diluar_penghasilan_perbulan_ayah;
@@ -164,6 +164,7 @@ class PesertaDidikController extends Controller
         $peserta->pendapatan_diluar_penghasilan_perbulan_ibu = $request->pendapatan_diluar_penghasilan_perbulan_ibu;
         $peserta->domisili_ibu_kandung = $request->domisili_ibu_kandung;
         $peserta->no_whatsapp_ibu_kandung = $request->no_whatsapp_ibu_kandung;
+        $peserta->pendidikan_terakhir_ibu_id = $request->pendidikan_terakhir_ibu_id;
         $peserta->harapan_orang_tua = $request->harapan_orang_tua;
         $peserta->nama_wali = $request->nama_wali;
         $peserta->pekerjaan_wali = $request->pekerjaan_wali;
@@ -208,7 +209,7 @@ class PesertaDidikController extends Controller
             'cita_cita' => 'required',
             'hobi_kegemaran' => 'required',
             'nama_ayah_kandung' => 'required',
-            'pendidikan_terakhir' => 'required',
+            'pendidikan_terakhir_ayah_id' => 'required',
             'pekerjaan_ayah_kandung' => 'required',
             'penghasilan_pokok_pensiunan_ayah' => 'required',
             'pendapatan_diluar_penghasilan_perbulan_ayah' => 'required',
@@ -220,6 +221,7 @@ class PesertaDidikController extends Controller
             'pendapatan_diluar_penghasilan_perbulan_ibu' => 'required',
             'domisili_ibu_kandung' => 'required',
             'no_whatsapp_ibu_kandung' => 'required|min:10|max:15',
+            'pendidikan_terakhir_ibu_id' => 'required',
             'harapan_orang_tua' => 'required',
             'nama_wali' => 'required',
             'pekerjaan_wali' => 'required',

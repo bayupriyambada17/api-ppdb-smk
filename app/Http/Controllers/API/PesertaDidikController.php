@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\API;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\PesertaDidikModel;
+use App\Exports\PesertaDidikExport;
 use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Helpers\ConstantaHelper;
 use App\Http\Helpers\NotificationStatus;
+use App\Http\Resources\PesertaDidikResource;
 use Illuminate\Database\Eloquent\Builder;
 
 class PesertaDidikController extends Controller
@@ -31,19 +35,31 @@ class PesertaDidikController extends Controller
         ->orderBy('tanggal_terdaftar', 'desc')->get();
         return NotificationStatus::notifSuccess(true, ConstantaHelper::DataDiambil, $data, 200);
     }
+
+    public function getPesertaDidikValidasiProses(string $id)
+    {
+        $pesertaIdValidasi = new PesertaDidikResource(PesertaDidikModel::where('is_pendaftar', "proses")->where("id", $id)->first());
+        if (!$pesertaIdValidasi) {
+            return NotificationStatus::notifError(false, ConstantaHelper::IdTidakDitemukan, null, 404);
+        } else {
+
+            return NotificationStatus::notifSuccess(true, ConstantaHelper::DataId, $pesertaIdValidasi, 200);
+        }
+    }
     public function getPesertaDidikDiProses()
     {
         $data = PesertaDidikModel::with('tahunPelajaran:id,tahun_pelajaran')
         ->select("id", 'tahun_pelajaran_id', 'nomor_pendaftar', 'nama_lengkap', 'tanggal_terdaftar', 'is_pendaftar')
         ->where("is_pendaftar", "proses")
-        ->orderBy('tanggal_terdaftar', 'desc')->get();
+            ->orderBy('tanggal_terdaftar', 'desc')->get();
         return NotificationStatus::notifSuccess(true, ConstantaHelper::DataDiambil, $data, 200);
     }
     public function all()
     {
         $results = collect();
 
-        PesertaDidikModel::with(['tahunPelajaran:id,tahun_pelajaran',
+        PesertaDidikModel::with([
+            'tahunPelajaran:id,tahun_pelajaran',
             'tahunLulus:id,tahun',
             'provinsi:id,name',
             'rapor',

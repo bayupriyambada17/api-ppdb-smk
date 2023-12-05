@@ -29,6 +29,7 @@ use App\Http\Controllers\API\{
     TinggalBersamaController,
 };
 use App\Http\Controllers\API\Dashboard\DataDashboardController;
+use App\Http\Controllers\API\Excel\PesertaDidikController as ExcelPesertaDidikController;
 
 Route::prefix('/v1')->group(function () {
 
@@ -201,14 +202,18 @@ Route::prefix('/v1')->group(function () {
             Route::delete('/{id}/hapus', [InformasiPpdbController::class, 'destroy']);
         });
         Route::prefix('peserta-didik')->group(function () {
+            Route::get('', [PesertaDidikController::class, 'all']);
             Route::get('/perhari', [PesertaDidikController::class, 'getPendaftarPerhari']);
             Route::get('/diterima', [PesertaDidikController::class, 'getPesertaDidikDiterima']);
             Route::get('/ditolak', [PesertaDidikController::class, 'getPesertaDidikDitolak']);
             Route::get('/proses', [PesertaDidikController::class, 'getPesertaDidikDiproses']);
-            Route::get('', [PesertaDidikController::class, 'all']);
+            Route::get('/proses/{id}/validasi', [PesertaDidikController::class, 'getPesertaDidikValidasiProses']);
             // Route::post('/tambah', [PesertaDidikController::class, 'store']);
             // Route::post('/{id}/ubah', [PesertaDidikController::class, 'update']);
             // Route::delete('/{id}/hapus', [PesertaDidikController::class, 'destroy']);
+        });
+        Route::prefix('peserta')->group(function () {
+            Route::post('/proses-export', [ExcelPesertaDidikController::class, 'getPesertaDidikDiProsesExport']);
         });
 
         Route::prefix('mandi-cuci-kakus')->group(function () {

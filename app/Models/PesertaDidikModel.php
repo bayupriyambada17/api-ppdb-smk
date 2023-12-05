@@ -19,6 +19,14 @@ class PesertaDidikModel extends Model
     protected $table = 'peserta_didik';
     protected $guarded = ['id'];
 
+    public function pendidikanAyah()
+    {
+        return $this->hasOne(PendidikanTerakhirModel::class, 'id', 'pendidikan_terakhir_ayah_id');
+    }
+    public function pendidikanIbu()
+    {
+        return $this->hasOne(PendidikanTerakhirModel::class, 'id', 'pendidikan_terakhir_ibu_id');
+    }
     public function sumberPenghasilan()
     {
         return $this->hasOne(SumberPenghasilanModel::class, 'id', 'sumber_penghasilan_id');

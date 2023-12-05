@@ -17,6 +17,7 @@ use Database\Seeders\MandiCuciKakusSeeder;
 use Database\Seeders\StatusKeluargaSeeder;
 use Database\Seeders\KeadaanOrangTuaSeeder;
 use Database\Seeders\HartaTidakBergerakSeeder;
+use Database\Seeders\PendidikanTerakhirSeeder;
 use Database\Seeders\TahunPelajaranDataSeeder;
 use Database\Seeders\KepemilikanKendaraanSeeder;
 use Database\Seeders\TinggalBersamaStatusSeeder;
@@ -53,6 +54,7 @@ class DatabaseSeeder extends Seeder
             GolonganDarahSeeder::class,
             InformasiPpdbSeeder::class,
             ProvinsiSeeder::class,
+            PendidikanTerakhirSeeder::class,
         ]);
     }
 }
