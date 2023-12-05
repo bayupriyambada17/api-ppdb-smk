@@ -55,6 +55,7 @@ Route::prefix('/v1')->group(function () {
         Route::get("/informasi-ppdb", [PublicController::class, 'getInformasiPpdb']);
         Route::get("/provinsi", [PublicController::class, 'getProvinsi']);
         Route::post("/daftar-peserta", [PublicPesertaController::class, 'postPesertaDidik']);
+        Route::get("/pendidikan", [PublicController::class, 'getPendidikanTerakhir']);
     });
 
     Route::post('/login', [

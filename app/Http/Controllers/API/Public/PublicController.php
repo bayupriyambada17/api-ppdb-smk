@@ -14,6 +14,7 @@ use App\Models\{
     KeadaanOrangTuaModel,
     KepemilikanKendaraanModel,
     MandiCuciKakusModel,
+    PendidikanTerakhirModel,
     PenerimaanBantuanSosialModel,
     ProvinsiModel,
     StatusDalamKeluargaModel,
@@ -35,6 +36,15 @@ class PublicController extends Controller
             true,
             ConstantaHelper::DataDiambil,
             BannerPendaftaranModel::get(),
+            200
+        );
+    }
+    public function getPendidikanTerakhir()
+    {
+        return NotificationStatus::notifSuccess(
+            true,
+            ConstantaHelper::DataDiambil,
+            PendidikanTerakhirModel::get(),
             200
         );
     }
