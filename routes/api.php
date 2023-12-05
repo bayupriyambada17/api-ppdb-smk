@@ -31,13 +31,11 @@ use App\Http\Controllers\API\{
 use App\Http\Controllers\API\Dashboard\DataDashboardController;
 
 Route::prefix('/v1')->group(function () {
-    // Route::prefix('/auth')->group(function () {
-    //     Route::post("/login", [AuthController::class, 'login']);
-    // });
 
     Route::prefix('public')->group(function () {
         Route::get("/banner", [PublicController::class, 'getBanner']);
         Route::get("/tahun-pelajaran", [PublicController::class, 'getTahunPelajaran']);
+        Route::get("/tahun-lulus", [PublicController::class, 'getTahunLulus']);
         Route::get("/tahun", [PublicController::class, 'getTahunAktif']);
         Route::get("/keadaan-orang-tua", [PublicController::class, 'getKeadaanOrangTua']);
         Route::get("/penerima-bantuan-sosial", [PublicController::class, 'getPenerimaBantuanSosial']);

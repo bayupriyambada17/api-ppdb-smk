@@ -22,6 +22,7 @@ use App\Models\{
     StatusKepemilikanRumahModel,
     SumberAirModel,
     SumberPenghasilanModel,
+    TahunLulusModel,
     TahunPelajaranModel,
     TinggalBersamaStatusModel
 };
@@ -53,6 +54,16 @@ class PublicController extends Controller
             true,
             ConstantaHelper::DataDiambil,
             TahunPelajaranModel::where('isActive', 1)->get(),
+            200
+        );
+    }
+    public function getTahunLulus()
+    {
+
+        return NotificationStatus::notifSuccess(
+            true,
+            ConstantaHelper::DataDiambil,
+            TahunLulusModel::where('is_active', 1)->get(),
             200
         );
     }
