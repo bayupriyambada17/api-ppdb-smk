@@ -16,7 +16,7 @@ class BannerPendaftaranModel extends Model
     protected function gambar(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value ? asset('/storage/gambar_ppdb/' . str_replace(" ", "", $value)) : null
+            get: fn ($value) => asset('gambar_ppdb' . $value)
 
         );
     }

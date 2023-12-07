@@ -40,7 +40,7 @@ class BannerPendaftaranController extends Controller
             $data = new BannerPendaftaranModel();
             $gambar_ppdb = $request->file('gambar');
             $nama_file = str_replace(" ", "-", $gambar_ppdb->hashName());
-            $gambar_ppdb->storeAs('public/gambar_ppdb', $nama_file);
+            $gambar_ppdb->storeAs('gambar_ppdb', $nama_file, 'public');
             $data->gambar = $nama_file;
             $data->save();
 
