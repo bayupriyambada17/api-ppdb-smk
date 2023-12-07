@@ -19,6 +19,13 @@ class PesertaDidikUploadDokumenModel extends Model
 
         );
     }
+    protected function scanBpjsKis(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => asset('/storage/scan_bpjs_kis/' . $value)
+
+        );
+    }
     protected function pasFoto(): Attribute
     {
         return Attribute::make(
