@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('peserta_didik_upload_dokumen', function (Blueprint $table) {
             $table->id();
             $table->foreignId("peserta_didik_id")->nullable()->constrained("peserta_didik")->cascadeOnDelete();
+            $table->string('scan_bpjs_kis')->nullable();
             $table->string('kartu_keluarga')->nullable();
             $table->string('pas_foto')->nullable();
             $table->string('sktm')->nullable();

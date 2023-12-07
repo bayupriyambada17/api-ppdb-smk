@@ -329,6 +329,7 @@ class PesertaDidikController extends Controller
     protected function validatorPesertaDidikDokumen(Request $request)
     {
         return Validator::make($request->all(), [
+            'scan_bpjs_kis' => 'required|file|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
             'kartu_keluarga' => 'required|file|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
             'pas_foto' => 'required|file|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
             'sktm' => 'required|file|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
@@ -347,7 +348,9 @@ class PesertaDidikController extends Controller
         $dokumen = new PesertaDidikUploadDokumenModel();
         $dokumen->peserta_didik_id = $peserta->id;
 
-
+        $scan_bpjs_kis = $request->file('scan_bpjs_kis');
+        $bpjsKisFile = str_replace(" ", "-", $scan_bpjs_kis->getClientOriginalName());
+        $scan_bpjs_kis->storeAs('public/scan_bpjs_kis', $bpjsKisFile);
 
         $kartu_keluarga = $request->file('kartu_keluarga');
         $kkFile = str_replace(" ", "-", $kartu_keluarga->getClientOriginalName());

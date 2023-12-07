@@ -31,6 +31,12 @@ class PesertaDidikUploadDokumenModel extends Model
             get: fn ($value) => $value ? asset('/storage/sktm/' . $value) : null
         );
     }
+    protected function scanBjpsKis(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $value ? asset('/storage/scan_bpjs_kis/' . $value) : null
+        );
+    }
     protected function uploadSuratRekomendasi(): Attribute
     {
         return Attribute::make(
