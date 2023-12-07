@@ -350,9 +350,12 @@ class PesertaDidikController extends Controller
         $dokumen = new PesertaDidikUploadDokumenModel();
         $dokumen->peserta_didik_id = $peserta->id;
 
-        $scan_bpjs_kis = $request->file('scan_bpjs_kis');
-        $bpjsKisFile = str_replace(" ", "-", $scan_bpjs_kis->hashName());
-        $scan_bpjs_kis->storeAs('public/scan_bpjs_kis', $bpjsKisFile);
+        $scanBpjsKisPath = public_path('images');
+        $imageName = time() . '.' . $request->scan_bpjs_kis->hashName();
+        $request->scan_bpjs_kis->move($scanBpjsKisPath, $imageName);
+        // $scan_bpjs_kis = $request->file('scan_bpjs_kis');
+        // $bpjsKisFile = str_replace(" ", "-", $scan_bpjs_kis->hashName());
+        // $scan_bpjs_kis->storeAs('public/scan_bpjs_kis', $bpjsKisFile);
 
         $kartu_keluarga = $request->file('kartu_keluarga');
         $kkFile = str_replace(" ", "-", $kartu_keluarga->hashName());
@@ -381,7 +384,7 @@ class PesertaDidikController extends Controller
         $dokumen->kartu_keluarga = $kkFile;
         $dokumen->pas_foto = $pasFotoFile;
         $dokumen->sktm = $sktmFile;
-        $dokumen->scan_bpjs_kis = $bpjsKisFile;
+        $dokumen->scan_bpjs_kis = $imageName;
         $dokumen->upload_surat_rekomendasi = $uploadSuratRekomendasiFile;
         $dokumen->upload_pdf_foto_rumah = $uploadPdfFotoRumah;
         $dokumen->essay_karangan = $essayKaranganFile;
