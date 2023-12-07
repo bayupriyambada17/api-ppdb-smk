@@ -17,7 +17,7 @@ class TahunLulusSeeder extends Seeder
         foreach ($tahun as $value) {
             TahunLulusModel::create([
                 'tahun' => $value,
-                'is_active' => 0
+                'is_active' => 1
             ]);
         }
     }
