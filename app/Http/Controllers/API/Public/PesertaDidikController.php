@@ -360,23 +360,23 @@ class PesertaDidikController extends Controller
 
         $pas_foto = $request->file('pas_foto');
         $pasFotoFile = str_replace(" ", "-", $pas_foto->hashName());
-        $pas_foto->storeAs('public/pas_foto', $pasFotoFile, 'public');
+        $pas_foto->storeAs('pas_foto', $pasFotoFile, 'public');
 
         $sktm = $request->file('sktm');
         $sktmFile = str_replace(" ", "-", $sktm->hashName());
-        $sktm->storeAs('public/sktm', $sktmFile, 'public');
+        $sktm->storeAs('sktm', $sktmFile, 'public');
 
         $upload_surat_rekomendasi = $request->file('upload_surat_rekomendasi');
         $uploadSuratRekomendasiFile = str_replace(" ", "-", $upload_surat_rekomendasi->hashName());
-        $upload_surat_rekomendasi->storeAs('public/upload_surat_rekomendasi', $uploadSuratRekomendasiFile, 'public');
+        $upload_surat_rekomendasi->storeAs('upload_surat_rekomendasi', $uploadSuratRekomendasiFile, 'public');
 
         $upload_pdf_foto_rumah = $request->file('upload_pdf_foto_rumah');
         $uploadPdfFotoRumah = str_replace(" ", "-", $upload_pdf_foto_rumah->hashName());
-        $upload_pdf_foto_rumah->storeAs('public/upload_pdf_foto_rumah', $uploadPdfFotoRumah, 'public');
+        $upload_pdf_foto_rumah->storeAs('upload_pdf_foto_rumah', $uploadPdfFotoRumah, 'public');
 
         $essay_karangan = $request->file('essay_karangan');
         $essayKaranganFile = str_replace(" ", "-", $essay_karangan->hashName());
-        $essay_karangan->storeAs('public/essay_karangan', $essayKaranganFile, 'public');
+        $essay_karangan->storeAs('essay_karangan', $essayKaranganFile, 'public');
 
         $dokumen->kartu_keluarga = $kkFile;
         $dokumen->pas_foto = $pasFotoFile;
