@@ -331,9 +331,9 @@ class PesertaDidikController extends Controller
     protected function validatorPesertaDidikDokumen(Request $request)
     {
         return Validator::make($request->all(), [
-            'scan_bpjs_kis' => 'required|file|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
+            'scan_bpjs_kis' => 'required|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
             'kartu_keluarga' => 'required|file|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
-            'pas_foto' => 'required|file|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
+            'pas_foto' => 'required|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
             'sktm' => 'required|file|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
             'upload_surat_rekomendasi' => 'required|file|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
             'upload_pdf_foto_rumah' => 'required|file|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
@@ -350,12 +350,12 @@ class PesertaDidikController extends Controller
         $dokumen = new PesertaDidikUploadDokumenModel();
         $dokumen->peserta_didik_id = $peserta->id;
 
-        $scanBpjsKisPath = public_path('images');
-        $imageName = time() . '.' . $request->scan_bpjs_kis->hashName();
-        $request->scan_bpjs_kis->move($scanBpjsKisPath, $imageName);
-        // $scan_bpjs_kis = $request->file('scan_bpjs_kis');
-        // $bpjsKisFile = str_replace(" ", "-", $scan_bpjs_kis->hashName());
-        // $scan_bpjs_kis->storeAs('public/scan_bpjs_kis', $bpjsKisFile);
+        // $scanBpjsKisPath = public_path('images');
+        // $imageName = time() . '.' . $request->scan_bpjs_kis->hashName();
+        // $request->scan_bpjs_kis->move($scanBpjsKisPath, $imageName);
+        $scan_bpjs_kis = $request->file('scan_bpjs_kis');
+        $bpjsKisFile = str_replace(" ", "-", $scan_bpjs_kis->hashName());
+        $scan_bpjs_kis->storeAs('scan_bpjs_kis', $bpjsKisFile, 'public');
 
         $kartu_keluarga = $request->file('kartu_keluarga');
         $kkFile = str_replace(" ", "-", $kartu_keluarga->hashName());
@@ -384,7 +384,7 @@ class PesertaDidikController extends Controller
         $dokumen->kartu_keluarga = $kkFile;
         $dokumen->pas_foto = $pasFotoFile;
         $dokumen->sktm = $sktmFile;
-        $dokumen->scan_bpjs_kis = $imageName;
+        $dokumen->scan_bpjs_kis = $bpjsKisFile;
         $dokumen->upload_surat_rekomendasi = $uploadSuratRekomendasiFile;
         $dokumen->upload_pdf_foto_rumah = $uploadPdfFotoRumah;
         $dokumen->essay_karangan = $essayKaranganFile;

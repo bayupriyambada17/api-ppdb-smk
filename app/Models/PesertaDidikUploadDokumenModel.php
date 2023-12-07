@@ -22,10 +22,15 @@ class PesertaDidikUploadDokumenModel extends Model
     protected function scanBpjsKis(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => asset('/storage/scan_bpjs_kis/' . $value)
+            get: fn ($value) => url('scan_bpjs_kis/' . $value)
 
         );
     }
+    // public function getScanBpjsKisUrlAttribute()
+    // {
+    //     // Assuming 'scan_bpjs_kis' is the column where the file name or path is stored
+    //     return url('scan_bpjs_kis/' . $this->attributes['scan_bpjs_kis']);
+    // }
     protected function pasFoto(): Attribute
     {
         return Attribute::make(
