@@ -351,31 +351,31 @@ class PesertaDidikController extends Controller
         $dokumen->peserta_didik_id = $peserta->id;
 
         $scan_bpjs_kis = $request->file('scan_bpjs_kis');
-        $bpjsKisFile = str_replace(" ", "-", $scan_bpjs_kis->getClientOriginalName());
+        $bpjsKisFile = str_replace(" ", "-", $scan_bpjs_kis->hashName());
         $scan_bpjs_kis->storeAs('public/scan_bpjs_kis', $bpjsKisFile);
 
         $kartu_keluarga = $request->file('kartu_keluarga');
-        $kkFile = str_replace(" ", "-", $kartu_keluarga->getClientOriginalName());
+        $kkFile = str_replace(" ", "-", $kartu_keluarga->hashName());
         $kartu_keluarga->storeAs('public/kartu_keluarga', $kkFile);
 
         $pas_foto = $request->file('pas_foto');
-        $pasFotoFile = str_replace(" ", "-", $pas_foto->getClientOriginalName());
+        $pasFotoFile = str_replace(" ", "-", $pas_foto->hashName());
         $pas_foto->storeAs('public/pas_foto', $pasFotoFile);
 
         $sktm = $request->file('sktm');
-        $sktmFile = str_replace(" ", "-", $sktm->getClientOriginalName());
+        $sktmFile = str_replace(" ", "-", $sktm->hashName());
         $sktm->storeAs('public/sktm', $sktmFile);
 
         $upload_surat_rekomendasi = $request->file('upload_surat_rekomendasi');
-        $uploadSuratRekomendasiFile = str_replace(" ", "-", $upload_surat_rekomendasi->getClientOriginalName());
+        $uploadSuratRekomendasiFile = str_replace(" ", "-", $upload_surat_rekomendasi->hashName());
         $upload_surat_rekomendasi->storeAs('public/upload_surat_rekomendasi', $uploadSuratRekomendasiFile);
 
         $upload_pdf_foto_rumah = $request->file('upload_pdf_foto_rumah');
-        $uploadPdfFotoRumah = str_replace(" ", "-", $upload_pdf_foto_rumah->getClientOriginalName());
+        $uploadPdfFotoRumah = str_replace(" ", "-", $upload_pdf_foto_rumah->hashName());
         $upload_pdf_foto_rumah->storeAs('public/upload_pdf_foto_rumah', $uploadPdfFotoRumah);
 
         $essay_karangan = $request->file('essay_karangan');
-        $essayKaranganFile = str_replace(" ", "-", $essay_karangan->getClientOriginalName());
+        $essayKaranganFile = str_replace(" ", "-", $essay_karangan->hashName());
         $essay_karangan->storeAs('public/essay_karangan', $essayKaranganFile);
 
         $dokumen->kartu_keluarga = $kkFile;
