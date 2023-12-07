@@ -171,6 +171,7 @@ class PesertaDidikController extends Controller
         $peserta->alamat_domisili_wali = $request->alamat_domisili_wali;
         $peserta->hubungan_wali = $request->hubungan_wali;
         $peserta->email_wali = $request->email_wali;
+        $peserta->penghasilan_wali = $request->penghasilan_wali;
         $peserta->jumlah_tanggungan_dalam_keluarga = $request->jumlah_tanggungan_dalam_keluarga;
         $peserta->sumber_penghasilan_id = $request->sumber_penghasilan_id;
 
@@ -228,6 +229,7 @@ class PesertaDidikController extends Controller
             'alamat_domisili_wali' => 'required',
             'hubungan_wali' => 'required',
             'email_wali' => 'required|email',
+            'penghasilan_wali' => 'required',
             'jumlah_tanggungan_dalam_keluarga' => 'required',
             'sumber_penghasilan_id' => 'required',
             ], ValidatorMessageHelper::validator());

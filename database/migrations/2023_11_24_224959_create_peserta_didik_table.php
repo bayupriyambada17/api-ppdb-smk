@@ -64,6 +64,7 @@ return new class extends Migration
             $table->string('alamat_domisili_wali')->nullable();
             $table->string('hubungan_wali')->nullable();
             $table->string('email_wali')->nullable();
+            $table->string('penghasilan_wali')->nullable();
             $table->string('jumlah_tanggungan_dalam_keluarga')->nullable();
             $table->foreignId("sumber_penghasilan_id")->nullable()->constrained("sumber_penghasilan")->cascadeOnDelete();
             $table->enum('is_pendaftar', ['proses', 'diterima', 'ditolak'])->default('proses');
