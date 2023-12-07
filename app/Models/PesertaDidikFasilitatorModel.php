@@ -14,7 +14,7 @@ class PesertaDidikFasilitatorModel extends Model
 
     public function informasiPpdb()
     {
-        return $this->hasOne(InformasiPpdbModel::class, 'informasi_ppdb_id');
+        return $this->hasOne(InformasiPpdbModel::class, 'id', 'informasi_ppdb_id');
     }
 
     protected function saudaraBeasiswaDiSmkFasilitator(): Attribute

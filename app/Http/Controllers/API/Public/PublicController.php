@@ -38,6 +38,7 @@ class PublicController extends Controller
             BannerPendaftaranModel::get(),
             200
         );
+        // dd(BannerPendaftaranModel::get());
     }
     public function getPendidikanTerakhir()
     {

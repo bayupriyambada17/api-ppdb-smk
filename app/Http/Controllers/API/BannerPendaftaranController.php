@@ -6,16 +6,16 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Helpers\ConstantaHelper;
 use App\Models\BannerPendaftaranModel;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Helpers\NotificationStatus;
-use App\Http\Helpers\ValidatorMessageHelper;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Helpers\ValidatorMessageHelper;
 
 class BannerPendaftaranController extends Controller
 {
     public function all()
     {
         try {
-
             $banner = BannerPendaftaranModel::get();
             return NotificationStatus::notifSuccess(true, ConstantaHelper::DataDiambil, $banner, 200);
         } catch (\Exception $e) {
@@ -62,6 +62,7 @@ class BannerPendaftaranController extends Controller
         if (!$dataId) {
             return NotificationStatus::notifError(false, ConstantaHelper::IdTidakDitemukan, null, 404);
         }
+        Storage::disk('local')->delete('public/gambar_ppdb/' . basename($dataId->gambar));
         $dataId->delete();
         return NotificationStatus::notifSuccess(true, ConstantaHelper::DataTerhapus, null, 200);
     }

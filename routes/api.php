@@ -209,6 +209,8 @@ Route::prefix('/v1')->group(function () {
             Route::get('/ditolak', [PesertaDidikController::class, 'getPesertaDidikDitolak']);
             Route::get('/proses', [PesertaDidikController::class, 'getPesertaDidikDiproses']);
             Route::get('/proses/{id}/validasi', [PesertaDidikController::class, 'getPesertaDidikValidasiProses']);
+            Route::post('/proses/{id}/validasi/diterima', [PesertaDidikController::class, 'getPesertaDidikValidasiProsesTerima']);
+            Route::post('/proses/{id}/validasi/ditolak', [PesertaDidikController::class, 'getPesertaDidikValidasiProsesTolak']);
             // Route::post('/tambah', [PesertaDidikController::class, 'store']);
             // Route::post('/{id}/ubah', [PesertaDidikController::class, 'update']);
             // Route::delete('/{id}/hapus', [PesertaDidikController::class, 'destroy']);

@@ -350,29 +350,35 @@ class PesertaDidikController extends Controller
 
 
         $kartu_keluarga = $request->file('kartu_keluarga');
-        $kartu_keluarga->storeAs('public/kartu_keluarga', $kartu_keluarga->getClientOriginalName());
+        $kkFile = str_replace(" ", "-", $kartu_keluarga->getClientOriginalName());
+        $kartu_keluarga->storeAs('public/kartu_keluarga', $kkFile);
 
         $pas_foto = $request->file('pas_foto');
-        $pas_foto->storeAs('public/pas_foto', $pas_foto->getClientOriginalName());
+        $pasFotoFile = str_replace(" ", "-", $pas_foto->getClientOriginalName());
+        $pas_foto->storeAs('public/pas_foto', $pasFotoFile);
 
         $sktm = $request->file('sktm');
-        $sktm->storeAs('public/sktm', $sktm->getClientOriginalName());
+        $sktmFile = str_replace(" ", "-", $sktm->getClientOriginalName());
+        $sktm->storeAs('public/sktm', $sktmFile);
 
         $upload_surat_rekomendasi = $request->file('upload_surat_rekomendasi');
-        $upload_surat_rekomendasi->storeAs('public/upload_surat_rekomendasi', $upload_surat_rekomendasi->getClientOriginalName());
+        $uploadSuratRekomendasiFile = str_replace(" ", "-", $upload_surat_rekomendasi->getClientOriginalName());
+        $upload_surat_rekomendasi->storeAs('public/upload_surat_rekomendasi', $uploadSuratRekomendasiFile);
 
         $upload_pdf_foto_rumah = $request->file('upload_pdf_foto_rumah');
-        $upload_pdf_foto_rumah->storeAs('public/upload_pdf_foto_rumah', $upload_pdf_foto_rumah->getClientOriginalName());
+        $uploadPdfFotoRumah = str_replace(" ", "-", $upload_pdf_foto_rumah->getClientOriginalName());
+        $upload_pdf_foto_rumah->storeAs('public/upload_pdf_foto_rumah', $uploadPdfFotoRumah);
 
         $essay_karangan = $request->file('essay_karangan');
-        $essay_karangan->storeAs('public/essay_karangan', $essay_karangan->getClientOriginalName());
+        $essayKaranganFile = str_replace(" ", "-", $essay_karangan->getClientOriginalName());
+        $essay_karangan->storeAs('public/essay_karangan', $essayKaranganFile);
 
-        $dokumen->kartu_keluarga = $kartu_keluarga->getClientOriginalName();
-        $dokumen->pas_foto = $pas_foto->getClientOriginalName();
-        $dokumen->sktm = $sktm->getClientOriginalName();
-        $dokumen->upload_surat_rekomendasi = $upload_surat_rekomendasi->getClientOriginalName();
-        $dokumen->upload_pdf_foto_rumah = $upload_pdf_foto_rumah->getClientOriginalName();
-        $dokumen->essay_karangan = $essay_karangan->getClientOriginalName();
+        $dokumen->kartu_keluarga = $kkFile;
+        $dokumen->pas_foto = $pasFotoFile;
+        $dokumen->sktm = $sktmFile;
+        $dokumen->upload_surat_rekomendasi = $uploadSuratRekomendasiFile;
+        $dokumen->upload_pdf_foto_rumah = $uploadPdfFotoRumah;
+        $dokumen->essay_karangan = $essayKaranganFile;
         $dokumen->rangkaian_tes = $request->rangkaian_tes;
         $dokumen->dokumen_jika_palsu = $request->dokumen_jika_palsu;
         $dokumen->pelanggaran_keputusan = $request->pelanggaran_keputusan;

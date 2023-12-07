@@ -42,8 +42,31 @@ class PesertaDidikController extends Controller
         if (!$pesertaIdValidasi) {
             return NotificationStatus::notifError(false, ConstantaHelper::IdTidakDitemukan, null, 404);
         } else {
-
             return NotificationStatus::notifSuccess(true, ConstantaHelper::DataId, $pesertaIdValidasi, 200);
+        }
+    }
+    public function getPesertaDidikValidasiProsesTerima(string $id)
+    {
+        $pesertaValidasiTerima = PesertaDidikModel::where("is_pendaftar", "proses")->where("id", $id)->first();
+        if (!$pesertaValidasiTerima) {
+            return NotificationStatus::notifError(false, ConstantaHelper::IdTidakDitemukan, null, 404);
+        } else {
+            $pesertaValidasiTerima->update([
+                'is_pendaftar' => "diterima"
+            ]);
+            return NotificationStatus::notifSuccess(true, ConstantaHelper::DataDiperbaharui, $pesertaValidasiTerima, 200);
+        }
+    }
+    public function getPesertaDidikValidasiProsesTolak(string $id)
+    {
+        $pesertaValidasiTerima = PesertaDidikModel::where("is_pendaftar", "proses")->where("id", $id)->first();
+        if (!$pesertaValidasiTerima) {
+            return NotificationStatus::notifError(false, ConstantaHelper::IdTidakDitemukan, null, 404);
+        } else {
+            $pesertaValidasiTerima->update([
+                'is_pendaftar' => "ditolak"
+            ]);
+            return NotificationStatus::notifSuccess(true, ConstantaHelper::DataDiperbaharui, $pesertaValidasiTerima, 200);
         }
     }
     public function getPesertaDidikDiProses()
