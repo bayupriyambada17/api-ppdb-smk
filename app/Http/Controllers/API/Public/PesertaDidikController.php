@@ -381,6 +381,7 @@ class PesertaDidikController extends Controller
         $dokumen->kartu_keluarga = $kkFile;
         $dokumen->pas_foto = $pasFotoFile;
         $dokumen->sktm = $sktmFile;
+        $dokumen->scan_bpjs_kis = $bpjsKisFile;
         $dokumen->upload_surat_rekomendasi = $uploadSuratRekomendasiFile;
         $dokumen->upload_pdf_foto_rumah = $uploadPdfFotoRumah;
         $dokumen->essay_karangan = $essayKaranganFile;

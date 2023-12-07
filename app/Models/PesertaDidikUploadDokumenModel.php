@@ -15,46 +15,46 @@ class PesertaDidikUploadDokumenModel extends Model
     protected function kartuKeluarga(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value ? asset('/storage/kartu_keluarga/' . $value) : null
+            get: fn ($value) => asset('/storage/kartu_keluarga/' . $value)
 
         );
     }
     protected function pasFoto(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value ? asset('/storage/pas_foto/' . $value) : null
+            get: fn ($value) => asset('/storage/pas_foto/' . $value)
         );
     }
     protected function sktm(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value ? asset('/storage/sktm/' . $value) : null
+            get: fn ($value) => asset('/storage/sktm/' . $value)
         );
     }
     protected function scanBjpsKis(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value ? asset('/storage/scan_bpjs_kis/' . $value) : null
+            get: fn ($value) => asset('/storage/scan_bpjs_kis/' . $value)
         );
     }
     protected function uploadSuratRekomendasi(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value ? asset('/storage/surat_rekomendasi/' . $value) : null
+            get: fn ($value) => asset('/storage/surat_rekomendasi/' . $value)
 
         );
     }
     protected function uploadPdfFotoRumah(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value ? asset('/storage/pdf_foto_rumah/' . $value) : null
+            get: fn ($value) => asset('/storage/pdf_foto_rumah/' . $value)
 
         );
     }
     protected function essayKarangan(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value ? asset('/storage/essay_karangan/' . $value) : null
+            get: fn ($value) => asset('/storage/essay_karangan/' . $value)
         );
     }
     protected function rangkaianTes(): Attribute
