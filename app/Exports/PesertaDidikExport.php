@@ -13,7 +13,7 @@ class PesertaDidikExport implements FromCollection, WithChunkReading
      */
     public function collection()
     {
-        return PesertaDidikModel::where("is_pendaftar", "proses")->get();
+        return PesertaDidikModel::where("is_pendaftar", "diterima")->get();
     }
 
     public function chunkSize(): int

@@ -13,6 +13,8 @@ use App\Models\{
     InformasiPpdbModel,
     KeadaanOrangTuaModel,
     KepemilikanKendaraanModel,
+    KualitasRumahModel,
+    LuasTanahModel,
     MandiCuciKakusModel,
     PendidikanTerakhirModel,
     PenerimaanBantuanSosialModel,
@@ -38,7 +40,24 @@ class PublicController extends Controller
             BannerPendaftaranModel::get(),
             200
         );
-        // dd(BannerPendaftaranModel::get());
+    }
+    public function getKualitasRumah()
+    {
+        return NotificationStatus::notifSuccess(
+            true,
+            ConstantaHelper::DataDiambil,
+            KualitasRumahModel::get(),
+            200
+        );
+    }
+    public function getLuasTanah()
+    {
+        return NotificationStatus::notifSuccess(
+            true,
+            ConstantaHelper::DataDiambil,
+            LuasTanahModel::get(),
+            200
+        );
     }
     public function getPendidikanTerakhir()
     {

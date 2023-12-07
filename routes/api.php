@@ -34,6 +34,8 @@ use App\Http\Controllers\API\Excel\PesertaDidikController as ExcelPesertaDidikCo
 Route::prefix('/v1')->group(function () {
 
     Route::prefix('public')->group(function () {
+        Route::get("/kualitas-rumah", [PublicController::class, 'getKualitasRumah']);
+        Route::get("/luas-tanah", [PublicController::class, 'getLuasTanah']);
         Route::get("/banner", [PublicController::class, 'getBanner']);
         Route::get("/tahun-pelajaran", [PublicController::class, 'getTahunPelajaran']);
         Route::get("/tahun-lulus", [PublicController::class, 'getTahunLulus']);
@@ -216,7 +218,7 @@ Route::prefix('/v1')->group(function () {
             // Route::delete('/{id}/hapus', [PesertaDidikController::class, 'destroy']);
         });
         Route::prefix('peserta')->group(function () {
-            Route::post('/proses-export', [ExcelPesertaDidikController::class, 'getPesertaDidikDiProsesExport']);
+            Route::post('/diterima-export', [ExcelPesertaDidikController::class, 'getPesertaDidikDiDiterimaExport']);
         });
 
         Route::prefix('mandi-cuci-kakus')->group(function () {
