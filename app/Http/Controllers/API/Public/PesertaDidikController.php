@@ -357,6 +357,7 @@ class PesertaDidikController extends Controller
     protected function validatorPesertaDidikFasilitator(Request $request)
     {
         return Validator::make($request->all(), [
+            'nama_fasilitator' => 'required',
             'hubungan_calon_siswa_fasilitator' => 'required',
             'no_whatsapp_fasilitator' => 'required',
             'email_fasilitator' => 'nullable|email',

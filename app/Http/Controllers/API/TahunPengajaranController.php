@@ -8,7 +8,6 @@ use App\Http\Helpers\NotificationStatus;
 use App\Models\PesertaDidikModel;
 use App\Models\TahunPelajaranModel;
 use Illuminate\Http\Request;
-use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Validator;
 
 class TahunPengajaranController extends Controller
@@ -18,7 +17,7 @@ class TahunPengajaranController extends Controller
         try {
             $id = $request->input('id');
             $tahun_pelajaran = $request->input('tahun_pelajaran');
-            $isActive  = $request->input('isActive');
+            $isActive  = $request->input('is_active');
             if ($id) {
                 $tahunId = TahunPelajaranModel::find($id);
                 if ($tahunId) {
@@ -39,7 +38,7 @@ class TahunPengajaranController extends Controller
             }
 
             if ($isActive) {
-                $tahunPelajaran->where('isActive', '=', $isActive);
+                $tahunPelajaran->where('is_active', '=', $isActive);
             }
 
             return NotificationStatus::notifSuccess(
@@ -62,10 +61,22 @@ class TahunPengajaranController extends Controller
     {
         try {
             $viewId = TahunPelajaranModel::where("id", $id)->first();
+            if (!$viewId) {
+                return NotificationStatus::notifError(false, ConstantaHelper::IdTidakDitemukan, null, 404);
+            }
             return NotificationStatus::notifSuccess(true, ConstantaHelper::DataId, $viewId, 200);
         } catch (\Exception $e) {
             return NotificationStatus::notifError(true, $e->getMessage(), null, 500);
         }
+    }
+
+    public function showPesertaDidikPelajaran(string $id)
+    {
+        $lihatPesertaPelajaranId = TahunPelajaranModel::with(['pesertaDidik.provinsi:id,name'])->where('id', $id)->first();
+        if (!$lihatPesertaPelajaranId) {
+            return NotificationStatus::notifError(false, ConstantaHelper::IdTidakDitemukan, null, 404);
+        }
+        return NotificationStatus::notifSuccess(true, ConstantaHelper::DataId, $lihatPesertaPelajaranId, 200);
     }
 
     public function viewTahunAjaran(string $id)
