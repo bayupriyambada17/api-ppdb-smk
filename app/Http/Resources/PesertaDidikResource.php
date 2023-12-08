@@ -26,6 +26,13 @@ class PesertaDidikResource extends JsonResource
             'no_wa' => $this->no_whatsapp_telp,
             'harapan' => $this->harapan_orang_tua ?? "(Belum mempunyai harapan orang tua)",
             'informasi_ppdb' => $this->fasilitator->informasiPpdb->status ?? "(-)",
+            'sosial_media' => $this->sosial_media,
+            'smp_derajat' => $this->smp_derajat,
+            'npsn' => $this->npsn,
+            'tahun_lulus' => $this->tahunLulus->tahun,
+            'anak_ke_sodara' => $this->anak_ke_sodara,
+            'keadaan_orang_tua' => $this->keadaanOrangTua->status,
+            'status_dalam_keluarga' => $this->statusDalamKeluarga->status,
             'ayah' => [
                 'nama' => $this->nama_ayah_kandung,
                 'pendidikan_terakhir' => $this->pendidikanAyah->status,

@@ -410,7 +410,6 @@ class PesertaDidikController extends Controller
 
     protected function createPesertaDidikFasilitas(Request $request, $peserta)
     {
-
         $fasilitas = new PesertaDidikFisilitasModel();
         $fasilitas->peserta_didik_id = $peserta->id;
         $fasilitas->status_kepemilikan_rumah_id = $request->status_kepemilikan_rumah_id;
