@@ -110,9 +110,9 @@ class PesertaDidikResource extends JsonResource
                 "upload_surat_rekomendasi" => $this->uploadDokumen->upload_surat_rekomendasi ?? "#",
                 "upload_pdf_foto_rumah" => $this->uploadDokumen->upload_pdf_foto_rumah ?? "#",
                 "essay_karangan" => $this->uploadDokumen->essay_karangan ?? "#",
-                "rangkaian_tes" => $this->uploadDokumen->rangkaian_tes ?? "(-)",
-                "dokumen_jika_palsu" => $this->uploadDokumen->dokumen_jika_palsu ?? "(-)",
-                "pelanggaran_keputusan" => $this->uploadDokumen->pelanggaran_keputusan ?? "(-)",
+                "rangkaian_tes" => $this->uploadDokumen->rangkaian_tes,
+                "dokumen_jika_palsu" => $this->uploadDokumen->dokumen_jika_palsu,
+                "pelanggaran_keputusan" => $this->uploadDokumen->pelanggaran_keputusan,
             ]
         ];
     }
