@@ -8,7 +8,8 @@ use App\Http\Helpers\{
     ValidatorMessageHelper,
     NotificationStatus,
     ConstantaHelper,
-    FileHelper
+    FileHelper,
+    UploadHelper
 };
 use App\Models\{
     PesertaDidikUploadDokumenModel,

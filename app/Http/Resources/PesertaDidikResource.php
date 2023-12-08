@@ -33,7 +33,16 @@ class PesertaDidikResource extends JsonResource
             'anak_ke_sodara' => $this->anak_ke_sodara ?? "(-)",
             'keadaan_orang_tua' => $this->keadaanOrangTua->status ?? "(-)",
             'status_dalam_keluarga' => $this->statusDalamKeluarga->status ?? "(-)",
-        // ''
+            'tinggal_bersama' => $this->tinggalBersamaOrangTua->status ?? "(-)",
+            'penerima_bantuan_sosial' => $this->penerimaanBantuanSosial->status ?? "(-)",
+            'bahasa_asing' => $this->bahasa_asing ?? "(-)",
+            'jumlah_hafalan_juz' => $this->jumlah_hafalan_juz ?? "(-)",
+            'hafalan_juz' => $this->hafalan_juz ?? "(-)",
+            'riwayat_prestasi_calon_peserta_didik' => $this->riwayat_prestasi_calon_peserta_didik ?? "(-)",
+            'riwayat_organisasi_sekolah_dan_non_sekolah' => $this->riwayat_organisasi_sekolah_dan_non_sekolah ?? "(-)",
+            'hal_hal_khusus' => $this->hal_hal_khusus ?? "(-)",
+            'cita_cita' => $this->cita_cita ?? "(-)",
+            'hobi_kegemaran' => $this->hobi_kegemaran ?? "(-)",
             'ayah' => [
                 'nama' => $this->nama_ayah_kandung ?? "(-)",
                 'pendidikan_terakhir' => $this->pendidikanAyah->status ?? "(-)",
