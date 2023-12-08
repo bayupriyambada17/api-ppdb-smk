@@ -90,49 +90,7 @@ class PesertaDidikModel extends Model
         parent::boot();
 
         static::creating(function ($pendaftaran) {
-            $tahunAjar = $pendaftaran->tahunPelajaran;
-            $tahunPelajaran = $tahunAjar->tahun_pelajaran;
-            $tahunPelajaranParts = explode('/', $tahunPelajaran);
-            $tahunPelajaranSingkat = substr($tahunPelajaranParts[0], -2) . substr($tahunPelajaranParts[1], -2);
-
-            $pendaftaran->nomor_pendaftar = '#' . $tahunAjar->tahun_ajaran . $tahunPelajaranSingkat . $pendaftaran->nisn;
+            $pendaftaran->nomor_pendaftar = '#' . str_replace("/", "", $pendaftaran->tahunPelajaran->tahun_pelajaran) . $pendaftaran->nisn;
         });
     }
-
-    public static function generateNomorPendaftaran($tahunPelajaran)
-    {
-        // Mendapatkan ID terakhir dari peserta didik dengan tahun pelajaran yang sama
-        $lastId = static::where('nomor_pendaftar', 'like', $tahunPelajaran . '%')
-            ->max('nomor_pendaftar');
-
-        // Mengambil angka ID dari nomor pendaftaran terakhir
-        $lastIdNumber = intval(substr($lastId, strlen($tahunPelajaran)));
-
-        // Increment angka ID
-        $newIdNumber = $lastIdNumber + 1;
-
-        // Menghitung panjang digit dari angka ID terakhir
-        $digitLength = strlen((string)$lastIdNumber);
-
-        // Membuat nomor pendaftaran baru dengan format sesuai panjang digit
-        $nomorPendaftaran = '#' . $tahunPelajaran . str_pad($newIdNumber, $digitLength, '0', STR_PAD_LEFT);
-
-        return $nomorPendaftaran;
-    }
-    // protected static function boot()
-    // {
-    //     parent::boot();
-
-    //     static::creating(function ($pendaftaran) {
-    //         $tahunAjar = $pendaftaran->tahunPelajaran;
-    //         $tahunPelajaran = $tahunAjar->tahun_pelajaran;
-    //         $tahunPelajaranParts = explode('/', $tahunPelajaran);
-    //         $tahunPelajaranSingkat = substr($tahunPelajaranParts[0], -2) . substr($tahunPelajaranParts[1], -2);
-
-    //         // Menggunakan model untuk membuat nomor pendaftaran
-    //         $nomorPendaftaran = PesertaDidikModel::generateNomorPendaftaran($tahunAjar->tahun_ajaran . $tahunPelajaranSingkat);
-
-    //         $pendaftaran->nomor_pendaftar = $nomorPendaftaran;
-    //     });
-    // }
 }

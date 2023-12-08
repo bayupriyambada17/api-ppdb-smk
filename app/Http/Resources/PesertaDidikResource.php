@@ -33,6 +33,7 @@ class PesertaDidikResource extends JsonResource
             'anak_ke_sodara' => $this->anak_ke_sodara ?? "(-)",
             'keadaan_orang_tua' => $this->keadaanOrangTua->status ?? "(-)",
             'status_dalam_keluarga' => $this->statusDalamKeluarga->status ?? "(-)",
+        // ''
             'ayah' => [
                 'nama' => $this->nama_ayah_kandung ?? "(-)",
                 'pendidikan_terakhir' => $this->pendidikanAyah->status ?? "(-)",

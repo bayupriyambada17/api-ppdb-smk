@@ -18,94 +18,169 @@ use App\Models\{
     PesertaDidikFisilitasModel,
     PesertaDidikRiwayatModel
 };
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\MessageBag;
 use Illuminate\Support\Str;
 
 class PesertaDidikController extends Controller
 {
     public function postPesertaDidik(Request $request)
     {
+        // try {
+        //     $validator = $this->validationPesertaDidik($request);
+
+        //     if ($validator->fails()) {
+        //         return NotificationStatus::notifValidator(false, ConstantaHelper::ValidationError, $validator->errors());
+        //     }
+
+        //     $peserta = $this->createPesertaDidik($request);
+        //     $peserta->save();
+
+        //     $validator = $this->validatorPesertaDidikFasilitator($request);
+        //     if ($validator->fails()) {
+        //         $peserta->delete();
+        //         return NotificationStatus::notifValidator(false, ConstantaHelper::ValidationError, $validator->errors());
+        //     }
+
+        //     $fasilitatorData = $this->createPesertaDidikFasilitator($request, $peserta);
+        //     $fasilitator = $fasilitatorData[0];
+        //     $fasilitator->save();
+
+        //     $validator = $this->validatorPesertaDidikRapor($request);
+        //     if ($validator->fails()) {
+        //         $peserta->delete();
+        //         $fasilitator->delete();
+        //         return NotificationStatus::notifValidator(false, ConstantaHelper::ValidationError, $validator->errors());
+        //     }
+
+        //     $raporData = $this->createPesertaDidikRapor($request, $peserta);
+        //     $rapor = $raporData[0];
+        //     $rapor->save();
+
+        //     $validator = $this->validatorPesertaDidikFasilitas($request);
+        //     if ($validator->fails()) {
+        //         $fasilitator->delete();
+        //         $rapor->delete();
+        //         $peserta->delete();
+        //         return NotificationStatus::notifValidator(false, ConstantaHelper::ValidationError, $validator->errors());
+        //     }
+
+        //     $fasilitasData = $this->createPesertaDidikFasilitas($request, $peserta);
+        //     $fasilitas = $fasilitasData[0];
+        //     $fasilitas->save();
+
+        //     $validator = $this->validatorPesertaDidikRiwayat($request);
+        //     if ($validator->fails()) {
+        //         $fasilitator->delete();
+        //         $rapor->delete();
+        //         $fasilitas->delete();
+        //         $peserta->delete();
+        //         return NotificationStatus::notifValidator(false, ConstantaHelper::ValidationError, $validator->errors());
+        //     }
+
+        //     $riwayatData = $this->createPesertaDidikRiwayat($request, $peserta);
+        //     $riwayat = $riwayatData[0];
+        //     $riwayat->save();
+
+        //     $validator = $this->validatorPesertaDidikDokumen($request);
+        //     if ($validator->fails()) {
+        //         $fasilitator->delete();
+        //         $rapor->delete();
+        //         $fasilitas->delete();
+        //         $riwayat->delete();
+        //         $peserta->delete();
+        //         return NotificationStatus::notifValidator(false, ConstantaHelper::ValidationError, $validator->errors());
+        //     }
+
+        //     $dokumenData = $this->createPesertaDidikDokumen($request, $peserta);
+        //     $dokumen = $dokumenData[0];
+        //     $dokumen->save();
+        //     if ($validator->fails()) {
+        //         $fasilitator->delete();
+        //         $rapor->delete();
+        //         $fasilitas->delete();
+        //         $riwayat->delete();
+        //         $peserta->delete();
+        //         $dokumen->delete();
+        //         return NotificationStatus::notifValidator(false, ConstantaHelper::ValidationError, $validator->errors());
+        //     }
+
+        //     return NotificationStatus::notifSuccess(true, ConstantaHelper::DataTersimpan, null, 200);
+        // } catch (\Exception $e) {
+        //     // Handle any exceptions here
+        //     return NotificationStatus::notifError(false, ConstantaHelper::DataTidakTersimpan, $e->getMessage(), 500);
+        // }
+
         try {
-            $validator = $this->validationPesertaDidik($request);
+            // Validate all the data
+            $pesertaValidator = $this->validationPesertaDidik($request);
+            $fasilitatorValidator = $this->validatorPesertaDidikFasilitator($request);
+            $raporValidator = $this->validatorPesertaDidikRapor($request);
+            $fasilitasValidator = $this->validatorPesertaDidikFasilitas($request);
+            $riwayatValidator = $this->validatorPesertaDidikRiwayat($request);
+            $dokumenValidator = $this->validatorPesertaDidikDokumen($request);
 
-            if ($validator->fails()) {
-                return NotificationStatus::notifValidator(false, ConstantaHelper::ValidationError, $validator->errors());
+            // Combine all validation errors
+            $allErrors = new MessageBag();
+
+            if ($pesertaValidator->fails()) {
+                $allErrors->merge($pesertaValidator->errors());
+            }
+            if ($fasilitatorValidator->fails()) {
+                $allErrors->merge($fasilitatorValidator->errors());
+            }
+            if ($raporValidator->fails()) {
+                $allErrors->merge($raporValidator->errors());
+            }
+            if ($fasilitasValidator->fails()) {
+                $allErrors->merge($fasilitasValidator->errors());
+            }
+            if ($riwayatValidator->fails()) {
+                $allErrors->merge($riwayatValidator->errors());
+            }
+            if ($dokumenValidator->fails()) {
+                $allErrors->merge($dokumenValidator->errors());
+            }
+            DB::beginTransaction();
+
+            if ($allErrors->any()) {
+                return NotificationStatus::notifValidator(false, ConstantaHelper::ValidationError, $allErrors);
             }
 
-            $peserta = $this->createPesertaDidik($request);
-            $peserta->save();
+            try {
+                $peserta = $this->createPesertaDidik($request);
+                $peserta->save();
 
-            $validator = $this->validatorPesertaDidikFasilitator($request);
-            if ($validator->fails()) {
-                $peserta->delete();
-                return NotificationStatus::notifValidator(false, ConstantaHelper::ValidationError, $validator->errors());
+                $fasilitatorData = $this->createPesertaDidikFasilitator($request, $peserta);
+                $fasilitator = $fasilitatorData[0];
+                $fasilitator->save();
+
+                $raporData = $this->createPesertaDidikRapor($request, $peserta);
+                $rapor = $raporData[0];
+                $rapor->save();
+
+                $fasilitasData = $this->createPesertaDidikFasilitas($request, $peserta);
+                $fasilitas = $fasilitasData[0];
+                $fasilitas->save();
+
+                $riwayatData = $this->createPesertaDidikRiwayat($request, $peserta);
+                $riwayat = $riwayatData[0];
+                $riwayat->save();
+
+                $dokumenData = $this->createPesertaDidikDokumen($request, $peserta);
+                $dokumen = $dokumenData[0];
+                $dokumen->save();
+
+                DB::commit();
+
+                return NotificationStatus::notifSuccess(true, ConstantaHelper::DataTersimpan, null, 200);
+            } catch (\Exception $e) {
+                // Rollback the transaction in case of an exception
+                DB::rollBack();
+
+                return NotificationStatus::notifError(false, ConstantaHelper::DataTidakTersimpan, $e->getMessage(), 500);
             }
-
-            $fasilitatorData = $this->createPesertaDidikFasilitator($request, $peserta);
-            $fasilitator = $fasilitatorData[0];
-            $fasilitator->save();
-
-            $validator = $this->validatorPesertaDidikRapor($request);
-            if ($validator->fails()) {
-                $peserta->delete();
-                $fasilitator->delete();
-                return NotificationStatus::notifValidator(false, ConstantaHelper::ValidationError, $validator->errors());
-            }
-
-            $raporData = $this->createPesertaDidikRapor($request, $peserta);
-            $rapor = $raporData[0];
-            $rapor->save();
-
-            $validator = $this->validatorPesertaDidikFasilitas($request);
-            if ($validator->fails()) {
-                $fasilitator->delete();
-                $rapor->delete();
-                $peserta->delete();
-                return NotificationStatus::notifValidator(false, ConstantaHelper::ValidationError, $validator->errors());
-            }
-
-            $fasilitasData = $this->createPesertaDidikFasilitas($request, $peserta);
-            $fasilitas = $fasilitasData[0];
-            $fasilitas->save();
-
-            $validator = $this->validatorPesertaDidikRiwayat($request);
-            if ($validator->fails()) {
-                $fasilitator->delete();
-                $rapor->delete();
-                $fasilitas->delete();
-                $peserta->delete();
-                return NotificationStatus::notifValidator(false, ConstantaHelper::ValidationError, $validator->errors());
-            }
-
-            $riwayatData = $this->createPesertaDidikRiwayat($request, $peserta);
-            $riwayat = $riwayatData[0];
-            $riwayat->save();
-
-            $validator = $this->validatorPesertaDidikDokumen($request);
-            if ($validator->fails()) {
-                $fasilitator->delete();
-                $rapor->delete();
-                $fasilitas->delete();
-                $riwayat->delete();
-                $peserta->delete();
-                return NotificationStatus::notifValidator(false, ConstantaHelper::ValidationError, $validator->errors());
-            }
-
-            $dokumenData = $this->createPesertaDidikDokumen($request, $peserta);
-            $dokumen = $dokumenData[0];
-            $dokumen->save();
-            if ($validator->fails()) {
-                $fasilitator->delete();
-                $rapor->delete();
-                $fasilitas->delete();
-                $riwayat->delete();
-                $peserta->delete();
-                $dokumen->delete();
-                return NotificationStatus::notifValidator(false, ConstantaHelper::ValidationError, $validator->errors());
-            }
-
-            return NotificationStatus::notifSuccess(true, ConstantaHelper::DataTersimpan, null, 200);
         } catch (\Exception $e) {
             // Handle any exceptions here
             return NotificationStatus::notifError(false, ConstantaHelper::DataTidakTersimpan, $e->getMessage(), 500);
@@ -283,7 +358,7 @@ class PesertaDidikController extends Controller
         return Validator::make($request->all(), [
             'hubungan_calon_siswa_fasilitator' => 'required',
             'no_whatsapp_fasilitator' => 'required',
-            'email_fasilitator' => 'required|email',
+            'email_fasilitator' => 'nullable|email',
             'informasi_ppdb_id' => 'required',
             'saudara_beasiswa_di_smk_fasilitator' => 'required|boolean',
         ], ValidatorMessageHelper::validator());
