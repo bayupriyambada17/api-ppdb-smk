@@ -331,7 +331,7 @@ class PesertaDidikController extends Controller
     protected function validatorPesertaDidikDokumen(Request $request)
     {
         return Validator::make($request->all(), [
-            'scan_bpjs_kis' => 'required|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
+            'scan_bpjs_kis' => 'mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
             'kartu_keluarga' => 'required|file|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
             'pas_foto' => 'required|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
             'sktm' => 'required|file|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
