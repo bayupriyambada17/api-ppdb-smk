@@ -82,6 +82,7 @@ Route::prefix('/v1')->group(function () {
         Route::prefix('tahun-pelajaran')->group(function () {
             Route::get('', [TahunPengajaranController::class, 'all']);
             Route::get("/{id}/lihat", [TahunPengajaranController::class, 'viewTahunAjaran']);
+            Route::post("/{id}/status-aktif", [TahunPengajaranController::class, 'simpanStatusAktifPelajaran']);
             Route::get("/{id}/peserta", [TahunPengajaranController::class, 'showPesertaDidikPelajaran']);
             Route::get("/{id}", [TahunPengajaranController::class, 'show']);
             Route::post('/tambah', [TahunPengajaranController::class, 'store']);

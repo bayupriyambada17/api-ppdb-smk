@@ -408,13 +408,13 @@ class PesertaDidikController extends Controller
     protected function validatorPesertaDidikDokumen(Request $request)
     {
         return Validator::make($request->all(), [
-            'scan_bpjs_kis' => 'mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
-            'kartu_keluarga' => 'required|file|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
+            'scan_bpjs_kis' => 'nullable|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
+            'kartu_keluarga' => 'required|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
             'pas_foto' => 'required|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
-            'sktm' => 'required|file|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
-            'upload_surat_rekomendasi' => 'required|file|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
-            'upload_pdf_foto_rumah' => 'required|file|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
-            'essay_karangan' => 'required|file|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
+            'sktm' => 'required|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
+            'upload_surat_rekomendasi' => 'required|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
+            'upload_pdf_foto_rumah' => 'required|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
+            'essay_karangan' => 'required|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
             'rangkaian_tes' => 'required|boolean',
             'dokumen_jika_palsu' => 'required|boolean',
             'pelanggaran_keputusan' => 'required|boolean',
@@ -429,31 +429,31 @@ class PesertaDidikController extends Controller
 
         $scan_bpjs_kis = $request->file('scan_bpjs_kis');
         $bpjsKisFile = str_replace(" ", "", $peserta->nama_lengkap) . '-' . $scan_bpjs_kis->hashName();
-        $scan_bpjs_kis->storeAs('scan_bpjs_kis', $bpjsKisFile, 'public');
+        $scan_bpjs_kis->storeAs('files/scan_bpjs_kis', $bpjsKisFile, 'public');
 
         $kartu_keluarga = $request->file('kartu_keluarga');
         $kkFile = str_replace(" ", "", $peserta->nama_lengkap) . '-' . $kartu_keluarga->hashName();
-        $kartu_keluarga->storeAs('kartu_keluarga', $kkFile, 'public');
+        $kartu_keluarga->storeAs('files/kartu_keluarga', $kkFile, 'public');
 
         $pas_foto = $request->file('pas_foto');
         $pasFotoFile = str_replace(" ", "", $peserta->nama_lengkap) . '-' . $pas_foto->hashName();
-        $pas_foto->storeAs('pas_foto', $pasFotoFile, 'public');
+        $pas_foto->storeAs('files/pas_foto', $pasFotoFile, 'public');
 
         $sktm = $request->file('sktm');
         $sktmFile = str_replace(" ", "", $peserta->nama_lengkap) . '-' . $sktm->hashName();
-        $sktm->storeAs('sktm', $sktmFile, 'public');
+        $sktm->storeAs('files/sktm', $sktmFile, 'public');
 
         $upload_surat_rekomendasi = $request->file('upload_surat_rekomendasi');
         $uploadSuratRekomendasiFile = str_replace(" ", "", $peserta->nama_lengkap) . '-' . $upload_surat_rekomendasi->hashName();
-        $upload_surat_rekomendasi->storeAs('upload_surat_rekomendasi', $uploadSuratRekomendasiFile, 'public');
+        $upload_surat_rekomendasi->storeAs('files/upload_surat_rekomendasi', $uploadSuratRekomendasiFile, 'public');
 
         $upload_pdf_foto_rumah = $request->file('upload_pdf_foto_rumah');
         $uploadPdfFotoRumah = str_replace(" ", "", $peserta->nama_lengkap) . '-' . $upload_pdf_foto_rumah->hashName();
-        $upload_pdf_foto_rumah->storeAs('upload_pdf_foto_rumah', $uploadPdfFotoRumah, 'public');
+        $upload_pdf_foto_rumah->storeAs('files/upload_pdf_foto_rumah', $uploadPdfFotoRumah, 'public');
 
         $essay_karangan = $request->file('essay_karangan');
         $essayKaranganFile = str_replace(" ", "", $peserta->nama_lengkap) . '-' . $essay_karangan->hashName();
-        $essay_karangan->storeAs('essay_karangan', $essayKaranganFile, 'public');
+        $essay_karangan->storeAs('files/essay_karangan', $essayKaranganFile, 'public');
 
         $dokumen->kartu_keluarga = $kkFile;
         $dokumen->pas_foto = $pasFotoFile;

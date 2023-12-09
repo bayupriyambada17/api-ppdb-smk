@@ -15,53 +15,53 @@ class PesertaDidikUploadDokumenModel extends Model
     protected function kartuKeluarga(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => asset('kartu_keluarga/' . $value)
+            get: fn ($value) => $value ? asset('files/kartu_keluarga/' . $value) : null
 
         );
     }
     protected function scanBpjsKis(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => url('scan_bpjs_kis/' . $value)
+            get: fn ($value) => $value ? url('files/scan_bpjs_kis/' . $value) : null
 
         );
     }
     protected function pasFoto(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => asset('pas_foto/' . $value)
+            get: fn ($value) => $value ? asset('files/pas_foto/' . $value) : null
         );
     }
     protected function sktm(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => asset('sktm/' . $value)
+            get: fn ($value) => $value ? asset('files/sktm/' . $value) : null
         );
     }
     protected function scanBjpsKis(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => asset('scan_bpjs_kis/' . $value)
+            get: fn ($value) => $value ? asset('files/scan_bpjs_kis/' . $value) : null
         );
     }
     protected function uploadSuratRekomendasi(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => asset('surat_rekomendasi/' . $value)
+            get: fn ($value) => $value ? asset('files/surat_rekomendasi/' . $value) : null
 
         );
     }
     protected function uploadPdfFotoRumah(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => asset('pdf_foto_rumah/' . $value)
+            get: fn ($value) => $value ? asset('files/pdf_foto_rumah/' . $value) : null
 
         );
     }
     protected function essayKarangan(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => asset('essay_karangan/' . $value)
+            get: fn ($value) => $value ? asset('files/essay_karangan/' . $value) : null
         );
     }
     protected function rangkaianTes(): Attribute

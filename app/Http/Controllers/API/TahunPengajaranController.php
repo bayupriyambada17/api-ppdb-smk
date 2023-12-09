@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Helpers\ConstantaHelper;
 use App\Http\Helpers\NotificationStatus;
+use App\Http\Resources\TahunPelajaranGetPesertaResource;
 use App\Models\PesertaDidikModel;
 use App\Models\TahunPelajaranModel;
 use Illuminate\Http\Request;
@@ -57,6 +58,20 @@ class TahunPengajaranController extends Controller
         }
     }
 
+    public function simpanStatusAktifPelajaran(Request $request, string $id)
+    {
+        $simpanAktifPelajaran = TahunPelajaranModel::where("id", $id)->first();
+
+        if ($simpanAktifPelajaran) {
+            // Deactivate all other records
+            TahunPelajaranModel::where('id', '!=', $id)->update(['is_active' => false]);
+            $simpanAktifPelajaran->update(['is_active' => $request->is_active]);
+
+            return response()->json(['message' => 'Data updated successfully']);
+            return NotificationStatus::notifSuccess(true, "Berhasil Mengubah Status", null, 200);
+        }
+    }
+
     public function show(string $id)
     {
         try {
@@ -72,10 +87,10 @@ class TahunPengajaranController extends Controller
 
     public function showPesertaDidikPelajaran(string $id)
     {
-        $lihatPesertaPelajaranId = TahunPelajaranModel::with(['pesertaDidik.provinsi:id,name'])->where('id', $id)->first();
-        if (!$lihatPesertaPelajaranId) {
-            return NotificationStatus::notifError(false, ConstantaHelper::IdTidakDitemukan, null, 404);
-        }
+        $lihatPesertaPelajaranId = new TahunPelajaranGetPesertaResource(TahunPelajaranModel::with(['pesertaDidik' => function ($query) {
+            $query->where("is_pendaftar", "diterima");
+        }])->find($id));
+
         return NotificationStatus::notifSuccess(true, ConstantaHelper::DataId, $lihatPesertaPelajaranId, 200);
     }
 

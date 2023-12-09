@@ -29,16 +29,6 @@ class DataDashboardController extends Controller
     }
     public function getDataPesertaPerhari()
     {
-        // $perhari = PesertaDidikModel::whereDate("tanggal_terdaftar", today())
-        //     ->with('tahunPelajaran:id,tahun_pelajaran')
-        //     ->select("id", 'tahun_pelajaran_id', 'nomor_pendaftar', 'nama_lengkap', 'tanggal_terdaftar', 'is_pendaftar')
-        //     ->where("is_pendaftar", "proses")
-        //     ->orderBy('tanggal_terdaftar', 'desc')->limit(10)->get();
-        // $data = [
-        //     'total_jumlah' => $perhari->count(),
-        //     'perhari' => $perhari
-        // ];
-        // return NotificationStatus::notifSuccess(true, ConstantaHelper::DataDiambil, $data, 200);
         $data = [];
 
         PesertaDidikModel::whereDate("tanggal_terdaftar", today())
@@ -61,32 +51,32 @@ class DataDashboardController extends Controller
     }
     public function getTotalPesertaDidik()
     {
-        $total = TahunPelajaranModel::select('id', 'tahun_pelajaran', 'isActive')->withCount('pesertaDidik')->get();
-        return response()->json($total);
+        $total = TahunPelajaranModel::select('id', 'tahun_pelajaran', 'is_active')->withCount('pesertaDidik')->get();
+        return NotificationStatus::notifSuccess(true, ConstantaHelper::DataDiambil, $total, 200);
     }
     public function getProvinsi()
     {
+        $data = TahunPelajaranModel::with(['pesertaDidik' => function ($query) {
+            $query->leftJoin(
+                'provinsi',
+                'peserta_didik.provinsi_id',
+                '=',
+                'provinsi.id'
+            )
+                ->select('peserta_didik.*', 'provinsi.name as provinsi_name');
+        }])
+            ->get()
+            ->map(function ($tahunPelajaran) {
+                return [
+                    'tahun_pelajaran' => $tahunPelajaran->tahun_pelajaran,
+                    'provinsi_data' => $tahunPelajaran->pesertaDidik->groupBy('provinsi_name')
+                    ->map(function ($groupedProvinsi) {
+                        return $groupedProvinsi->count();
+                    })
+                ];
+            });
 
-        $data = PesertaDidikModel::select('tahun_pelajaran_id', 'provinsi_id', DB::raw('SUM(id) as total'))
-        ->groupBy('tahun_pelajaran_id', 'provinsi_id')
-        ->get();
-
-        $result = [];
-
-        foreach ($data as $item) {
-            $tahunPelajaran = $item->tahunPelajaran->tahun_pelajaran;
-            $provinsi = $item->provinsi->name;
-            $jumlah = $item->total;
-
-            if (!isset($result[$tahunPelajaran])) {
-                $result[$tahunPelajaran] = ['tahun_pelajaran' => $tahunPelajaran, 'provinsi' => []];
-            }
-
-            $result[$tahunPelajaran]['provinsi'][$provinsi] = $jumlah;
-        }
-
-        $result = array_values($result);
-        return NotificationStatus::notifSuccess(true, ConstantaHelper::DataDiambil, $result, 200);
+        return NotificationStatus::notifSuccess(true, ConstantaHelper::DataDiambil, $data, 200);
     }
     private function getRegistrationsData(): array
     {
