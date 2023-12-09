@@ -428,9 +428,12 @@ class PesertaDidikController extends Controller
         $dokumen->peserta_didik_id = $peserta->id;
 
         $scan_bpjs_kis = $request->file('scan_bpjs_kis');
-        $bpjsKisFile = str_replace(" ", "", $peserta->nama_lengkap) . '-' . $scan_bpjs_kis->hashName();
-        $scan_bpjs_kis->storeAs('files/scan_bpjs_kis', $bpjsKisFile, 'public');
-
+        if ($scan_bpjs_kis) {
+            $bpjsKisFile = str_replace(" ", "", $peserta->nama_lengkap) . '-' . $scan_bpjs_kis->hashName();
+            $scan_bpjs_kis->storeAs('files/scan_bpjs_kis', $bpjsKisFile, 'public');
+        } else {
+            $bpjsKisFile = null;
+        }
         $kartu_keluarga = $request->file('kartu_keluarga');
         $kkFile = str_replace(" ", "", $peserta->nama_lengkap) . '-' . $kartu_keluarga->hashName();
         $kartu_keluarga->storeAs('files/kartu_keluarga', $kkFile, 'public');
