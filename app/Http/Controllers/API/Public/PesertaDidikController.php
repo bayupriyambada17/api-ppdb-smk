@@ -407,8 +407,7 @@ class PesertaDidikController extends Controller
 
     protected function validatorPesertaDidikDokumen(Request $request)
     {
-        return Validator::make($request->all(), [
-            'scan_bpjs_kis' => 'nullable|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
+        $rules = [
             'kartu_keluarga' => 'required|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
             'pas_foto' => 'required|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
             'sktm' => 'required|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
@@ -418,8 +417,14 @@ class PesertaDidikController extends Controller
             'rangkaian_tes' => 'required|boolean',
             'dokumen_jika_palsu' => 'required|boolean',
             'pelanggaran_keputusan' => 'required|boolean',
+        ];
 
-        ], ValidatorMessageHelper::validator());
+        // Apply mimes validation for scan_bpjs_kis only if it is present
+        if ($request->hasFile('scan_bpjs_kis')) {
+            $rules['scan_bpjs_kis'] = 'mimes:pdf,docx,doc,png,jpeg,jpg|max:2048';
+        }
+
+        return Validator::make($request->all(), $rules, ValidatorMessageHelper::validator());
     }
 
     protected function createPesertaDidikDokumen(Request $request, $peserta)
