@@ -58,20 +58,6 @@ class TahunPengajaranController extends Controller
         }
     }
 
-    public function simpanStatusAktifPelajaran(Request $request, string $id)
-    {
-        $simpanAktifPelajaran = TahunPelajaranModel::where("id", $id)->first();
-
-        if ($simpanAktifPelajaran) {
-            // Deactivate all other records
-            TahunPelajaranModel::where('id', '!=', $id)->update(['is_active' => false]);
-            $simpanAktifPelajaran->update(['is_active' => $request->is_active]);
-
-            return response()->json(['message' => 'Data updated successfully']);
-            return NotificationStatus::notifSuccess(true, "Berhasil Mengubah Status", null, 200);
-        }
-    }
-
     public function show(string $id)
     {
         try {
@@ -87,10 +73,25 @@ class TahunPengajaranController extends Controller
 
     public function showPesertaDidikPelajaran(string $id)
     {
-        $lihatPesertaPelajaranId = new TahunPelajaranGetPesertaResource(TahunPelajaranModel::with(['pesertaDidik' => function ($query) {
-            $query->where("is_pendaftar", "diterima");
-        }])->find($id));
-
+        $namaLengkap = request()->input('nama_lengkap');
+        $nik = request()->input('nik');
+        $provinsi = request()->input('provinsi');
+        $lihatPesertaPelajaranId = new TahunPelajaranGetPesertaResource(
+            TahunPelajaranModel::with(['pesertaDidik' => function ($query) use ($namaLengkap, $nik, $provinsi) {
+                $query->where("is_pendaftar", "diterima");
+                if ($namaLengkap) {
+                    $query->where('nama_lengkap', 'like', '%' . $namaLengkap . '%');
+                }
+                if ($nik) {
+                    $query->where('nik', 'like', '%' . $nik . '%');
+                }
+                if ($provinsi) {
+                    $query->whereHas('provinsi', function ($subQuery) use ($provinsi) {
+                        $subQuery->where('name', 'like', '%' . $provinsi . '%');
+                    });
+                }
+            }])->find($id)
+        );
         return NotificationStatus::notifSuccess(true, ConstantaHelper::DataId, $lihatPesertaPelajaranId, 200);
     }
 
@@ -129,8 +130,6 @@ class TahunPengajaranController extends Controller
             return NotificationStatus::notifError(false, $e->getMessage(), null, 500);
         }
     }
-
-
     public function store(Request $request)
     {
         try {
@@ -151,6 +150,11 @@ class TahunPengajaranController extends Controller
                 'tahun_pelajaran' => $request->tahun_pelajaran,
                 'is_active' => $request->is_active
             ]);
+
+            if ($tahunPelajaran->is_active) {
+                TahunPelajaranModel::where('id', '<>', $tahunPelajaran->id)->update(['is_active' => 0]);
+            }
+
             return NotificationStatus::notifSuccess(true, ConstantaHelper::DataTersimpan, $tahunPelajaran, 200);
         } catch (\Exception $e) {
             return NotificationStatus::notifError(
@@ -187,16 +191,29 @@ class TahunPengajaranController extends Controller
             'is_active' => $request->is_active,
         ]);
 
+        if ($request->is_active == 1) {
+            TahunPelajaranModel::where('id', '<>', $id)->update(['is_active' => 0]);
+        }
+
         return NotificationStatus::notifSuccess(true, ConstantaHelper::DataDiperbaharui, $tahunPelajaranId, 200);
     }
 
     public function destroy(string $id)
     {
         $tahunPelajaranId = TahunPelajaranModel::where("id", $id)->first();
+
         if (!$tahunPelajaranId) {
             return NotificationStatus::notifError(false, ConstantaHelper::IdTidakDitemukan, null, 404);
         }
-        $tahunPelajaranId->delete();
-        return NotificationStatus::notifSuccess(true, ConstantaHelper::DataTelahTerhapus, null, 200);
+        $pesertaDidikTahunPelajaran = PesertaDidikModel::where("tahun_pelajaran_id", $tahunPelajaranId->id)->first();
+
+        if ($pesertaDidikTahunPelajaran) {
+            return NotificationStatus::notifError(false, ConstantaHelper::DataBerelasi, null, 400);
+        } else {
+            $deleted = $tahunPelajaranId->delete();
+            return NotificationStatus::notifSuccess(true, ConstantaHelper::DataTerhapus, null, 200);
+        }
+
+
     }
 }

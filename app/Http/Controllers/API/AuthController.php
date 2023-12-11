@@ -2,12 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Models\User;
 use Illuminate\Http\Request;
-use PhpParser\Node\Stmt\TryCatch;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Helpers\ConstantaHelper;
 use App\Http\Helpers\NotificationStatus;
 use App\Http\Helpers\ValidatorMessageHelper;
 use Illuminate\Support\Facades\Validator;
@@ -33,7 +29,7 @@ class AuthController extends Controller
             $credentials = $request->only('email', 'password');
 
             //check jika "email" dan "password" tidak sesuai
-            if (!$token = auth()->guard('ppdb')->attempt($credentials)) {
+            if (!$token = auth()->guard('ppdb')->setTTl(604800)->attempt($credentials)) {
 
                 //response login "failed"
                 return response()->json(['success' => false,

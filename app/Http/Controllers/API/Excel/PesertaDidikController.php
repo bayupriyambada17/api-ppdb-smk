@@ -22,4 +22,5 @@ class PesertaDidikController extends Controller
         $filename = "peserta-diterima-{$timestamp}.xlsx";
         return Excel::download(new PesertaDidikExport, $filename);
     }
+
 }

@@ -8,46 +8,6 @@ use Illuminate\Support\Facades\Validator;
 
 class FileHelper
 {
-    // public static function validateAndStoreFile(Request $request, $fieldName, $allowedMimes, $maxSize, $storagePath, $pesertaName)
-    // {
-    //     $validator = Validator::make($request->all(), [
-    //         $fieldName => "required|file|mimes:$allowedMimes|max:$maxSize",
-    //     ]);
-
-    //     if ($validator->fails()) {
-    //         return $validator->errors();
-    //     }
-
-    //     $file = $request->file($fieldName);
-    //     $extension = $file->getClientOriginalExtension();
-    //     $fileName = time() . '_' . $pesertaName . '-' . $fieldName . '.' . $extension;
-    //     $filePath = $file->storeAs($storagePath, $fileName);
-
-    //     return $filePath;
-    // }
-
-    // public static function validateAndStoreDokumen(Request $request, $fieldName, $allowedMimes, $maxSize)
-    // {
-    //     $validator = Validator::make($request->all(), [
-    //         $fieldName => "required|file|mimes:$allowedMimes|max:$maxSize",
-    //     ]);
-
-    //     if ($validator->fails()) {
-    //         return $validator->errors();
-    //     }
-
-    //     $file = $request->file($fieldName);
-    //     $hashedName = $file->hashName();
-
-    //     return $hashedName;
-    // }
-
-    // public static function storeFileInFolder($file, $folder)
-    // {
-    //     $storagePath = 'dokumen/' . $folder;
-
-    //     return Storage::putFileAs($storagePath, $file, $file->hashName());
-    // }
     public static function validateAndStoreFile(Request $request, $fieldName, $allowedMimes, $maxSize, $folder)
     {
         $rules = [

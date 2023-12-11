@@ -47,15 +47,14 @@ class PesertaDidikUploadDokumenModel extends Model
     protected function uploadSuratRekomendasi(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value ? asset('files/surat_rekomendasi/' . $value) : null
+            get: fn ($value) => $value ? asset('files/upload_surat_rekomendasi/' . $value) : null
 
         );
     }
     protected function uploadPdfFotoRumah(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value ? asset('files/pdf_foto_rumah/' . $value) : null
-
+            get: fn ($value) => $value ? asset('files/upload_pdf_foto_rumah/' . $value) : null
         );
     }
     protected function essayKarangan(): Attribute
