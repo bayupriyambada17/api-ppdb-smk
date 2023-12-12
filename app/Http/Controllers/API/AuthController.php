@@ -20,24 +20,19 @@ class AuthController extends Controller
                 'password' => 'required',
             ], ValidatorMessageHelper::validator());
 
-            //response error validasi
             if ($validator->fails()) {
                 return response()->json($validator->errors(), 422);
             }
 
-            //get "email" dan "password" dari input
             $credentials = $request->only('email', 'password');
 
-            //check jika "email" dan "password" tidak sesuai
             if (!$token = auth()->guard('ppdb')->setTTl(604800)->attempt($credentials)) {
 
-                //response login "failed"
                 return response()->json(['success' => false,
                     'message' => 'Email or Password is incorrect'
                 ], 401);
             }
 
-            //response login "success" dengan generate "Token"
             return response()->json(['success' => true,
                 'user'    => auth()->guard('ppdb')->user(),
                 'token'   => $token
@@ -54,7 +49,6 @@ class AuthController extends Controller
 
     public function getMe(Request $request)
     {
-        //response data "user" yang sedang login
         return response()->json([
             'success' => true,
             'user'    => auth()->guard('ppdb')->user()
@@ -64,13 +58,10 @@ class AuthController extends Controller
 
     public function refreshToken(Request $request)
     {
-        //refresh "token"
         $refreshToken = JWTAuth::refresh(JWTAuth::getToken());
 
-        //set user dengan "token" baru
         $user = JWTAuth::setToken($refreshToken)->toUser();
 
-        //set header "Authorization" dengan type Bearer + "token" baru
         $request->headers->set('Authorization', 'Bearer ' . $refreshToken);
 
         return response()->json([
@@ -79,9 +70,9 @@ class AuthController extends Controller
             'token'   => $refreshToken,
         ], 200);
     }
-    public function logout(Request $request)
+    public function logout()
     {
-        $removeToken = JWTAuth::invalidate(JWTAuth::getToken());
+        JWTAuth::invalidate(JWTAuth::getToken());
 
         return response()->json([
             'success' => true,

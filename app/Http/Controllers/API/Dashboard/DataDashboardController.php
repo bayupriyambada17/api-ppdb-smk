@@ -97,7 +97,6 @@ class DataDashboardController extends Controller
             ->limit(10);
         };
 
-        // Mendapatkan data per hari ini
         $todayQuery = $createQuery(clone PesertaDidikModel::query(), 0);
         $data['harian'] = [
             'total_jumlah' => $todayQuery->count(),
@@ -120,4 +119,7 @@ class DataDashboardController extends Controller
 
         return $data;
     }
+
+    // Provinsi Dashboard
+
 }

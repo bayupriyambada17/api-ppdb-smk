@@ -54,8 +54,6 @@ class BannerPendaftaranController extends Controller
             );
         }
     }
-
-
     public function destroy(string $id)
     {
         $dataId = BannerPendaftaranModel::where("id", $id)->first();

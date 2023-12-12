@@ -19,22 +19,6 @@ class PesertaDidikController extends Controller
     {
         return NotificationStatus::notifSuccess(true, ConstantaHelper::DataDiambil, $this->getRegistrationsData(), 200);
     }
-    public function getPesertaDidikDiterima()
-    {
-        $data = PesertaDidikModel::with('tahunPelajaran:id,tahun_pelajaran')
-        ->select("id", 'tahun_pelajaran_id', 'nomor_pendaftar', 'nama_lengkap', 'tanggal_terdaftar', 'is_pendaftar')
-        ->where("is_pendaftar", "diterima")
-        ->orderBy('tanggal_terdaftar', 'desc')->get();
-        return NotificationStatus::notifSuccess(true, ConstantaHelper::DataDiambil, $data, 200);
-    }
-    public function getPesertaDidikDitolak()
-    {
-        $data = PesertaDidikModel::with('tahunPelajaran:id,tahun_pelajaran')
-        ->select("id", 'tahun_pelajaran_id', 'nomor_pendaftar', 'nama_lengkap', 'tanggal_terdaftar', 'is_pendaftar')
-        ->where("is_pendaftar", "ditolak")
-        ->orderBy('tanggal_terdaftar', 'desc')->get();
-        return NotificationStatus::notifSuccess(true, ConstantaHelper::DataDiambil, $data, 200);
-    }
 
     public function getPesertaDidikValidasiProses(string $id)
     {

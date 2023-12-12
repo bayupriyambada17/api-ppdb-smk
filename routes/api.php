@@ -30,6 +30,7 @@ use App\Http\Controllers\API\{
 };
 use App\Http\Controllers\API\Dashboard\DataDashboardController;
 use App\Http\Controllers\API\Excel\PesertaDidikController as ExcelPesertaDidikController;
+use App\Http\Controllers\API\Peserta\ValidasiController;
 
 Route::prefix('/v1')->group(function () {
 
@@ -83,6 +84,7 @@ Route::prefix('/v1')->group(function () {
             Route::get('', [TahunPengajaranController::class, 'all']);
             Route::get("/{id}/lihat", [TahunPengajaranController::class, 'viewTahunAjaran']);
             Route::get("/{id}/peserta", [TahunPengajaranController::class, 'showPesertaDidikPelajaran']);
+            Route::get("/{tahunPelajaranId}/peserta/{namaLengkap}", [TahunPengajaranController::class, 'DetailPesertaDidikPelajaran']);
             Route::get("/{id}", [TahunPengajaranController::class, 'show']);
             Route::post('/tambah', [TahunPengajaranController::class, 'store']);
             Route::post('/{id}/ubah', [TahunPengajaranController::class, 'update']);
@@ -208,15 +210,13 @@ Route::prefix('/v1')->group(function () {
         Route::prefix('peserta-didik')->group(function () {
             Route::get('', [PesertaDidikController::class, 'all']);
             Route::get('/perhari', [PesertaDidikController::class, 'getPendaftarPerhari']);
-            Route::get('/diterima', [PesertaDidikController::class, 'getPesertaDidikDiterima']);
-            Route::get('/ditolak', [PesertaDidikController::class, 'getPesertaDidikDitolak']);
-            Route::get('/proses', [PesertaDidikController::class, 'getPesertaDidikDiproses']);
             Route::get('/proses/{id}/validasi', [PesertaDidikController::class, 'getPesertaDidikValidasiProses']);
             Route::post('/proses/{id}/validasi/diterima', [PesertaDidikController::class, 'getPesertaDidikValidasiProsesTerima']);
             Route::post('/proses/{id}/validasi/ditolak', [PesertaDidikController::class, 'getPesertaDidikValidasiProsesTolak']);
-            // Route::post('/tambah', [PesertaDidikController::class, 'store']);
-            // Route::post('/{id}/ubah', [PesertaDidikController::class, 'update']);
-            // Route::delete('/{id}/hapus', [PesertaDidikController::class, 'destroy']);
+
+            Route::get('/diterima', [ValidasiController::class, 'getPesertaDidikDiterima']);
+            Route::get('/ditolak', [ValidasiController::class, 'getPesertaDidikDitolak']);
+            Route::get('/proses', [ValidasiController::class, 'getPesertaDidikDiproses']);
         });
         Route::prefix('peserta')->group(function () {
             Route::post('/diterima-export', [ExcelPesertaDidikController::class, 'getPesertaDidikDiDiterimaExport']);

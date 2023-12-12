@@ -73,14 +73,23 @@ class TahunPengajaranController extends Controller
 
     public function showPesertaDidikPelajaran(string $id)
     {
+        $nomorPendaftar = request()->input('nomor_pendaftar');
         $namaLengkap = request()->input('nama_lengkap');
         $nik = request()->input('nik');
         $provinsi = request()->input('provinsi');
         $lihatPesertaPelajaranId = new TahunPelajaranGetPesertaResource(
-            TahunPelajaranModel::with(['pesertaDidik' => function ($query) use ($namaLengkap, $nik, $provinsi) {
+            TahunPelajaranModel::with(['pesertaDidik' => function ($query) use (
+                $nomorPendaftar,
+                $namaLengkap,
+                $nik,
+                $provinsi
+            ) {
                 $query->where("is_pendaftar", "diterima");
                 if ($namaLengkap) {
                     $query->where('nama_lengkap', 'like', '%' . $namaLengkap . '%');
+                }
+                if ($nomorPendaftar) {
+                    $query->where('nomor_pendaftar', 'like', '%' . $nomorPendaftar . '%');
                 }
                 if ($nik) {
                     $query->where('nik', 'like', '%' . $nik . '%');
@@ -90,11 +99,20 @@ class TahunPengajaranController extends Controller
                         $subQuery->where('name', 'like', '%' . $provinsi . '%');
                     });
                 }
+                $query->paginate(10);
             }])->find($id)
         );
         return NotificationStatus::notifSuccess(true, ConstantaHelper::DataId, $lihatPesertaPelajaranId, 200);
     }
 
+    public function detailPesertaDidikPelajaran(string $tahunPelajaranId, string $namaLengkap)
+    {
+        $tahunPelajaranId = TahunPelajaranModel::where("id", $tahunPelajaranId)->first();
+        $pesertaDidikId = PesertaDidikModel::where("tahun_pelajaran_id", $tahunPelajaranId->id)->where("nama_lengkap", $namaLengkap)->first();
+        if ($tahunPelajaranId && $pesertaDidikId) {
+            return NotificationStatus::notifError(true, ConstantaHelper::DataId, $pesertaDidikId, 200);
+        }
+    }
     public function viewTahunAjaran(string $id)
     {
         try {
@@ -210,7 +228,7 @@ class TahunPengajaranController extends Controller
         if ($pesertaDidikTahunPelajaran) {
             return NotificationStatus::notifError(false, ConstantaHelper::DataBerelasi, null, 400);
         } else {
-            $deleted = $tahunPelajaranId->delete();
+            $tahunPelajaranId->delete();
             return NotificationStatus::notifSuccess(true, ConstantaHelper::DataTerhapus, null, 200);
         }
 

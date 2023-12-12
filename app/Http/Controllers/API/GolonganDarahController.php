@@ -6,8 +6,6 @@ use Illuminate\Http\Request;
 use App\Http\Helpers\ModelHelper;
 use App\Models\GolonganDarahModel;
 use App\Http\Controllers\Controller;
-use App\Http\Helpers\ConstantaHelper;
-use App\Http\Helpers\NotificationStatus;
 use App\Models\PesertaDidikRiwayatModel;
 
 class GolonganDarahController extends Controller
