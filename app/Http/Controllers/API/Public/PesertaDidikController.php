@@ -218,7 +218,7 @@ class PesertaDidikController extends Controller
             'email_wali' => 'nullable|email',
             'penghasilan_wali' => 'nullable',
             'jumlah_tanggungan_dalam_keluarga' => 'required',
-            'sumber_penghasilan_id' => 'required',
+            'sumber_penghasilan_id' => 'nullable',
             ], ValidatorMessageHelper::validator());
     }
 

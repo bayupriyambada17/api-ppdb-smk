@@ -37,7 +37,6 @@ class BannerPendaftaranController extends Controller
                 return NotificationStatus::notifValidator(false, ConstantaHelper::ValidationError, $validator->errors());
             }
             $data = new BannerPendaftaranModel();
-
             $gambar_ppdb = $request->file('gambar');
             $replace = str_replace(" ", "", $gambar_ppdb->hashName());
             $gambar_ppdb->storeAs('files/gambar_ppdb', $replace, 'public');

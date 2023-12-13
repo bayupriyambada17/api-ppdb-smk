@@ -66,7 +66,7 @@ class PesertaDidikUploadDokumenModel extends Model
     protected function rangkaianTes(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value ? "Ya" : "Tidak"
+            get: fn ($value) => $value ? "Online" : "Offline"
         );
     }
     protected function dokumenJikaPalsu(): Attribute
