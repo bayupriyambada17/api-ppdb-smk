@@ -3,8 +3,15 @@
 namespace App\Http\Controllers\API\Public;
 
 use App\Http\Controllers\Controller;
-use App\Http\Helpers\ConstantaHelper;
-use App\Http\Helpers\NotificationStatus;
+use App\Http\Helpers\{
+    ConstantaHelper,
+    NotificationStatus
+};
+use App\Http\Resources\DataPublic\{
+    PublicResource,
+    ProvinsiResource,
+    TahunPelajaranActiveResource
+};
 use App\Models\{
     BannerPendaftaranModel,
     DayaListrikModel,
@@ -43,47 +50,32 @@ class PublicController extends Controller
     }
     public function getKualitasRumah()
     {
-        return NotificationStatus::notifSuccess(
-            true,
-            ConstantaHelper::DataDiambil,
-            KualitasRumahModel::get(),
-            200
-        );
+        return $this->getFunctionPublicResource(KualitasRumahModel::get());
     }
     public function getLuasTanah()
     {
-        return NotificationStatus::notifSuccess(
-            true,
-            ConstantaHelper::DataDiambil,
-            LuasTanahModel::get(),
-            200
-        );
+        return $this->getFunctionPublicResource(LuasTanahModel::get());
     }
     public function getPendidikanTerakhir()
     {
-        return NotificationStatus::notifSuccess(
-            true,
-            ConstantaHelper::DataDiambil,
-            PendidikanTerakhirModel::get(),
-            200
-        );
+        return $this->getFunctionPublicResource(PendidikanTerakhirModel::get());
+
     }
     public function getProvinsi()
     {
         return NotificationStatus::notifSuccess(
             true,
             ConstantaHelper::DataDiambil,
-            ProvinsiModel::select("id", "name")->get(),
+            ProvinsiResource::collection(ProvinsiModel::get()),
             200
         );
     }
     public function getTahunPelajaran()
     {
-
         return NotificationStatus::notifSuccess(
             true,
             ConstantaHelper::DataDiambil,
-            TahunPelajaranModel::where('is_active', 1)->get(),
+            TahunPelajaranActiveResource::collection(TahunPelajaranModel::where('is_active', 1)->get()),
             200
         );
     }
@@ -100,136 +92,72 @@ class PublicController extends Controller
 
     public function getKeadaanOrangTua()
     {
-        return NotificationStatus::notifSuccess(
-            true,
-            ConstantaHelper::DataDiambil,
-            KeadaanOrangTuaModel::get(),
-            200
-        );
+        return $this->getFunctionPublicResource(KeadaanOrangTuaModel::get());
     }
     public function getPenerimaBantuanSosial()
     {
-        return NotificationStatus::notifSuccess(
-            true,
-            ConstantaHelper::DataDiambil,
-            PenerimaanBantuanSosialModel::get(),
-            200
-        );
+        return $this->getFunctionPublicResource(PenerimaanBantuanSosialModel::get());
     }
     public function getStatusDalamKeluarga()
     {
-        return NotificationStatus::notifSuccess(
-            true,
-            ConstantaHelper::DataDiambil,
-            StatusDalamKeluargaModel::get(),
-            200
-        );
+        return $this->getFunctionPublicResource(StatusDalamKeluargaModel::get());
     }
     public function getTinggalBersama()
     {
-        return NotificationStatus::notifSuccess(
-            true,
-            ConstantaHelper::DataDiambil,
-            TinggalBersamaStatusModel::get(),
-            200
-        );
+        return $this->getFunctionPublicResource(TinggalBersamaStatusModel::get());
     }
     public function getSumberPenghasilan()
     {
-        return NotificationStatus::notifSuccess(
-            true,
-            ConstantaHelper::DataDiambil,
-            SumberPenghasilanModel::get(),
-            200
-        );
+        return $this->getFunctionPublicResource(SumberPenghasilanModel::get());
     }
     public function getStatusKepemilikanRumah()
     {
-        return NotificationStatus::notifSuccess(
-            true,
-            ConstantaHelper::DataDiambil,
-            StatusKepemilikanRumahModel::get(),
-            200
-        );
+        return $this->getFunctionPublicResource(StatusKepemilikanRumahModel::get());
     }
     public function getDayaListrik()
     {
-        return NotificationStatus::notifSuccess(
-            true,
-            ConstantaHelper::DataDiambil,
-            DayaListrikModel::get(),
-            200
-        );
+        return $this->getFunctionPublicResource(DayaListrikModel::get());
     }
     public function getSumberAir()
     {
-        return NotificationStatus::notifSuccess(
-            true,
-            ConstantaHelper::DataDiambil,
-            SumberAirModel::get(),
-            200
-        );
+        return $this->getFunctionPublicResource(SumberAirModel::get());
     }
     public function getHartaTidakBergerak()
     {
-        return NotificationStatus::notifSuccess(
-            true,
-            ConstantaHelper::DataDiambil,
-            HartaTidakBergerakModel::get(),
-            200
-        );
+        return $this->getFunctionPublicResource(HartaTidakBergerakModel::get());
     }
     public function getStatusHartaTidakBergerak()
     {
-        return NotificationStatus::notifSuccess(
-            true,
-            ConstantaHelper::DataDiambil,
-            StatusKepemilikanHartaTidakBergerakModel::get(),
-            200
-        );
+        return $this->getFunctionPublicResource(StatusKepemilikanHartaTidakBergerakModel::get());
+
     }
     public function getKepemilikanKendaraan()
     {
-        return NotificationStatus::notifSuccess(
-            true,
-            ConstantaHelper::DataDiambil,
-            KepemilikanKendaraanModel::get(),
-            200
-        );
+        return $this->getFunctionPublicResource(KepemilikanKendaraanModel::get());
     }
     public function getStatusKepemilikanKendaraan()
     {
-        return NotificationStatus::notifSuccess(
-            true,
-            ConstantaHelper::DataDiambil,
-            StatusKepemilikanKendaraanModel::get(),
-            200
-        );
+        return $this->getFunctionPublicResource(StatusKepemilikanKendaraanModel::get());
     }
     public function getMandiCuciKakus()
     {
-        return NotificationStatus::notifSuccess(
-            true,
-            ConstantaHelper::DataDiambil,
-            MandiCuciKakusModel::get(),
-            200
-        );
+        return $this->getFunctionPublicResource(MandiCuciKakusModel::get());
     }
     public function getGolonganDarah()
     {
-        return NotificationStatus::notifSuccess(
-            true,
-            ConstantaHelper::DataDiambil,
-            GolonganDarahModel::get(),
-            200
-        );
+        return $this->getFunctionPublicResource(GolonganDarahModel::get());
     }
     public function getInformasiPpdb()
+    {
+        return $this->getFunctionPublicResource(InformasiPpdbModel::get());
+    }
+
+    private function getFunctionPublicResource(object $model)
     {
         return NotificationStatus::notifSuccess(
             true,
             ConstantaHelper::DataDiambil,
-            InformasiPpdbModel::get(),
+            PublicResource::collection($model),
             200
         );
     }

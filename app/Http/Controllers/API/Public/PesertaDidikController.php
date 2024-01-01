@@ -8,8 +8,6 @@ use App\Http\Helpers\{
     ValidatorMessageHelper,
     NotificationStatus,
     ConstantaHelper,
-    FileHelper,
-    UploadHelper
 };
 use App\Models\{
     PesertaDidikUploadDokumenModel,
@@ -22,7 +20,6 @@ use App\Models\{
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\MessageBag;
-use Illuminate\Support\Str;
 
 class PesertaDidikController extends Controller
 {
@@ -99,13 +96,7 @@ class PesertaDidikController extends Controller
         }
     }
 
-    protected function validatorFails($validator, $peserta)
-    {
-        if ($validator->fails()) {
-            $peserta->delete();
-            return NotificationStatus::notifValidator(false, ConstantaHelper::ValidationError, $validator->errors());
-        }
-    }
+
 
     protected function createPesertaDidik(Request $request)
     {
@@ -319,19 +310,19 @@ class PesertaDidikController extends Controller
     protected function validatorPesertaDidikDokumen(Request $request)
     {
         $rules = [
-            'kartu_keluarga' => 'required|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
-            'pas_foto' => 'required|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
-            'sktm' => 'required|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
-            'upload_surat_rekomendasi' => 'required|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
-            'upload_pdf_foto_rumah' => 'required|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
-            'essay_karangan' => 'required|mimes:pdf,docx,doc,png,jpeg,jpg|max:2048',
+            'kartu_keluarga' => 'required|mimes:pdf|max:2048',
+            'pas_foto' => 'required|mimes:pdf|max:2048',
+            'sktm' => 'required|mimes:pdf|max:2048',
+            'upload_surat_rekomendasi' => 'required|mimes:pdf|max:2048',
+            'upload_pdf_foto_rumah' => 'required|mimes:pdf|max:2048',
+            'essay_karangan' => 'required|mimes:pdf|max:2048',
             'rangkaian_tes' => 'required|boolean',
             'dokumen_jika_palsu' => 'required|boolean',
             'pelanggaran_keputusan' => 'required|boolean',
         ];
 
         if ($request->hasFile('scan_bpjs_kis')) {
-            $rules['scan_bpjs_kis'] = 'mimes:pdf,docx,doc,png,jpeg,jpg|max:2048';
+            $rules['scan_bpjs_kis'] = 'mimes:pdf|max:2048';
         }
 
         return Validator::make($request->all(), $rules, ValidatorMessageHelper::validator());

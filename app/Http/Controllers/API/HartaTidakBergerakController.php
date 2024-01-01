@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Helpers\ModelHelper;
 use App\Http\Controllers\Controller;
 use App\Models\HartaTidakBergerakModel;
+use App\Models\PesertaDidikFisilitasModel;
+
 class HartaTidakBergerakController extends Controller
 {
     public function all(Request $request)
