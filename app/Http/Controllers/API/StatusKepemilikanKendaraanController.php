@@ -5,9 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Helpers\ModelHelper;
 use App\Http\Controllers\Controller;
-use App\Http\Helpers\ConstantaHelper;
-use App\Http\Helpers\NotificationStatus;
-use Illuminate\Support\Facades\Validator;
+use App\Models\PesertaDidikFisilitasModel;
 use App\Models\StatusKepemilikanKendaraanModel;
 
 class StatusKepemilikanKendaraanController extends Controller

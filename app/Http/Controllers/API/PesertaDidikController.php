@@ -2,12 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 use App\Models\PesertaDidikModel;
-use App\Exports\PesertaDidikExport;
 use App\Http\Controllers\Controller;
-use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Helpers\ConstantaHelper;
 use App\Http\Helpers\NotificationStatus;
 use App\Http\Resources\PesertaDidikResource;

@@ -14,7 +14,6 @@ class ModelHelper
     public static function getAll($model, $withCountRelationships, $request)
     {
         try {
-            // ... existing code ...
             $id = $request->input('id');
             $status = $request->input('status');
             $data = $model::query();
@@ -23,7 +22,6 @@ class ModelHelper
                 $data->where('status', 'LIKE', '%' . $status . '%');
             }
 
-            // Conditionally apply withCount for each relationship
             foreach ($withCountRelationships as $relationship) {
                 $data->withCount([$relationship]);
             }

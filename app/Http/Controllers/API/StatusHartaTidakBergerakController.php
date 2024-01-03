@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Helpers\ModelHelper;
 use App\Http\Controllers\Controller;
+use App\Models\PesertaDidikFisilitasModel;
 use App\Models\StatusKepemilikanHartaTidakBergerakModel;
 
 class StatusHartaTidakBergerakController extends Controller

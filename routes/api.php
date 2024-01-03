@@ -15,6 +15,7 @@ use App\Http\Controllers\API\{
     KualitaRumahController,
     LuasTanahController,
     MandiCuciKakusController,
+    PendidikanTerakhirController,
     PenerimaanBantuanSosialController,
     PesertaDidikController,
     ProvinsiController,
@@ -29,6 +30,7 @@ use App\Http\Controllers\API\{
     TinggalBersamaController,
 };
 use App\Http\Controllers\API\Dashboard\DataDashboardController;
+use App\Http\Controllers\API\Excel\ExportController;
 use App\Http\Controllers\API\Excel\PesertaDidikController as ExcelPesertaDidikController;
 use App\Http\Controllers\API\Peserta\ValidasiController;
 
@@ -72,6 +74,12 @@ Route::prefix('/v1')->group(function () {
         ]);
         Route::post('/logout', [AuthController::class, 'logout', ['as' => 'ppdb']]);
 
+        Route::prefix('export')->group(function () {
+            // TODO
+
+            Route::get('/tahun-pelajaran/{id}', [ExportController::class, 'exportTahunPelajaranById']);
+            Route::get('/provinsi/{id}', [ExportController::class, 'exportProvinsiUserTerimaId']);
+        });
         Route::prefix('dashboard')->group(function () {
             Route::get("/peserta-harian", [DataDashboardController::class, 'getDataPesertaPerhari']);
             Route::get("/peserta/harian", [DataDashboardController::class, 'getPesertaDaftarHarian']);
@@ -242,6 +250,14 @@ Route::prefix('/v1')->group(function () {
             Route::post('/tambah', [KualitaRumahController::class, 'store']);
             Route::post('/{id}/ubah', [KualitaRumahController::class, 'update']);
             Route::delete('/{id}/hapus', [KualitaRumahController::class, 'destroy']);
+        });
+
+        Route::prefix('pendidikan')->group(function () {
+            Route::get('', [PendidikanTerakhirController::class, 'all']);
+            Route::get('/{id}', [PendidikanTerakhirController::class, 'show']);
+            Route::post('/tambah', [PendidikanTerakhirController::class, 'store']);
+            Route::post('/{id}/ubah', [PendidikanTerakhirController::class, 'update']);
+            Route::delete('/{id}/hapus', [PendidikanTerakhirController::class, 'destroy']);
         });
         Route::prefix('banner')->group(function () {
             Route::get('', [BannerPendaftaranController::class, 'all']);
